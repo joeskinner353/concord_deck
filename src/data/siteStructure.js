@@ -5,7 +5,7 @@ export const siteStructure = {
             pop: {
                 title: 'Pop',
                 description: 'Pop catalogue description will go here...',
-                discoPlaylist: 'https://open.spotify.com/playlist/example-pop'
+                logoPath: './assets/ConcordMusicPublishing-Lockup-White-RGB.png'
             },
             boosey: {
                 title: 'Boosey & Hawkes',
@@ -22,6 +22,11 @@ export const siteStructure = {
                 title: 'Fania',
                 description: 'Fania catalogue description will go here...',
                 discoPlaylist: 'https://open.spotify.com/playlist/example-fania'
+            },
+            pulse: {
+                title: 'Pulse Music Group',
+                description: 'Pulse Music Group description will go here...',
+                logoPath: './assets/pulse.png'
             }
         }
     },

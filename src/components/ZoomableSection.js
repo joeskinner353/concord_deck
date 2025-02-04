@@ -199,7 +199,8 @@ export class ZoomableSection {
         } else if (element.classList.contains('catalogue-list-item')) {
             const logoPath = sectionId === 'pop' ? './assets/ConcordMusicPublishing-Lockup-White-RGB.png' :
                             sectionId === 'boosey' ? './assets/boosey__hawkes_logo.png' : 
-                            sectionId === 'rh' ? './assets/RnH.png' : 
+                            sectionId === 'rh' ? './assets/RnH.png' :
+                            sectionId === 'pulse' ? './assets/pulse.png' :
                             null;
 
             return `
@@ -757,6 +758,8 @@ export class ZoomableSection {
                     bgImage = './assets/boosey__hawkes_logo.png';
                 } else if (item.dataset.section === 'rh') {
                     bgImage = './assets/RnH.png';
+                } else if (item.dataset.section === 'pulse') {
+                    bgImage = './assets/pulse.png';
                 } else if (item.dataset.composer === 'composer1') {
                     bgImage = './assets/maestro.png';
                     isCover = true;

@@ -174,6 +174,35 @@ body {
     padding: 0 1rem;
     opacity: 0;
     margin-top: 2rem;
+    max-height: 300px;  /* Add max height */
+    overflow-y: auto;   /* Make scrollable */
+}
+
+/* Add scrollbar styling for all subsection lists */
+.subsections-list::-webkit-scrollbar,
+.catalogue-list::-webkit-scrollbar,
+.ftv-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.subsections-list::-webkit-scrollbar-track,
+.catalogue-list::-webkit-scrollbar-track,
+.ftv-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+.subsections-list::-webkit-scrollbar-thumb,
+.catalogue-list::-webkit-scrollbar-thumb,
+.ftv-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.subsections-list::-webkit-scrollbar-thumb:hover,
+.catalogue-list::-webkit-scrollbar-thumb:hover,
+.ftv-list::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
 }
 
 .list-item,
@@ -1044,39 +1073,6 @@ body {
 
 .royalty-table tbody tr:hover {
     background: rgba(255, 255, 255, 0.05);
-}
-
-.subsections-list {
-    display: none;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 0 1rem;
-    opacity: 0;
-    margin-top: 2rem;
-    max-height: 400px;  /* Set maximum height */
-    overflow-y: auto;   /* Enable vertical scrolling */
-    scrollbar-width: thin;  /* Firefox */
-    scrollbar-color: var(--accent-color) rgba(255, 255, 255, 0.1);  /* Firefox */
-}
-
-/* Webkit (Chrome, Safari, Edge) scrollbar styling */
-.subsections-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.subsections-list::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-}
-
-.subsections-list::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
-    border-radius: 4px;
-}
-
-.subsections-list::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-color);
-    opacity: 0.8;
 }
 
 .social-links {
