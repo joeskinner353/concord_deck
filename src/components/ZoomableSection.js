@@ -165,16 +165,21 @@ export class ZoomableSection {
         
         if (!section) return null;
 
-        const imageHtml = section.image ? `
-            <div class="composer-thumbnail">
-                <img src="${section.image}" 
-                     alt="${section.title}"
-                     onerror="this.src='./assets/placeholder.png'">
-            </div>
-        ` : '';
+        console.log('Generating preview for:', {
+            element,
+            sectionId,
+            section
+        });
 
         if (element.classList.contains('list-item') || element.hasAttribute('data-composer')) {
-            // Remove social links, only show image, title and bio
+            const imageHtml = section.image ? `
+                <div class="composer-thumbnail">
+                    <img src="${section.image}" 
+                         alt="${section.title}"
+                         onerror="this.src='./assets/placeholder.png'">
+                </div>
+            ` : '';
+
             return `
                 <div class="preview-content-inner composer-preview">
                     ${imageHtml}
@@ -185,6 +190,10 @@ export class ZoomableSection {
                 </div>
             `;
         } else if (element.classList.contains('catalogue-list-item')) {
+            const logoPath = sectionId === 'boosey' ? './assets/boosey__hawkes_logo.png' : 
+                            sectionId === 'rh' ? './assets/RnH.png' : 
+                            null;
+
             return `
                 <div class="preview-content-inner catalogue-preview">
                     ${logoPath ? `
