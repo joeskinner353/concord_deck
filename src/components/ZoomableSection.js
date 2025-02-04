@@ -597,31 +597,79 @@ export class ZoomableSection {
                         null;
         
         // Prepare content
-        this.contentContainer.innerHTML = `
-            <button class="back-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            <div class="content-page">
-                <div class="content-header">
-                    ${logoPath ? `<img src="${logoPath}" alt="${section.title}" class="catalogue-logo">` : ''}
-                    <h2>${section.title}</h2>
-                </div>
-                <div class="content-sections">
-                    <div class="content-section">
-                        <h3>Overview</h3>
-                        <p>${section.description}</p>
+        if (sectionId === 'boosey') {
+            this.contentContainer.innerHTML = `
+                <button class="back-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="content-page">
+                    <div class="content-header">
+                        <a href="https://www.boosey.com/" target="_blank" class="catalogue-logo-link">
+                            <img src="./assets/boosey_logo.png" alt="Boosey & Hawkes" class="catalogue-logo">
+                        </a>
+                        <a href="https://www.boosey.com/" target="_blank" class="catalogue-title-link">
+                            <h2>${section.title}</h2>
+                        </a>
+                        <a href="https://searchrepresents.boosey.com/" target="_blank" class="search-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Search DISCO library
+                        </a>
                     </div>
-                    <div class="content-section">
-                        <h3>DISCO Playlist</h3>
-                        <div class="playlist-container">
-                            ${section.discoPlaylistEmbed || '<div class="playlist-placeholder">Playlist coming soon...</div>'}
+                    <div class="content-sections">
+                        <div class="content-section">
+                            <p>${section.description}</p>
+                        </div>
+                        <div class="playlists-container">
+                            <div class="disco-playlist">
+                                ${section.discoPlaylistEmbed}
+                            </div>
+                            <div class="spotify-playlist">
+                                <iframe style="border-radius:12px" 
+                                    src="https://open.spotify.com/embed/album/0GK0lno6PYVdaUKsHyQxQz?utm_source=generator" 
+                                    width="100%" 
+                                    height="352" 
+                                    frameBorder="0" 
+                                    allowfullscreen="" 
+                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                                    loading="lazy">
+                                </iframe>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        `;
+            `;
+        } else {
+            // Original content for other sections
+            this.contentContainer.innerHTML = `
+                <button class="back-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="content-page">
+                    <div class="content-header">
+                        ${logoPath ? `<img src="${logoPath}" alt="${section.title}" class="catalogue-logo">` : ''}
+                        <h2>${section.title}</h2>
+                    </div>
+                    <div class="content-sections">
+                        <div class="content-section">
+                            <h3>Overview</h3>
+                            <p>${section.description}</p>
+                        </div>
+                        <div class="content-section">
+                            <h3>DISCO Playlist</h3>
+                            <div class="playlist-container">
+                                ${section.discoPlaylistEmbed || '<div class="playlist-placeholder">Playlist coming soon...</div>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
 
         // Add back button handler
         this.contentContainer.querySelector('.back-button').addEventListener('click', () => {

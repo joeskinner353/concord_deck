@@ -11,7 +11,7 @@ export const siteStructure = {
                 title: 'Boosey & Hawkes',
                 description: "Boosey & Hawkes is the world's leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams. With a rich history dating back to 1930, the company has been at the forefront of contemporary classical music, providing licensing, sheet music, and performance materials to musicians, orchestras, and film/TV productions worldwide.",
                 discoPlaylist: 'https://open.spotify.com/playlist/example-boosey',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-8620530" name="disco-playlist-8620530" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/8620530?download=true&territory_ids=%5B2877086%5D&s=OngI-X4-rRS-9osnPS1XKRK4BmI%3AqRfE99t2&artwork=true&color=%2332B57C&theme=white" width="480" height="395"></iframe>'
+                discoPlaylistEmbed: '<iframe id="disco-playlist-12042520" name="disco-playlist-12042520" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12042520?download=true&territory_ids=%5B2877086%5D&s=LIrF2-thS0YhKEcztUTJQ4VeV50%3AJpMG7hPu&artwork=true&color=%233282C2&theme=dark" width="480" height="395"></iframe>'
             },
             rh: {
                 title: 'Rodgers and Hammerstein',

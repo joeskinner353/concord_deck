@@ -47,12 +47,12 @@ body {
     margin: 0 auto;
     height: 100vh;
     position: relative;
-    padding-top: calc(100px + 8rem);  /* Header height + extra space */
+    padding-top: calc(100px - 4rem);  /* Changed to negative value */
 }
 
-/* Base section styles - this should be the same for all sections */
+/* Base section styles */
 .section {
-    background-color: rgba(255, 255, 255, 0.05) !important;  /* Force the same background for all sections */
+    background-color: rgba(255, 255, 255, 0.05) !important;
     border-radius: 1rem;
     padding: 1rem;
     cursor: pointer;
@@ -61,7 +61,7 @@ body {
     flex-direction: column;
     position: relative;
     overflow: visible;
-    height: 180px;
+    height: 180px;  /* Keep original height */
     width: 180px;
     align-items: center;
     justify-content: center;
@@ -77,9 +77,9 @@ body {
     background-color: rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Keep hover effects */
+/* Make hover state even taller */
 .section:hover {
-    height: 450px;
+    height: 1012px;  /* Increased from 675px to 1012px (another 50% more) */
     width: 100%;
     padding: 3rem;
     background-color: rgba(255, 255, 255, 0.15) !important;
@@ -172,10 +172,11 @@ body {
     flex-direction: column;
     gap: 0.5rem;
     padding: 0 1rem;
+    padding-bottom: 100px;  /* Keep bottom padding */
     opacity: 0;
     margin-top: 2rem;
-    max-height: 300px;  /* Add max height */
-    overflow-y: auto;   /* Make scrollable */
+    max-height: 600px;  /* Increased from 300px to 600px */
+    overflow-y: auto;
 }
 
 /* Add scrollbar styling for all subsection lists */
@@ -1318,4 +1319,66 @@ body {
 /* Remove any before elements that might be showing the logo */
 .catalogue-list-item[data-section="pop"]::before {
     display: none;
+}
+
+/* Add styles for the playlists container */
+.playlists-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  /* Two equal columns */
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.disco-playlist,
+.spotify-playlist {
+    width: 100%;
+}
+
+/* Adjust iframe sizes */
+.disco-playlist iframe,
+.spotify-playlist iframe {
+    width: 100%;
+    height: 352px;  /* Match heights */
+}
+
+/* Add search link styles */
+.search-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+    margin-left: auto;  /* Push to right */
+    transition: all 0.3s ease;
+}
+
+.search-link:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.search-link svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Add styles for clickable logo and title */
+.catalogue-logo-link,
+.catalogue-title-link {
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.catalogue-logo-link:hover,
+.catalogue-title-link:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+.catalogue-title-link h2 {
+    margin: 0;
 } 
