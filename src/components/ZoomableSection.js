@@ -187,6 +187,13 @@ export class ZoomableSection {
                 </div>
             ` : '';
 
+            const logoPath = sectionId === 'pop' ? './assets/ConcordMusicPublishing-Lockup-White-RGB.png' :
+                            sectionId === 'boosey' ? './assets/boosey_logo.png' : 
+                            sectionId === 'rh' ? './assets/RnH.png' :
+                            sectionId === 'pulse' ? './assets/pulse.png' :
+                            sectionId === 'fania' ? './assets/fania.png' :
+                            null;
+
             return `
                 <div class="preview-content-inner composer-preview">
                     ${imageHtml}
@@ -198,9 +205,10 @@ export class ZoomableSection {
             `;
         } else if (element.classList.contains('catalogue-list-item')) {
             const logoPath = sectionId === 'pop' ? './assets/ConcordMusicPublishing-Lockup-White-RGB.png' :
-                            sectionId === 'boosey' ? './assets/boosey__hawkes_logo.png' : 
+                            sectionId === 'boosey' ? './assets/boosey_logo.png' : 
                             sectionId === 'rh' ? './assets/RnH.png' :
                             sectionId === 'pulse' ? './assets/pulse.png' :
+                            sectionId === 'fania' ? './assets/fania.png' :
                             null;
 
             return `
@@ -583,8 +591,9 @@ export class ZoomableSection {
         this.contentContainer.style.opacity = '0';
         
         // Update catalogue logo paths
-        const logoPath = sectionId === 'boosey' ? './assets/boosey__hawkes_logo.png' : 
+        const logoPath = sectionId === 'boosey' ? './assets/boosey_logo.png' : 
                         sectionId === 'rh' ? './assets/RnH.png' : 
+                        sectionId === 'fania' ? './assets/fania.png' :
                         null;
         
         // Prepare content
@@ -755,11 +764,13 @@ export class ZoomableSection {
                 if (item.dataset.section === 'pop') {
                     bgImage = './assets/ConcordMusicPublishing-Lockup-White-RGB.png';
                 } else if (item.dataset.section === 'boosey') {
-                    bgImage = './assets/boosey__hawkes_logo.png';
+                    bgImage = './assets/boosey_logo.png';
                 } else if (item.dataset.section === 'rh') {
                     bgImage = './assets/RnH.png';
                 } else if (item.dataset.section === 'pulse') {
                     bgImage = './assets/pulse.png';
+                } else if (item.dataset.section === 'fania') {
+                    bgImage = './assets/fania.png';
                 } else if (item.dataset.composer === 'composer1') {
                     bgImage = './assets/maestro.png';
                     isCover = true;

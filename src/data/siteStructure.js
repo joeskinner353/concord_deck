@@ -15,17 +15,17 @@ export const siteStructure = {
             },
             rh: {
                 title: 'Rodgers and Hammerstein',
-                description: 'Rodgers and Hammerstein catalogue description will go here...',
+                description: 'Richard Rodgers and Oscar Hammerstein II revolutionized American musical theatre with Oklahoma, Carousel, South Pacific, The King and I, The Sound of Music and more.',
                 discoPlaylist: 'https://open.spotify.com/playlist/example-rh'
             },
             fania: {
                 title: 'Fania',
-                description: 'Fania catalogue description will go here...',
+                description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz. Home to legends like Celia Cruz, Héctor Lavoe, Willie Colón, Rubén Blades, Johnny Pacheco, Eddie Palmieri, Ray Barretto and more',
                 discoPlaylist: 'https://open.spotify.com/playlist/example-fania'
             },
             pulse: {
                 title: 'Pulse Music Group',
-                description: 'Pulse Music Group description will go here...',
+                description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
                 logoPath: './assets/pulse.png'
             }
         }
