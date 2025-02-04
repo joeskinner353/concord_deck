@@ -19,6 +19,13 @@ export class ZoomableSection {
         
         // Clean up on page unload
         window.addEventListener('unload', this.cleanup);
+
+        // Create and position background overlay
+        this.backgroundOverlay = document.createElement('div');
+        this.backgroundOverlay.className = 'background-overlay';
+        document.body.insertBefore(this.backgroundOverlay, document.body.firstChild);
+        
+        this.initBackgroundEffects();
     }
 
     createContentContainer() {
@@ -190,7 +197,8 @@ export class ZoomableSection {
                 </div>
             `;
         } else if (element.classList.contains('catalogue-list-item')) {
-            const logoPath = sectionId === 'boosey' ? './assets/boosey__hawkes_logo.png' : 
+            const logoPath = sectionId === 'pop' ? './assets/ConcordMusicPublishing-Lockup-White-RGB.png' :
+                            sectionId === 'boosey' ? './assets/boosey__hawkes_logo.png' : 
                             sectionId === 'rh' ? './assets/RnH.png' : 
                             null;
 
@@ -729,6 +737,45 @@ export class ZoomableSection {
         setTimeout(() => {
             this.contentContainer.style.opacity = '1';
         }, 50);
+    }
+
+    initBackgroundEffects() {
+        console.log('Initializing background effects');
+        
+        const items = document.querySelectorAll('.catalogue-list-item, .list-item');
+        console.log('Found items:', items.length);
+        
+        items.forEach(item => {
+            item.addEventListener('mouseenter', (e) => {
+                console.log('Mouse enter:', item.dataset);
+                let bgImage = '';
+                let isCover = false;
+                
+                if (item.dataset.section === 'pop') {
+                    bgImage = './assets/ConcordMusicPublishing-Lockup-White-RGB.png';
+                } else if (item.dataset.section === 'boosey') {
+                    bgImage = './assets/boosey__hawkes_logo.png';
+                } else if (item.dataset.section === 'rh') {
+                    bgImage = './assets/RnH.png';
+                } else if (item.dataset.composer === 'composer1') {
+                    bgImage = './assets/maestro.png';
+                    isCover = true;
+                }
+                
+                if (bgImage) {
+                    console.log('Setting background:', bgImage);
+                    this.backgroundOverlay.style.backgroundImage = `url(${bgImage})`;
+                    this.backgroundOverlay.style.backgroundSize = isCover ? 'cover' : '80% auto';
+                    this.backgroundOverlay.classList.add('visible');
+                }
+            });
+
+            item.addEventListener('mouseleave', () => {
+                console.log('Mouse leave');
+                this.backgroundOverlay.classList.remove('visible');
+                this.backgroundOverlay.style.backgroundImage = '';
+            });
+        });
     }
 }
 

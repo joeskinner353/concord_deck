@@ -20,6 +20,7 @@ body {
     font-family: var(--font-family);
     background-color: var(--primary-color);
     color: var(--secondary-color);
+    min-height: 100vh;
 }
 
 #app {
@@ -27,7 +28,8 @@ body {
     height: 100vh;
     overflow: hidden;
     position: relative;
-    background: var(--primary-color);
+    background: transparent;
+    z-index: 1;
 }
 
 #zoom-container {
@@ -48,8 +50,9 @@ body {
     padding-top: calc(100px + 8rem);  /* Header height + extra space */
 }
 
+/* Base section styles - this should be the same for all sections */
 .section {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05) !important;  /* Force the same background for all sections */
     border-radius: 1rem;
     padding: 1rem;
     cursor: pointer;
@@ -67,6 +70,31 @@ body {
     text-align: center;
 }
 
+/* Remove any specific section styling that might override the base */
+.section#catalogue,
+.section#bespoke,
+.section#ftv {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Keep hover effects */
+.section:hover {
+    height: 450px;
+    width: 100%;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    z-index: 10;
+}
+
+/* Clean up section titles */
+.section-title h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: lowercase;
+}
+
+/* Section title styles */
 .section-title {
     text-align: center;
     padding: 0;
@@ -75,6 +103,24 @@ body {
     justify-content: center;
     height: 100%;
     width: 100%;
+}
+
+.section-title h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: lowercase;
+    background: transparent;  /* Remove dark background from titles */
+    padding: 0;
+}
+
+/* Hover effects */
+.section:hover {
+    height: 450px;
+    width: 100%;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.15);
+    z-index: 10;
 }
 
 .section h2 {
@@ -89,13 +135,11 @@ body {
     text-transform: lowercase;
 }
 
-/* Expand section on hover */
-.section:hover {
-    height: 450px;
-    width: 100%;
-    padding: 3rem;
-    background-color: rgba(255, 255, 255, 0.15);
-    z-index: 10;
+/* Remove specific background colors for catalogue and bespoke sections */
+.section#catalogue,
+.section#bespoke,
+.section#ftv {
+    background-color: rgba(255, 255, 255, 0.05);  /* Same light grey for all sections */
 }
 
 /* Adjust title on hover */
@@ -528,9 +572,8 @@ body {
     cursor: default;
 }
 
-.catalogue-card,
-.ftv-card {
-    background-color: rgba(255, 255, 255, 0.05);
+.catalogue-card {
+    background-color: rgba(26, 26, 26, 0.9);
     border-radius: 1rem;
     padding: 2rem;
     cursor: pointer;
@@ -543,16 +586,13 @@ body {
     min-height: 250px;
 }
 
-.catalogue-card h3,
-.ftv-card h3 {
+.catalogue-card h3 {
     font-size: 1.5rem;
     color: var(--secondary-color);
 }
 
-.catalogue-card:hover,
-.ftv-card:hover {
+.catalogue-card:hover {
     background-color: var(--accent-color);
-    transform: translateY(-5px);
 }
 
 /* Common content page styles */
@@ -1115,4 +1155,171 @@ body {
     max-height: 60px;
     width: auto;
     object-fit: contain;
+}
+
+/* Background overlay for hover effects */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    background-size: 80% auto !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.background-overlay.visible {
+    opacity: 0.15;
+}
+
+/* Update composer card styles */
+.composer-card[data-section="composer1"] {
+    background-image: url('../assets/maestro.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Add hover effects */
+.catalogue-card:hover,
+.composer-card:hover {
+    background-color: var(--accent-color);
+}
+
+/* Make text more readable over background images */
+.catalogue-card h3,
+.composer-card h3 {
+    background: rgba(26, 26, 26, 0.7);
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-top: auto;  /* Push text to bottom */
+}
+
+/* Update card layout to accommodate background images */
+[class$="-card"] {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: center;
+    height: var(--card-height);
+    min-height: var(--card-height);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Update main section backgrounds */
+.section#catalogue {
+    background-color: rgba(26, 26, 26, 0.9);
+}
+
+.section#bespoke {
+    background-image: none;
+    background-color: rgba(26, 26, 26, 0.9);
+}
+
+/* Adjust section styles to accommodate backgrounds */
+.section {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: visible;
+    height: 180px;
+    width: 180px;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+    text-align: center;
+}
+
+/* Make section titles more readable over backgrounds */
+.section-title h2 {
+    background: rgba(26, 26, 26, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin: 0;
+}
+
+/* Add new background hover states */
+.catalogue-list-item[data-section="boosey"]:hover ~ * {
+    background-image: none;
+}
+
+.catalogue-list-item[data-section="rh"]:hover ~ * {
+    background-image: none;
+}
+
+.list-item[data-composer="composer1"]:hover ~ * {
+    background-image: none;
+}
+
+/* Add a pseudo-element for the background overlay */
+#app::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: -1;
+    transition: background 0.3s ease;
+}
+
+/* Add logo styling */
+.catalogue-list-item .catalogue-logo {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Update catalogue list item to center logo */
+.catalogue-list-item {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Remove the h3 from Pop section since we're using logo */
+.catalogue-list-item[data-section="pop"] h3 {
+    display: none;
+}
+
+/* Style the Pop section with background logo */
+.catalogue-list-item[data-section="pop"] {
+    background-image: none;  /* Remove the background image */
+    background-color: rgba(255, 255, 255, 0.05);  /* Keep the background color */
+}
+
+/* Keep the text visible and styled like other items */
+.catalogue-list-item[data-section="pop"] h3 {
+    display: block;  /* Make sure the text is visible */
+    position: relative;
+    z-index: 2;
+}
+
+/* Remove any before elements that might be showing the logo */
+.catalogue-list-item[data-section="pop"]::before {
+    display: none;
 } 
