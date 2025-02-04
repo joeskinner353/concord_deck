@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concord Music</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <link
+      rel="icon"
+      type="image/png"
+      href="assets/images/boosey__hawkes_logo.png"
+    />
+</head>
+<body>
+    <div id="app">
+        <header class="main-header">
+            <div class="header-left">
+                <a href="#" class="home-link">
+                    <img src="./assets/concord-C-icon-red.png" alt="Concord" class="header-logo">
+                </a>
+            </div>
+            <div class="header-center">
+                <h1>concord <span>music publishing</span></h1>
+            </div>
+        </header>
+        <nav id="navigation"></nav>
+        <div id="zoom-container" class="zoom-container">
+            <div class="section" id="catalogue">
+                <div class="section-title">
+                    <h2>Catalogue Overview</h2>
+                </div>
+                <div class="catalogue-list">
+                    <div class="catalogue-list-item" data-section="pop">
+                        <h3>Pop</h3>
+                    </div>
+                    <div class="catalogue-list-item" data-section="boosey" data-title="Boosey & Hawkes">Boosey & Hawkes</div>
+                    <div class="catalogue-list-item" data-section="rh" data-title="Rodgers and Hammerstein">Rodgers and Hammerstein</div>
+                    <div class="catalogue-list-item" data-section="fania" data-title="Fania">Fania</div>
+                </div>
+                <div class="subsections">
+                    <div class="catalogue-card" data-section="pop">
+                        <h3>Pop</h3>
+                    </div>
+                    <div class="catalogue-card" data-section="boosey">
+                        <h3>Boosey & Hawkes</h3>
+                    </div>
+                    <div class="catalogue-card" data-section="rh">
+                        <h3>Rodgers and Hammerstein</h3>
+                    </div>
+                    <div class="catalogue-card" data-section="fania">
+                        <h3>Fania</h3>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="bespoke" class="section" data-section="bespoke">
+                <div class="section-title">
+                    <h2>Bespoke Roster</h2>
+                </div>
+                <div class="subsections">
+                    <div class="composer-card" data-section="composer1">
+                        <img src="./assets/placeholder.jpg" alt="Maestro">
+                        <h3>Maestro</h3>
+                    </div>
+                    <div class="composer-card" data-section="composer2">
+                        <img src="./assets/placeholder.jpg" alt="James Greenwood">
+                        <h3>James Greenwood</h3>
+                    </div>
+                    <div class="composer-card" data-section="composer3">
+                        <img src="./assets/placeholder.jpg" alt="Ben Garrett">
+                        <h3>Ben Garrett</h3>
+                    </div>
+                    <div class="composer-card" data-section="composer4">
+                        <img src="./assets/placeholder.jpg" alt="Kurisu">
+                        <h3>Kurisu</h3>
+                    </div>
+                    <div class="composer-card" data-section="composer5">
+                        <img src="./assets/placeholder.jpg" alt="Tre Jean-Marie">
+                        <h3>Tre Jean-Marie</h3>
+                    </div>
+                </div>
+                <div class="subsections-list" id="bespoke-list">
+                    <div class="list-item" data-composer="composer1">Maestro</div>
+                    <div class="list-item" data-composer="composer2">James Greenwood</div>
+                    <div class="list-item" data-composer="composer3">Ben Garrett</div>
+                    <div class="list-item" data-composer="composer4">Kurisu</div>
+                    <div class="list-item" data-composer="composer5">Tre Jean-Marie</div>
+                    <div class="list-item" data-composer="composer6">Composer Six</div>
+                    <div class="list-item" data-composer="composer7">Composer Seven</div>
+                    <div class="list-item" data-composer="composer8">Composer Eight</div>
+                    <div class="list-item" data-composer="composer9">Composer Nine</div>
+                    <div class="list-item" data-composer="composer10">Composer Ten</div>
+                    <div class="list-item" data-composer="composer11">Composer Eleven</div>
+                    <div class="list-item" data-composer="composer12">Composer Twelve</div>
+                    <div class="list-item" data-composer="composer13">Composer Thirteen</div>
+                    <div class="list-item" data-composer="composer14">Composer Fourteen</div>
+                    <div class="list-item" data-composer="composer15">Composer Fifteen</div>
+                </div>
+            </div>
+            
+            <div class="section" id="ftv">
+                <div class="section-title">
+                    <h2>FTV</h2>
+                </div>
+                <div class="ftv-list">
+                    <div class="ftv-list-item" data-section="ftv-overview" data-title="FTV Overview">FTV Overview</div>
+                    <div class="ftv-list-item" data-section="examples" data-title="Film & TV Examples">Film & TV Examples</div>
+                    <div class="ftv-list-item" data-section="advertising" data-title="Advertising Model">Advertising Model</div>
+                </div>
+                <div class="subsections">
+                    <div class="ftv-card" data-section="ftv-overview">
+                        <h3>FTV Overview</h3>
+                    </div>
+                    <div class="ftv-card" data-section="examples">
+                        <h3>Film & TV Examples</h3>
+                    </div>
+                    <div class="ftv-card" data-section="advertising">
+                        <h3>Advertising Model</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import { Navigation } from './components/Navigation.js';
+        import { ZoomableSection } from './components/ZoomableSection.js';
+        
+        // Initialize components after DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new Navigation();
+            new ZoomableSection();
+        });
+    </script>
+</body>
+</html> 

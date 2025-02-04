@@ -1,0 +1,13 @@
+{
+    "name": "concord_deck",
+    "version": "1.0.0",
+    "description": "Concord Music Interactive Website",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "dependencies": {
+        "serve-handler": "^6.1.5"
+    }
+} 
