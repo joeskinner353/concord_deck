@@ -71,33 +71,17 @@ export const siteStructure = {
                 }
             },
             composer2: {
-                title: 'James Greenwood',
-                image: './assets/placeholder.png',
-                discoPlaylist: 'https://open.spotify.com/playlist/example2',
-                bio: 'Content coming soon...',
-                social: {
-                    instagram: "https://instagram.com/jamesgreenwood",
-                    spotify: "https://open.spotify.com/artist/jamesgreenwood",
-                    tiktok: "https://tiktok.com/@jamesgreenwood"
-                }
-            },
-            composer3: {
-                title: 'Ben Garrett',
-                image: './assets/placeholder.png',
-                discoPlaylist: 'https://open.spotify.com/playlist/example3',
-                bio: 'Content coming soon...'
-            },
-            composer4: {
                 title: 'Kurisu',
-                image: './assets/placeholder.png',
-                discoPlaylist: 'https://open.spotify.com/playlist/example4',
-                bio: 'Content coming soon...'
-            },
-            composer5: {
-                title: 'Tre Jean-Marie',
-                image: './assets/placeholder.png',
-                discoPlaylist: 'https://open.spotify.com/playlist/example5',
-                bio: 'Content coming soon...'
+                image: './assets/kurisu.png',
+                bio: "Kurisu is one of the most in demand new producer/songwriters in the UK. Based out of his studio in North London, Kurisu's versatility as a multi-instrumentalist and training as a classical musician means he writes cross-genre with ease, covering r'n'b, hip hop, pop and alt-pop. His recent cuts include Cat Burns, Dexter, Charlotte Plank, Zhu, Alessi Rose, Nxdia, Sandy Crow and Emir Taha.",
+                artistList: '',
+                discoPlaylistEmbed: '',
+                videos: [],
+                social: {
+                    instagram: "",
+                    spotify: "",
+                    tiktok: ""
+                }
             }
         }
     },
