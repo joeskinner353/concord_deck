@@ -82,6 +82,28 @@ export const siteStructure = {
                     spotify: "",
                     tiktok: ""
                 }
+            },
+            composer3: {
+                title: 'James Greenwood',
+                image: './assets/james_greenwood.png',
+                bio: `James Greenwood is a talented producer / songwriter / Mixer / Engineer with his own artist project, Ghost Culture.
+
+Ghost Culture' debut album through Phantasy was made Rough Trade's 'Record of the Month' upon release in Jan 2015. Also celebrated as Critic's Choice in The Guardian Guide, it earned similar plaudits from outlets including The Observer, The Times, Mixmag and The Quietus, who hailed it as "one of the best and most confident debuts in years."
+
+James continues to have a wide impact on the culture of UK electronic music, owing to his ongoing collaborations with artists such as Daniel Avery and Kelly Lee Owens for whom he co-wrote and co-produced their summer 2020 albums 'Love + Light' and 'Inner Song'.`,
+                videos: [],
+                discoPlaylistEmbed: ''
+            },
+            composer4: {
+                title: 'Ben Garrett',
+                image: './assets/fryars.png',
+                bio: `Ben has written and produced songs for Lily Allen, Pharrell Williams, Hot Chip, Mika, Giggs, Rae Morris, Mark Ronson and Depeche Mode…. amongst others.
+
+Outside of songwriting, Fryars scored all 10 episodes of the TNT series 'WILL' and wrote Miles Kane's Oscar long listed title track for the film Mortdecai (Johnny Depp). Ben has scored the last two series of acclaimed Channel 4 series 'Big Boys'
+
+He is currently writing his first Musical and making forward thinking music with future stars.`,
+                videos: [],
+                discoPlaylistEmbed: ''
             }
         }
     },
