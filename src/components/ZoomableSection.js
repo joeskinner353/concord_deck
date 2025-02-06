@@ -261,6 +261,14 @@ export class ZoomableSection {
 
     // Helper method for navigation updates
     updateNavigation(parentTitle, sectionTitle) {
+        // For catalogue sections, we only want to show the parent title
+        if (parentTitle === 'Catalogue') {
+            window.dispatchEvent(new CustomEvent('navigationUpdate', {
+                detail: { path: [parentTitle] }
+            }));
+            return;
+        }
+
         window.dispatchEvent(new CustomEvent('navigationUpdate', {
             detail: { path: sectionTitle ? [parentTitle, sectionTitle] : [parentTitle] }
         }));
@@ -274,21 +282,37 @@ export class ZoomableSection {
 
     // Template methods
     catalogueTemplate(section) {
+        // First, let's log what we're receiving
+        console.log('Rendering catalogue template with section:', section);
+        
         return `
             <div class="content-page">
-                <div class="content-header">
-                    <h2>${section.title}</h2>
-                </div>
-                <div class="content-sections">
-                    <div class="content-section">
-                        <h3>Overview</h3>
-                        <p>${section.description}</p>
+                <button class="back-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <div class="header-content">
+                    <div class="left-content">
+                        <img src="${section.logoPath}" alt="${section.title}" class="catalogue-logo">
+                        <h2>${section.title}</h2>
                     </div>
-                    <div class="content-section">
-                        <h3>DISCO Playlist</h3>
-                        <div class="playlist-placeholder">
-                            Playlist embed will go here
-                        </div>
+                    <div class="right-content">
+                        <a href="https://concord-music-publishing.disco.ac/cat/900884433" target="_blank" class="disco-search-btn">
+                            Search DISCO library
+                        </a>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <p>${section.description}</p>
+                </div>
+
+                <div class="content-section">
+                    <h3>DISCO Playlist</h3>
+                    <div class="playlist-container">
+                        ${section.discoPlaylistEmbed || '<div class="playlist-placeholder">Playlist coming soon...</div>'}
                     </div>
                 </div>
             </div>
@@ -308,19 +332,12 @@ export class ZoomableSection {
     handleSubsectionClick(element) {
         if (!element) return;
         
-        // Log the incoming element
-        console.log('Handling subsection click for:', element);
-        
         const sectionId = element.dataset.section || element.dataset.composer;
         if (!sectionId) {
             console.error('No section ID found for element:', element);
             return;
         }
 
-        // Log the found section ID
-        console.log('Found section ID:', sectionId);
-
-        const sectionTitle = element.querySelector('h3')?.textContent || element.textContent;
         const parentSection = element.closest('.section');
         if (!parentSection) {
             console.error('No parent section found for element:', element);
@@ -329,8 +346,13 @@ export class ZoomableSection {
 
         const parentTitle = parentSection.querySelector('h2').textContent;
 
-        // Update navigation
-        this.updateNavigation(parentTitle, sectionTitle);
+        // For catalogue sections, don't update navigation with section title
+        if (element.classList.contains('catalogue-list-item')) {
+            this.updateNavigation('Catalogue');
+        } else {
+            const sectionTitle = element.querySelector('h3')?.textContent || element.textContent;
+            this.updateNavigation(parentTitle, sectionTitle);
+        }
 
         // Show content and make sure it's visible
         this.showSubsectionContent(sectionId);
@@ -600,86 +622,40 @@ export class ZoomableSection {
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
         
-        // Update catalogue logo paths
-        const logoPath = sectionId === 'boosey' ? './assets/boosey_logo.png' : 
-                        sectionId === 'rh' ? './assets/RnH.png' : 
-                        sectionId === 'fania' ? './assets/fania.png' :
-                        null;
-        
         // Prepare content
-        if (sectionId === 'boosey') {
-            this.contentContainer.innerHTML = `
-                <button class="back-button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <div class="content-page">
-                    <div class="content-header">
-                        <a href="https://www.boosey.com/" target="_blank" class="catalogue-logo-link">
-                            <img src="./assets/boosey_logo.png" alt="Boosey & Hawkes" class="catalogue-logo">
-                        </a>
-                        <a href="https://www.boosey.com/" target="_blank" class="catalogue-title-link">
-                            <h2>${section.title}</h2>
-                        </a>
-                        <a href="https://searchrepresents.boosey.com/" target="_blank" class="search-link">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Search DISCO library
-                        </a>
-                    </div>
-                    <div class="content-sections">
-                        <div class="content-section">
-                            <p>${section.description}</p>
-                        </div>
-                        <div class="playlists-container">
-                            <div class="disco-playlist">
-                                ${section.discoPlaylistEmbed}
-                            </div>
-                            <div class="spotify-playlist">
-                                <iframe style="border-radius:12px" 
-                                    src="https://open.spotify.com/embed/album/0GK0lno6PYVdaUKsHyQxQz?utm_source=generator" 
-                                    width="100%" 
-                                    height="352" 
-                                    frameBorder="0" 
-                                    allowfullscreen="" 
-                                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-                                    loading="lazy">
-                                </iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        } else {
-            // Original content for other sections
-            this.contentContainer.innerHTML = `
-                <button class="back-button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <div class="content-page">
-                    <div class="content-header">
-                        ${logoPath ? `<img src="${logoPath}" alt="${section.title}" class="catalogue-logo">` : ''}
+        this.contentContainer.innerHTML = `
+            <button class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="content-page">
+                <div class="content-header">
+                    <a href="${section.websiteUrl}" target="_blank" class="catalogue-logo-link">
+                        <img src="${section.logoPath}" alt="${section.title}" class="catalogue-logo">
+                    </a>
+                    <a href="${section.websiteUrl}" target="_blank" class="catalogue-title-link">
                         <h2>${section.title}</h2>
+                    </a>
+                    <a href="https://concord-music-publishing.disco.ac/cat/900884433" target="_blank" class="search-link">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        Search DISCO library
+                    </a>
+                </div>
+                <div class="content-sections">
+                    <div class="content-section">
+                        <p>${section.description}</p>
                     </div>
-                    <div class="content-sections">
-                        <div class="content-section">
-                            <h3>Overview</h3>
-                            <p>${section.description}</p>
-                        </div>
-                        <div class="content-section">
-                            <h3>DISCO Playlist</h3>
-                            <div class="playlist-container">
-                                ${section.discoPlaylistEmbed || '<div class="playlist-placeholder">Playlist coming soon...</div>'}
-                            </div>
+                    <div class="playlists-container">
+                        <div class="disco-playlist">
+                            ${section.discoPlaylistEmbed}
                         </div>
                     </div>
                 </div>
-            `;
-        }
+            </div>
+        `;
 
         // Add back button handler
         this.contentContainer.querySelector('.back-button').addEventListener('click', () => {
@@ -814,11 +790,9 @@ export class ZoomableSection {
         items.forEach(item => {
             item.addEventListener('mouseenter', (e) => {
                 console.log('Mouse enter:', item.dataset);
-                // Check for both section and composer IDs
                 const sectionId = item.dataset.section || item.dataset.composer;
                 let section;
                 
-                // Check which structure to use based on the item type
                 if (item.classList.contains('catalogue-list-item')) {
                     section = siteStructure.catalogue.sections[sectionId];
                     console.log('Found catalogue section:', section);
@@ -827,14 +801,13 @@ export class ZoomableSection {
                     if (!section.logoPath) {
                         // Handle special cases for logo filenames
                         const logoMap = {
-                            'rh': 'RnH',  // Map 'rh' to 'RnH'
-                            'boosey': 'boosey_logo',  // Map 'boosey' to 'boosey_logo'
+                            'rh': './assets/RnH.png',  // Use relative path with ./
+                            'boosey': './assets/boosey_logo.png',
                             // Add other special cases here if needed
                         };
 
                         const logoId = sectionId.toLowerCase();
-                        const logoName = logoMap[logoId] || sectionId.replace(/\s+/g, '_').toLowerCase();
-                        section.logoPath = `/assets/${logoName}.png`;
+                        section.logoPath = logoMap[logoId] || `./assets/${sectionId.replace(/\s+/g, '_').toLowerCase()}_logo.png`;
                         console.log('Constructed logo path:', section.logoPath);
                     }
                 } else {

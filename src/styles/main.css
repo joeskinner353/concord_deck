@@ -641,12 +641,34 @@ body {
     margin-bottom: 2rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 2rem;
 }
 
-.content-header h2 {
-    font-size: 2.5rem;
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.catalogue-logo {
+    height: 60px;
+    width: auto;
+}
+
+.disco-search-btn {
+    background: rgba(255, 255, 255, 0.1);
     color: var(--secondary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.disco-search-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
 }
 
 .content-sections {
@@ -1532,4 +1554,117 @@ body {
 /* Also update the header image position for Kurisu's profile page */
 .header-image img[src*="kurisu"] {
     object-position: center 5%;
+}
+
+/* Add styles for the DISCO search button */
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.disco-search-btn {
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.disco-search-btn:hover {
+    transform: translateY(-2px);
+    background-color: var(--accent-hover-color);
+}
+
+.disco-search-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.disco-search-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.catalogue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.catalogue-title {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.catalogue-logo {
+    height: 80px;
+    width: auto;
+}
+
+.catalogue-title h2 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.disco-search-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--secondary-color);
+    padding: 0.75rem 1.5rem;
+    border-radius: 2rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.disco-search-btn:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.page-header,
+.logo-title-group,
+.header-content {
+    /* Remove these as they're duplicated */
+}
+
+/* Add these clean, single definitions */
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.left-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.catalogue-logo {
+    height: 80px;
+    width: auto;
+}
+
+.left-content h2 {
+    font-size: 2.5rem;
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.right-content {
+    flex-shrink: 0;
 } 

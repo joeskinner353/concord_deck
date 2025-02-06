@@ -5,28 +5,38 @@ export const siteStructure = {
             pop: {
                 title: 'Pop',
                 description: 'Pop catalogue description will go here...',
-                logoPath: './assets/ConcordMusicPublishing-Lockup-White-RGB.png'
+                logoPath: './assets/ConcordMusicPublishing-Lockup-White-RGB.png',
+                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
+                websiteUrl: '#'
             },
             boosey: {
                 title: 'Boosey & Hawkes',
                 description: "Boosey & Hawkes is the world's leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams. With a rich history dating back to 1930, the company has been at the forefront of contemporary classical music, providing licensing, sheet music, and performance materials to musicians, orchestras, and film/TV productions worldwide.",
-                discoPlaylist: 'https://open.spotify.com/playlist/example-boosey',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-12042520" name="disco-playlist-12042520" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12042520?download=true&territory_ids=%5B2877086%5D&s=LIrF2-thS0YhKEcztUTJQ4VeV50%3AJpMG7hPu&artwork=true&color=%233282C2&theme=dark" width="960" height="395"></iframe>'
+                logoPath: './assets/boosey_logo.png',
+                discoPlaylistEmbed: '<iframe id="disco-playlist-12042520" name="disco-playlist-12042520" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12042520?download=true&territory_ids=%5B2877086%5D&s=LIrF2-thS0YhKEcztUTJQ4VeV50%3AJpMG7hPu&artwork=true&color=%233282C2&theme=dark" width="960" height="395"></iframe>',
+                websiteUrl: 'https://www.boosey.com/'
             },
             rh: {
-                title: 'Rodgers and Hammerstein',
+                title: 'Rodgers & Hammerstein',
+                displayTitle: 'Rodgers and Hammerstein',
                 description: 'Richard Rodgers and Oscar Hammerstein II revolutionized American musical theatre with Oklahoma, Carousel, South Pacific, The King and I, The Sound of Music and more.',
-                discoPlaylist: 'https://open.spotify.com/playlist/example-rh'
+                logoPath: './assets/RnH.png',
+                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
+                websiteUrl: '#'
             },
             fania: {
                 title: 'Fania',
                 description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz. Home to legends like Celia Cruz, Héctor Lavoe, Willie Colón, Rubén Blades, Johnny Pacheco, Eddie Palmieri, Ray Barretto and more',
-                discoPlaylist: 'https://open.spotify.com/playlist/example-fania'
+                logoPath: './assets/fania.png',
+                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
+                websiteUrl: '#'
             },
             pulse: {
                 title: 'Pulse Music Group',
                 description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
-                logoPath: './assets/pulse.png'
+                logoPath: './assets/pulse.png',
+                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
+                websiteUrl: '#'
             }
         }
     },
