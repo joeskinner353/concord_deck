@@ -7,14 +7,16 @@ export const siteStructure = {
                 description: 'Pop catalogue description will go here...',
                 logoPath: './assets/ConcordMusicPublishing-Lockup-White-RGB.png',
                 discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#'
+                websiteUrl: '#',
+                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982'
             },
             boosey: {
                 title: 'Boosey & Hawkes',
                 description: "Boosey & Hawkes is the world's leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams. With a rich history dating back to 1930, the company has been at the forefront of contemporary classical music, providing licensing, sheet music, and performance materials to musicians, orchestras, and film/TV productions worldwide.",
                 logoPath: './assets/boosey_logo.png',
                 discoPlaylistEmbed: '<iframe id="disco-playlist-12042520" name="disco-playlist-12042520" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12042520?download=true&territory_ids=%5B2877086%5D&s=LIrF2-thS0YhKEcztUTJQ4VeV50%3AJpMG7hPu&artwork=true&color=%233282C2&theme=dark" width="960" height="395"></iframe>',
-                websiteUrl: 'https://www.boosey.com/'
+                websiteUrl: 'https://www.boosey.com/',
+                discoSearchUrl: 'https://represents.boosey.com/'
             },
             rh: {
                 title: 'Rodgers & Hammerstein',
@@ -22,21 +24,24 @@ export const siteStructure = {
                 description: 'Richard Rodgers and Oscar Hammerstein II revolutionized American musical theatre with Oklahoma, Carousel, South Pacific, The King and I, The Sound of Music and more.',
                 logoPath: './assets/RnH.png',
                 discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#'
+                websiteUrl: '#',
+                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/6233'
             },
             fania: {
                 title: 'Fania',
                 description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz. Home to legends like Celia Cruz, Héctor Lavoe, Willie Colón, Rubén Blades, Johnny Pacheco, Eddie Palmieri, Ray Barretto and more',
                 logoPath: './assets/fania.png',
                 discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#'
+                websiteUrl: '#',
+                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/900884433'
             },
             pulse: {
                 title: 'Pulse Music Group',
                 description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
                 logoPath: './assets/pulse.png',
                 discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#'
+                websiteUrl: '#',
+                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/900884433'
             }
         }
     },
@@ -53,25 +58,29 @@ export const siteStructure = {
                         type: "youtube",
                         id: "6p8GnWgK5Cs",
                         title: "Qatar Airways",
-                        thumbnail: "https://img.youtube.com/vi/6p8GnWgK5Cs/maxresdefault.jpg"
+                        thumbnail: "https://img.youtube.com/vi/6p8GnWgK5Cs/maxresdefault.jpg",
+                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/6p8GnWgK5Cs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "969887901",
                         title: "DISNEY X BALMAIN",
-                        thumbnail: "https://i.vimeocdn.com/video/969887901_640.jpg"
+                        thumbnail: "https://vumbnail.com/969887901.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/969887901" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "780328847",
                         title: "Intel",
-                        thumbnail: "https://i.vimeocdn.com/video/780328847_640.jpg"
+                        thumbnail: "https://vumbnail.com/780328847.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/780328847" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "730565999",
                         title: "Baileys",
-                        thumbnail: "https://i.vimeocdn.com/video/730565999_640.jpg"
+                        thumbnail: "https://vumbnail.com/730565999.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/730565999" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     }
                 ],
                 social: {
