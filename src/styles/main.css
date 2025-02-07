@@ -639,9 +639,10 @@ body {
 
 .content-header {
     display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    align-items: flex-start;
+    gap: 3rem;  /* Increased from 2rem to 3rem for better spacing */
+    margin-bottom: 3rem;  /* Increased from 2rem to 3rem */
+    padding: 1rem;  /* Added padding for better spacing */
 }
 
 .content-header h2 {
@@ -652,14 +653,12 @@ body {
 
 .header-left {
     display: flex;
-    align-items: center;
     gap: 2rem;
+    align-items: flex-start;
 }
 
 .header-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    padding-top: 0.5rem;
 }
 
 .social-links {
@@ -694,8 +693,9 @@ body {
 }
 
 .catalogue-logo {
-    height: 60px;
+    height: 180px;  /* Increased from 60px to 180px */
     width: auto;
+    object-fit: contain;
 }
 
 .disco-search-btn {
@@ -1074,10 +1074,16 @@ body {
     cursor: pointer;
 }
 
-.catalogue-logo {
-    max-height: 100px;
-    width: auto;
-    object-fit: contain;
+.catalogue-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;  /* Match logo height */
+}
+
+.catalogue-title-link h2 {
+    margin: 0;
+    padding-top: 0.5rem;  /* Added padding to align with logo center */
 }
 
 .section-logo {
@@ -1550,24 +1556,30 @@ body {
     transform: scale(1.05);
 }
 
-/* Fix composer image size */
+/* Update composer image size */
 .composer-image {
-    width: 80px;  /* Match the size of catalogue logos */
-    height: 80px;
+    width: 240px;  /* Increased from 80px to 240px */
+    height: 240px;  /* Increased from 80px to 240px */
     object-fit: cover;
+    border-radius: 8px;  /* Added border radius for better aesthetics */
 }
 
 .content-header {
     display: flex;
-    align-items: center;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    align-items: flex-start;  /* Changed from center to flex-start to better align with larger image */
+    gap: 3rem;  /* Increased from 2rem to 3rem for better spacing */
+    margin-bottom: 3rem;  /* Increased from 2rem to 3rem */
+    padding: 1rem;  /* Added padding for better spacing */
 }
 
-.content-header h2 {
-    font-size: 2.5rem;
-    color: var(--secondary-color);
-    margin: 0;
+.header-left {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;  /* Changed from center to flex-start */
+}
+
+.header-text {
+    padding-top: 0.5rem;  /* Added padding to align text with image */
 }
 
 .preview-container {

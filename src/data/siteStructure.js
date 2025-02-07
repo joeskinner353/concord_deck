@@ -97,9 +97,9 @@ export const siteStructure = {
                 discoPlaylistEmbed: '',
                 videos: [],
                 social: {
-                    instagram: "",
-                    spotify: "",
-                    tiktok: ""
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
                 }
             },
             composer3: {
@@ -111,7 +111,12 @@ Ghost Culture' debut album through Phantasy was made Rough Trade's 'Record of th
 
 James continues to have a wide impact on the culture of UK electronic music, owing to his ongoing collaborations with artists such as Daniel Avery and Kelly Lee Owens for whom he co-wrote and co-produced their summer 2020 albums 'Love + Light' and 'Inner Song'.`,
                 videos: [],
-                discoPlaylistEmbed: ''
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
             },
             composer4: {
                 title: 'Ben Garrett',
@@ -122,7 +127,12 @@ Outside of songwriting, Fryars scored all 10 episodes of the TNT series 'WILL' a
 
 He is currently writing his first Musical and making forward thinking music with future stars.`,
                 videos: [],
-                discoPlaylistEmbed: ''
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
             }
         }
     },
