@@ -812,6 +812,13 @@ export class ZoomableSection {
         console.log('Initializing background effects');
         const items = document.querySelectorAll('.catalogue-list-item, .list-item');
         
+        // Create background overlay if it doesn't exist
+        if (!this.backgroundOverlay) {
+            this.backgroundOverlay = document.createElement('div');
+            this.backgroundOverlay.className = 'background-overlay';
+            document.body.appendChild(this.backgroundOverlay);
+        }
+        
         items.forEach(item => {
             item.addEventListener('mouseenter', (e) => {
                 console.log('Mouse enter:', item.dataset);
@@ -828,6 +835,7 @@ export class ZoomableSection {
                         this.backgroundOverlay.style.backgroundSize = 'contain';
                         this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
                         this.backgroundOverlay.style.backgroundPosition = 'center';
+                        this.backgroundOverlay.style.opacity = '0.15';
                         this.backgroundOverlay.classList.add('visible');
                     }
                 } else {
@@ -837,6 +845,8 @@ export class ZoomableSection {
                     if (section && section.image) {
                         this.backgroundOverlay.style.backgroundImage = `url(${section.image})`;
                         this.backgroundOverlay.style.backgroundSize = 'cover';
+                        this.backgroundOverlay.style.backgroundPosition = 'center';
+                        this.backgroundOverlay.style.opacity = '0.15';
                         this.backgroundOverlay.classList.add('visible');
                     }
                 }
@@ -844,7 +854,11 @@ export class ZoomableSection {
 
             item.addEventListener('mouseleave', () => {
                 this.backgroundOverlay.classList.remove('visible');
-                this.backgroundOverlay.style.backgroundImage = '';
+                setTimeout(() => {
+                    if (!this.backgroundOverlay.classList.contains('visible')) {
+                        this.backgroundOverlay.style.backgroundImage = '';
+                    }
+                }, 300); // Match the CSS transition duration
             });
         });
     }
