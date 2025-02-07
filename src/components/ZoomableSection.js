@@ -276,11 +276,8 @@ export class ZoomableSection {
         const videoCards = this.contentContainer.querySelectorAll('.video-card');
         videoCards.forEach(card => {
             card.addEventListener('click', () => {
-                const videoId = card.dataset.videoId;
-                const video = section.videos.find(v => v.id === videoId);
-                if (video) {
-                    this.handleVideoClick(video);
-                }
+                const videoData = JSON.parse(card.dataset.video);
+                this.handleVideoClick(videoData);
             });
         });
 
@@ -333,7 +330,7 @@ export class ZoomableSection {
                     </div>
                     ${section.videos && section.videos.length > 0 ? `
                         <div class="videos-section">
-                            <h3>Videos</h3>
+                            <h2>Videos</h2>
                             <div class="video-grid">
                                 ${section.videos.map(video => `
                                     <div class="video-card" data-video='${JSON.stringify(video)}'>
@@ -893,38 +890,23 @@ export class ZoomableSection {
 
     // Add this method to handle video playback
     handleVideoClick(video) {
-        console.log('Playing video:', video); // Debug log
-        
-        const videoContainer = document.createElement('div');
-        videoContainer.className = 'video-overlay';
-        videoContainer.innerHTML = `
+        const overlay = document.createElement('div');
+        overlay.className = 'video-overlay';
+        overlay.innerHTML = `
             <div class="video-modal">
-                <button class="close-video">×</button>
+                <button class="close-video">&times;</button>
                 <div class="video-wrapper">
                     ${video.embed}
                 </div>
             </div>
         `;
 
-        document.body.appendChild(videoContainer);
+        document.body.appendChild(overlay);
 
         // Add close handler
-        const closeButton = videoContainer.querySelector('.close-video');
+        const closeButton = overlay.querySelector('.close-video');
         closeButton.addEventListener('click', () => {
-            videoContainer.remove();
-        });
-
-        // Close on background click
-        videoContainer.addEventListener('click', (e) => {
-            if (e.target === videoContainer) {
-                videoContainer.remove();
-            }
-        });
-
-        // Prevent clicks inside video from closing modal
-        const videoModal = videoContainer.querySelector('.video-modal');
-        videoModal.addEventListener('click', (e) => {
-            e.stopPropagation();
+            overlay.remove();
         });
     }
 }
