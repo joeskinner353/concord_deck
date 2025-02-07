@@ -4,6 +4,7 @@
     "description": "Concord Music Interactive Website",
     "main": "server.js",
     "scripts": {
+        "build": "mkdir -p public && cp -r src/* public/ && chmod -R 755 public/",
         "start": "node server.js",
         "dev": "node server.js"
     },
