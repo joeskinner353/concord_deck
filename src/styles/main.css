@@ -1804,3 +1804,62 @@ body:not(.home-page) .main-header {
     bottom: 0;
     z-index: 0;
 }
+
+/* FTV Content Styles */
+.content-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.content-header {
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.content-header h2 {
+    font-size: 2.5rem;
+    color: var(--accent-color);
+}
+
+.content-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.content-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary-color);
+}
+
+.section-content {
+    line-height: 1.6;
+}
+
+.content-section.main-description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: center;
+    background: none;
+    padding: 0 2rem 2rem;
+}
+
+.content-section.playlist {
+    margin-top: 3rem;
+}
+
+.playlist-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Ensure consistent spacing */
+.content-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}

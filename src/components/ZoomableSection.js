@@ -37,6 +37,29 @@ export class ZoomableSection {
         document.body.insertBefore(this.backgroundOverlay, document.body.firstChild);
         
         this.initBackgroundEffects();
+
+        // Add debouncing for scroll and resize events
+        this.handleScroll = this.debounce(this.handleScroll.bind(this), 100);
+        this.handleResize = this.debounce(this.handleResize.bind(this), 250);
+        
+        window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('resize', this.handleResize);
+
+        // Store event listener references
+        this.boundHandleScroll = this.handleScroll.bind(this);
+        this.boundHandleResize = this.handleResize.bind(this);
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
     createContentContainer() {
@@ -720,44 +743,17 @@ export class ZoomableSection {
         // Show content container
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
-        
-        // Prepare content with conditional playlist and table
-        const contentSections = sectionId === 'ftv-overview' 
-            ? `<div class="content-section">
-                <h3>Overview</h3>
-                <p>${section.description}</p>
-               </div>
-               <div class="content-section">
-                <h3>DISCO Playlist</h3>
-                <div class="playlist-container">
-                    ${section.discoPlaylistEmbed || '<div class="playlist-placeholder">Playlist coming soon...</div>'}
+
+        // Generate sections HTML if they exist
+        const sectionsHtml = section.sections ? 
+            section.sections.map(s => `
+                <div class="content-section">
+                    <h3>${s.title}</h3>
+                    <div class="section-content">
+                        <p>${s.content}</p>
+                    </div>
                 </div>
-               </div>`
-            : `<div class="content-section">
-                <h3>Overview</h3>
-                <p>${section.description}</p>
-               </div>
-               <div class="content-section">
-                <h3>Royalty Information</h3>
-                <div class="table-container">
-                    <table class="royalty-table">
-                        <thead>
-                            <tr>
-                                <th>Usage Type</th>
-                                <th>Rate</th>
-                                <th>Terms</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-               </div>`;
+            `).join('') : '';
 
         this.contentContainer.innerHTML = `
             <button class="back-button">
@@ -770,7 +766,18 @@ export class ZoomableSection {
                     <h2>${section.title}</h2>
                 </div>
                 <div class="content-sections">
-                    ${contentSections}
+                    <div class="content-section main-description">
+                        <p>${section.description || ''}</p>
+                    </div>
+                    ${sectionsHtml}
+                    ${section.discoPlaylistEmbed ? `
+                        <div class="content-section playlist">
+                            <h3>Featured Music</h3>
+                            <div class="playlist-container">
+                                ${section.discoPlaylistEmbed}
+                            </div>
+                        </div>
+                    ` : ''}
                 </div>
             </div>
         `;
@@ -890,24 +897,46 @@ export class ZoomableSection {
 
     // Add this method to handle video playback
     handleVideoClick(video) {
-        const overlay = document.createElement('div');
-        overlay.className = 'video-overlay';
-        overlay.innerHTML = `
-            <div class="video-modal">
-                <button class="close-video">&times;</button>
-                <div class="video-wrapper">
-                    ${video.embed}
+        try {
+            const overlay = document.createElement('div');
+            overlay.className = 'video-overlay';
+            overlay.innerHTML = `
+                <div class="video-modal">
+                    <button class="close-video">&times;</button>
+                    <div class="video-wrapper">
+                        ${video.embed || '<p>Video unavailable</p>'}
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+            
+            // Add error handling for iframe load
+            const iframe = overlay.querySelector('iframe');
+            if (iframe) {
+                iframe.onerror = () => {
+                    overlay.querySelector('.video-wrapper').innerHTML = '<p>Failed to load video</p>';
+                };
+            }
 
-        document.body.appendChild(overlay);
+            document.body.appendChild(overlay);
+        } catch (error) {
+            console.error('Error loading video:', error);
+            // Show user-friendly error message
+            this.showErrorMessage('Failed to load video. Please try again later.');
+        }
+    }
 
-        // Add close handler
-        const closeButton = overlay.querySelector('.close-video');
-        closeButton.addEventListener('click', () => {
-            overlay.remove();
-        });
+    destroy() {
+        // Remove event listeners
+        window.removeEventListener('scroll', this.boundHandleScroll);
+        window.removeEventListener('resize', this.boundHandleResize);
+        
+        // Clean up video overlays
+        document.querySelectorAll('.video-overlay').forEach(overlay => overlay.remove());
+        
+        // Clear any running timers
+        if (this.previewTimer) {
+            clearTimeout(this.previewTimer);
+        }
     }
 }
 
