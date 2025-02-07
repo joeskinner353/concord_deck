@@ -87,7 +87,8 @@ export const siteStructure = {
                     instagram: "https://www.instagram.com/maestrothebaker/",
                     spotify: "https://open.spotify.com/playlist/6PyP32T4tLCtCSKuhn4xYI?si=21b8d68df89a4476",
                     tiktok: "https://tiktok.com/@maestro"
-                }
+                },
+                productions: "Grammy Award winning productions include..."
             },
             composer2: {
                 title: 'Kurisu',
@@ -128,7 +129,8 @@ export const siteStructure = {
                     instagram: "#",
                     spotify: "#",
                     tiktok: "#"
-                }
+                },
+                productions: "Recent productions include collaborations with Cat Burns..."
             },
             composer3: {
                 title: 'James Greenwood',
