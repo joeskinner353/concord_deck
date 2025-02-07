@@ -3,18 +3,19 @@
   command = "npm run build"
 
 [build.environment]
-  NODE_VERSION = "18" 
+  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[[plugins]]
-package = "@netlify/plugin-lighthouse"
-
-[[plugins]]
-package = "netlify-plugin-submit-sitemap"
-
-[[plugins]]
-package = "netlify-plugin-image-optim" 
+# Removing problematic plugins for now
+# [[plugins]]
+# package = "@netlify/plugin-lighthouse"
+# 
+# [[plugins]]
+# package = "netlify-plugin-submit-sitemap"
+# 
+# [[plugins]]
+# package = "netlify-plugin-image-optim" 
