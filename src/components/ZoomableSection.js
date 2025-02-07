@@ -822,32 +822,23 @@ export class ZoomableSection {
                     section = siteStructure.catalogue.sections[sectionId];
                     console.log('Found catalogue section:', section);
                     
-                    // If no logoPath, try to construct one based on section ID
-                    if (!section.logoPath) {
-                        const logoMap = {
-                            'rh': './assets/RnH.png',
-                            'boosey': './assets/boosey_logo.png',
-                        };
-
-                        const logoId = sectionId.toLowerCase();
-                        section.logoPath = logoMap[logoId] || `./assets/${sectionId.replace(/\s+/g, '_').toLowerCase()}_logo.png`;
+                    if (section && section.logoPath) {
+                        console.log('Setting logo background:', section.logoPath);
+                        this.backgroundOverlay.style.backgroundImage = `url(${section.logoPath})`;
+                        this.backgroundOverlay.style.backgroundSize = 'contain';
+                        this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
+                        this.backgroundOverlay.style.backgroundPosition = 'center';
+                        this.backgroundOverlay.classList.add('visible');
                     }
                 } else {
                     section = this.findSectionData(sectionId);
                     console.log('Found bespoke section:', section);
-                }
-                
-                if (section && section.image) {
-                    this.backgroundOverlay.style.backgroundImage = `url(${section.image})`;
-                    this.backgroundOverlay.style.backgroundSize = 'cover';
-                    this.backgroundOverlay.classList.add('visible');
-                } else if (section && section.logoPath) {
-                    console.log('Setting logo background:', section.logoPath);
-                    this.backgroundOverlay.style.backgroundImage = `url(${section.logoPath})`;
-                    this.backgroundOverlay.style.backgroundSize = 'contain';
-                    this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
-                    this.backgroundOverlay.style.backgroundPosition = 'center';
-                    this.backgroundOverlay.classList.add('visible');
+                    
+                    if (section && section.image) {
+                        this.backgroundOverlay.style.backgroundImage = `url(${section.image})`;
+                        this.backgroundOverlay.style.backgroundSize = 'cover';
+                        this.backgroundOverlay.classList.add('visible');
+                    }
                 }
             });
 

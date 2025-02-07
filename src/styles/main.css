@@ -28,8 +28,55 @@ body {
     height: 100vh;
     overflow: hidden;
     position: relative;
-    background: transparent;
+    background: var(--primary-color) url('../assets/concord-C-icon-red.png') no-repeat center center;
+    background-size: 150vh;
     z-index: 1;
+    background-position: center 55%;
+}
+
+/* Move the opacity to the background image */
+#app::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--primary-color);
+    opacity: 0.85;
+    z-index: -1;
+}
+
+/* Add background image container */
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../assets/concord-C-icon-red.png') no-repeat center center;
+    background-size: 150vh;
+    opacity: 0.15;
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    background-position: center 55%;
+}
+
+/* Hide background when content is showing */
+.content-container:not([style*="display: none"]) ~ .background-image {
+    opacity: 0;
+}
+
+/* Ensure all text is fully opaque */
+h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item {
+    opacity: 1 !important;
+    color: var(--secondary-color);
+}
+
+/* Ensure content remains visible */
+#zoom-container {
+    position: relative;
+    z-index: 2;
 }
 
 #zoom-container {
@@ -74,16 +121,52 @@ body {
 .section#catalogue,
 .section#bespoke,
 .section#ftv {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: transparent !important;
+    box-shadow: none;
 }
 
-/* Make hover state even taller */
+/* Base section hover styles */
 .section:hover {
-    height: 1012px;  /* Increased from 675px to 1012px (another 50% more) */
+    height: 450px;
     width: 100%;
     padding: 3rem;
-    background-color: rgba(255, 255, 255, 0.15) !important;
+    background-color: rgba(40, 40, 40, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     z-index: 10;
+}
+
+/* Ensure consistent hover styles for all sections */
+.section#bespoke:hover,
+.section#catalogue:hover,
+.section#ftv:hover {
+    background-color: rgba(40, 40, 40, 0.95) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Keep text and content visible for all sections */
+.section:hover .section-title,
+.section:hover .subsections-list,
+.section:hover .list-item,
+.section:hover .catalogue-list,
+.section:hover .catalogue-list-item,
+.section:hover .ftv-list,
+.section:hover .ftv-list-item {
+    position: relative;
+    z-index: 2;
+}
+
+/* Adjust list items for better contrast in all sections */
+.section:hover .list-item,
+.section:hover .catalogue-list-item,
+.section:hover .ftv-list-item {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.section:hover .list-item:hover,
+.section:hover .catalogue-list-item:hover,
+.section:hover .ftv-list-item:hover {
+    background-color: var(--accent-color);
 }
 
 /* Clean up section titles */
@@ -92,6 +175,9 @@ body {
     margin: 0;
     line-height: 1.2;
     text-transform: lowercase;
+    background: rgba(26, 26, 26, 0.7);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
 }
 
 /* Section title styles */
@@ -139,7 +225,8 @@ body {
 .section#catalogue,
 .section#bespoke,
 .section#ftv {
-    background-color: rgba(255, 255, 255, 0.05);  /* Same light grey for all sections */
+    background-color: transparent !important;
+    box-shadow: none;
 }
 
 /* Adjust title on hover */
@@ -1244,8 +1331,7 @@ body {
     z-index: -1;
     opacity: 0;
     pointer-events: none;
-    transition: all 0.3s ease;
-    background-size: 80% auto !important;
+    transition: opacity 0.3s ease;
     background-position: center !important;
     background-repeat: no-repeat !important;
 }
@@ -1289,7 +1375,6 @@ body {
 }
 
 .section#bespoke {
-    background-image: none;
     background-color: rgba(26, 26, 26, 0.9);
 }
 
