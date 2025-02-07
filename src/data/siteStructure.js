@@ -93,9 +93,37 @@ export const siteStructure = {
                 title: 'Kurisu',
                 image: './assets/kurisu.png',
                 bio: "Kurisu is one of the most in demand new producer/songwriters in the UK. Based out of his studio in North London, Kurisu's versatility as a multi-instrumentalist and training as a classical musician means he writes cross-genre with ease, covering r'n'b, hip hop, pop and alt-pop. His recent cuts include Cat Burns, Dexter, Charlotte Plank, Zhu, Alessi Rose, Nxdia, Sandy Crow and Emir Taha.",
-                artistList: '',
+                videos: [
+                    {
+                        type: "vimeo",
+                        id: "1054446734",
+                        title: "The Essence Of Sound",
+                        thumbnail: "https://i.vimeocdn.com/video/1054446734_960.jpg",
+                        embed: '<div style="padding:37.19% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054446734?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="The Essence Of Sound"></iframe></div>'
+                    },
+                    {
+                        type: "vimeo",
+                        id: "1054446863",
+                        title: "Sync Sound Design Nike",
+                        thumbnail: "https://i.vimeocdn.com/video/1054446863_960.jpg",
+                        embed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054446863?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Sync Sound Design Nike"></iframe></div>'
+                    },
+                    {
+                        type: "vimeo",
+                        id: "1054446899",
+                        title: "Optics - Art film by Maxim Zhestkov",
+                        thumbnail: "https://i.vimeocdn.com/video/1054446899_960.jpg",
+                        embed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054446899?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Optics - Art film by Maxim Zhestkov"></iframe></div>'
+                    },
+                    {
+                        type: "vimeo",
+                        id: "1054447171",
+                        title: "BNL by Mauro Chiarello",
+                        thumbnail: "https://i.vimeocdn.com/video/1054447171_960.jpg",
+                        embed: '<div style="padding:37.71% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054447171?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="BNL by Mauro Chiarello"></iframe></div>'
+                    }
+                ],
                 discoPlaylistEmbed: '',
-                videos: [],
                 social: {
                     instagram: "#",
                     spotify: "#",
