@@ -1,8 +1,21 @@
 [build]
-  publish = "src"
+  publish = "public"
   command = "npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+# Removing problematic plugins for now
+# [[plugins]]
+# package = "@netlify/plugin-lighthouse"
+# 
+# [[plugins]]
+# package = "netlify-plugin-submit-sitemap"
+# 
+# [[plugins]]
+# package = "netlify-plugin-image-optim"
