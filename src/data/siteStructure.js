@@ -87,7 +87,8 @@ export const siteStructure = {
                     instagram: "https://www.instagram.com/maestrothebaker/",
                     spotify: "https://open.spotify.com/playlist/6PyP32T4tLCtCSKuhn4xYI?si=21b8d68df89a4476",
                     tiktok: "https://tiktok.com/@maestro"
-                }
+                },
+                productions: "Grammy Award winning productions include..."
             },
             composer2: {
                 title: 'Kurisu',
@@ -98,29 +99,29 @@ export const siteStructure = {
                         type: "vimeo",
                         id: "1054446734",
                         title: "The Essence Of Sound",
-                        thumbnail: "https://i.vimeocdn.com/video/1054446734_960.jpg",
-                        embed: '<div style="padding:37.19% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054446734?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="The Essence Of Sound"></iframe></div>'
+                        thumbnail: "https://vumbnail.com/1054446734.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/1054446734" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "1054446863",
                         title: "Sync Sound Design Nike",
-                        thumbnail: "https://i.vimeocdn.com/video/1054446863_960.jpg",
-                        embed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054446863?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Sync Sound Design Nike"></iframe></div>'
+                        thumbnail: "https://vumbnail.com/1054446863.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/1054446863" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "1054446899",
                         title: "Optics - Art film by Maxim Zhestkov",
-                        thumbnail: "https://i.vimeocdn.com/video/1054446899_960.jpg",
-                        embed: '<div style="padding:56.25% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054446899?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Optics - Art film by Maxim Zhestkov"></iframe></div>'
+                        thumbnail: "https://vumbnail.com/1054446899.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/1054446899" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "1054447171",
                         title: "BNL by Mauro Chiarello",
-                        thumbnail: "https://i.vimeocdn.com/video/1054447171_960.jpg",
-                        embed: '<div style="padding:37.71% 0 0 0;position:relative;"><iframe src="https://player.vimeo.com/video/1054447171?title=0&amp;byline=0&amp;portrait=0&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="BNL by Mauro Chiarello"></iframe></div>'
+                        thumbnail: "https://vumbnail.com/1054447171.jpg",
+                        embed: '<iframe src="https://player.vimeo.com/video/1054447171" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     }
                 ],
                 discoPlaylistEmbed: '',
@@ -128,7 +129,8 @@ export const siteStructure = {
                     instagram: "#",
                     spotify: "#",
                     tiktok: "#"
-                }
+                },
+                productions: "Recent productions include collaborations with Cat Burns..."
             },
             composer3: {
                 title: 'James Greenwood',

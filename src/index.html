@@ -27,11 +27,9 @@
             </div>
         </header>
         <nav id="navigation"></nav>
-        <div id="zoom-container" class="zoom-container">
+        <div id="zoom-container">
             <div class="section" id="catalogue">
-                <div class="section-title">
-                    <h2>Catalogue</h2>
-                </div>
+                <h2 class="section-title">catalogue</h2>
                 <div class="catalogue-list">
                     <div class="catalogue-list-item" data-section="pop">
                         <h3>Pop</h3>
@@ -60,10 +58,8 @@
                 </div>
             </div>
             
-            <div id="bespoke" class="section" data-section="bespoke">
-                <div class="section-title">
-                    <h2>Bespoke Roster</h2>
-                </div>
+            <div class="section" id="bespoke">
+                <h2 class="section-title">bespoke roster</h2>
                 <div class="subsections">
                     <div class="composer-card" data-section="composer1">
                         <img src="./assets/maestro.png" alt="Maestro">
@@ -87,9 +83,7 @@
             </div>
             
             <div class="section" id="ftv">
-                <div class="section-title">
-                    <h2>FTV</h2>
-                </div>
+                <h2 class="section-title">ftv</h2>
                 <div class="ftv-list">
                     <div class="ftv-list-item" data-section="ftv-overview" data-title="FTV Overview">FTV Overview</div>
                     <div class="ftv-list-item" data-section="examples" data-title="Film & TV Examples">Film & TV Examples</div>
@@ -108,6 +102,52 @@
                 </div>
             </div>
         </div>
+
+        <!-- Composer profile template -->
+        <template id="composer-profile">
+            <div class="composer-profile">
+                <div class="composer-header">
+                    <div class="header-image">
+                        <img src="${composer.image}" alt="${composer.title}">
+                    </div>
+                    <div class="composer-title-wrapper">
+                        <h2>${composer.title}</h2>
+                        <div class="social-links">
+                            <a href="${composer.social.instagram}" class="social-link instagram" target="_blank">
+                                <img src="./assets/instagram.svg" alt="Instagram">
+                            </a>
+                            <a href="${composer.social.spotify}" class="social-link spotify" target="_blank">
+                                <img src="./assets/spotify.svg" alt="Spotify">
+                            </a>
+                            <a href="${composer.social.tiktok}" class="social-link tiktok" target="_blank">
+                                <img src="./assets/tiktok.svg" alt="TikTok">
+                            </a>
+                        </div>
+                        <div class="productions-section">
+                            <h2>Productions & Co-writes</h2>
+                            <p>${composer.productions}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="composer-sections">
+                    <div class="bio-section">
+                        <p>${composer.bio}</p>
+                    </div>
+                    <div class="videos-section">
+                        <h2>Videos</h2>
+                        <div class="video-grid">
+                            ${composer.videos.map(video => `
+                                <div class="video-card" data-video='${JSON.stringify(video)}'>
+                                    <img src="${video.thumbnail}" alt="${video.title}">
+                                    <div class="play-button">▶</div>
+                                    <h3>${video.title}</h3>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
     </div>
     <script type="module">
         import { Navigation } from './components/Navigation.js';
