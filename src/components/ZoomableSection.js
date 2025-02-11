@@ -85,20 +85,70 @@ export class ZoomableSection {
             return;
         }
 
-        // Update click handler to match actual HTML structure
+        // Add click handler to the container
         this.container.addEventListener('click', (e) => {
-            log('Click event:', e);
-            log('Target:', e.target);
-            
-            // Look for both composer cards and list items
-            const clickable = e.target.closest('.composer-card[data-section], .list-item[data-composer]');
-            log('Found clickable element:', clickable);
-            
+            // First check if it's a main section click
+            const mainSection = e.target.closest('.section');
+            if (mainSection && !e.target.closest('[data-section], [data-composer]')) {
+                const sectionId = mainSection.id;
+                if (sectionId) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Toggle active state
+                    document.querySelectorAll('.section').forEach(section => {
+                        if (section === mainSection) {
+                            section.classList.toggle('active');
+                        } else {
+                            section.classList.remove('active');
+                        }
+                    });
+                    return;
+                }
+            }
+
+            // Then handle subsection clicks
+            const clickable = e.target.closest([
+                '.composer-card',
+                '.catalogue-card',
+                '.list-item',
+                '.catalogue-list-item',
+                '.ftv-card',
+                '.ftv-list-item',
+                '.subsection'
+            ].join(','));
+
             if (clickable) {
                 e.preventDefault();
                 e.stopPropagation();
-                log('Handling click for:', clickable.dataset);
-                this.handleSubsectionClick(clickable);
+                
+                // Get section ID from data attributes
+                const sectionId = clickable.dataset.section || clickable.dataset.composer;
+                if (!sectionId) return;
+
+                // Handle different section types
+                const parentSection = clickable.closest('.section');
+                if (!parentSection) return;
+
+                if (parentSection.id === 'catalogue') {
+                    const section = siteStructure.catalogue.sections[sectionId];
+                    if (section) {
+                        this.showCatalogueContent(section);
+                        this.updateNavigation('Catalogue', section.title);
+                    }
+                } else if (parentSection.id === 'bespoke') {
+                    const section = siteStructure.bespoke.sections[sectionId];
+                    if (section) {
+                        this.showContent(section, this.bespokeTemplate.bind(this));
+                        this.updateNavigation('Bespoke', section.title);
+                    }
+                } else if (parentSection.id === 'ftv') {
+                    const section = siteStructure.ftv.sections[sectionId];
+                    if (section) {
+                        this.showFTVContent(section);
+                        this.updateNavigation('FTV', section.title);
+                    }
+                }
             }
         });
 
@@ -307,9 +357,8 @@ export class ZoomableSection {
         // Clear any existing content
         this.contentContainer.innerHTML = '';
         
-        // Check for Maestro section using ID instead of title
-        if (section.id === 'composer1' || section.title.includes('MAESTRO')) {
-            console.log('Applying Maestro specific styles');
+        // Set background color only for composer pages
+        if (section.title.includes('MAESTRO') || section.title === 'Kurisu' || section.title === 'James Greenwood' || section.title === 'Ben Garrett') {
             document.body.style.backgroundColor = '#F4A460';
             this.contentContainer.style.padding = '0';
             this.contentContainer.style.backgroundColor = '#F4A460';
@@ -317,7 +366,6 @@ export class ZoomableSection {
         
         // Add the content
         const renderedTemplate = template(section);
-        console.log('Rendered template:', renderedTemplate);
         this.contentContainer.innerHTML = renderedTemplate;
         
         // Add video click handlers
@@ -334,6 +382,8 @@ export class ZoomableSection {
         if (backButton) {
             backButton.addEventListener('click', (e) => {
                 e.preventDefault();
+                // Reset background color when going back
+                document.body.style.backgroundColor = '';
                 window.dispatchEvent(new CustomEvent('navigationBack'));
             });
         }
@@ -346,50 +396,61 @@ export class ZoomableSection {
 
     // Template methods
     bespokeTemplate(section) {
-        if (section.title === "MAESTRO 'THE BAKER'") {
-            console.log('Using Maestro template');
-            return `
-                <button class="back-button">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </button>
-                <div class="maestro-new">
-                    <div class="maestro-content">
-                        <div class="maestro-left">
-                            <h1>MAESTRO<br>'THE BAKER'</h1>
-                            <div class="social-links-container">
-                                <div class="social-links">
+        // Use the same template for all composers
+        return `
+            <button class="back-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <div class="maestro-new">
+                <div class="maestro-content">
+                    <div class="maestro-left">
+                        <h1>${section.title}</h1>
+                        <div class="social-links-container">
+                            <div class="social-links">
+                                ${section.social.instagram ? `
                                     <a href="${section.social.instagram}" target="_blank">
                                         <img src="../assets/instagram-black.svg" alt="Instagram">
                                     </a>
-                                    <a href="#" target="_blank">
-                                        <img src="../assets/link-black.svg" alt="Link">
+                                ` : ''}
+                                ${section.social.spotify ? `
+                                    <a href="${section.social.spotify}" target="_blank">
+                                        <img src="../assets/spotify-black.svg" alt="Spotify">
                                     </a>
-                                </div>
-                                <button class="download-button">
-                                    <img src="../assets/download-black.svg" alt="Download">
-                                    Download One-Sheet
-                                </button>
+                                ` : ''}
+                                ${section.social.tiktok ? `
+                                    <a href="${section.social.tiktok}" target="_blank">
+                                        <img src="../assets/tiktok-black.svg" alt="TikTok">
+                                    </a>
+                                ` : ''}
+                            </div>
+                            <button class="download-button">
+                                <img src="../assets/download-black.svg" alt="Download">
+                                Download One-Sheet
+                            </button>
+                            ${section.social.website ? `
                                 <a href="https://${section.social.website.toLowerCase()}" class="website-link" target="_blank">
                                     ${section.social.website}
                                 </a>
-                            </div>
-                            <img src="../assets/${section.image}" alt="Maestro TheBaker">
+                            ` : ''}
                         </div>
-                        <div class="maestro-right">
-                            <div class="bio-section">
-                                <p>Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.</p>
-                                <p>His credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.</p>
-                                <p>Other milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.</p>
-                            </div>
+                        <img src="../assets/${section.image}" alt="${section.title}">
+                    </div>
+                    <div class="maestro-right">
+                        <div class="bio-section">
+                            ${section.bio.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
+                        </div>
 
+                        ${section.compositionWork ? `
                             <div class="composition-section">
-                                <h2>COMPOSITION WORK</h2>
-                                <p>Maestro has built up an extensive collection of composition work for advertisement, tv, film and games.</p>
-                                <p>Recent composition work: Qatar Airways Balmain x Disney Kaufland Fortnite Sky Sports Boxing</p>
+                                <h2>${section.compositionWork.title}</h2>
+                                <p>${section.compositionWork.description}</p>
+                                ${section.compositionWork.recentWork ? `<p>${section.compositionWork.recentWork}</p>` : ''}
                             </div>
+                        ` : ''}
 
+                        ${section.videos && section.videos.length > 0 ? `
                             <div class="videos-section">
                                 <h2>VIDEOS</h2>
                                 <div class="video-grid">
@@ -404,65 +465,8 @@ export class ZoomableSection {
                                     `).join('')}
                                 </div>
                             </div>
-                        </div>
+                        ` : ''}
                     </div>
-                </div>
-            `;
-        }
-        // Return original template for other composers
-        const getImagePosition = (title) => {
-            switch(title) {
-                case 'Kurisu':
-                    return 'object-position: center 10%;';
-                case 'James Greenwood':
-                    return 'object-position: center 15%;';
-                default:
-                    return '';
-            }
-        };
-
-        return `
-            <button class="back-button">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
-            <div class="composer-profile">
-                <div class="composer-header">
-                    <div class="header-image">
-                        <img src="../assets/${section.image}" alt="${section.title}" style="${getImagePosition(section.title)}" />
-                    </div>
-                    <div class="composer-title-wrapper">
-                        <div class="title-container">
-                            <h2>${section.title}</h2>
-                        </div>
-                        ${this.generateSocialLinks(section)}
-                        <div class="productions-section">
-                            <h2>Productions & Co-writes</h2>
-                            <p>${section.productions || ''}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="composer-sections">
-                    <div class="bio-section">
-                        <p>${section.bio}</p>
-                    </div>
-                    ${section.videos && section.videos.length > 0 ? `
-                        <div class="videos-section">
-                            <h2>Videos</h2>
-                            <div class="video-grid">
-                                ${section.videos.map(video => `
-                                    <div class="video-card" data-video='${JSON.stringify(video)}'>
-                                        <div class="video-thumbnail">
-                                            <img src="${video.thumbnail}" alt="${video.title}">
-                                            <div class="play-button">▶</div>
-                                        </div>
-                                        <h3>${video.title}</h3>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
                 </div>
             </div>
         `;
@@ -494,7 +498,21 @@ export class ZoomableSection {
             return;
         }
 
-        // Get the section data from siteStructure
+        // Get the parent section and title
+        const parentSection = element.closest('.section');
+        const parentTitle = parentSection?.querySelector('h2')?.textContent || '';
+
+        // Handle different section types
+        if (parentSection.id === 'catalogue' || element.classList.contains('catalogue-card') || element.classList.contains('catalogue-list-item')) {
+            const section = siteStructure.catalogue.sections[sectionId];
+            if (section) {
+                this.showCatalogueContent(section);
+                this.updateNavigation('Catalogue', section.title);
+            }
+            return;
+        }
+
+        // Handle composer sections
         const section = siteStructure.bespoke.sections[sectionId];
         console.log('Found section data:', section);
 
@@ -508,11 +526,7 @@ export class ZoomableSection {
         this.showContent(section, this.bespokeTemplate.bind(this));
         
         // Update navigation
-        const parentSection = element.closest('.section');
-        if (parentSection) {
-            const parentTitle = parentSection.querySelector('h2')?.textContent || 'Bespoke';
-            this.updateNavigation(parentTitle, section.title);
-        }
+        this.updateNavigation(parentTitle || 'Bespoke', section.title);
     }
 
     showSubsectionContent(sectionId) {
@@ -702,6 +716,9 @@ export class ZoomableSection {
             // First, fade out the content container
             this.contentContainer.style.opacity = '0';
             
+            // Reset background color
+            document.body.style.backgroundColor = '';
+            
             // After fade out, switch displays and fade in the main container
             requestAnimationFrame(() => {
                 this.contentContainer.style.display = 'none';
@@ -755,68 +772,74 @@ export class ZoomableSection {
         this.updateNavigation(parentTitle, sectionTitle);
 
         // Show catalogue content
-        this.showCatalogueContent(sectionId);
+        this.showCatalogueContent(section);
     }
 
-    showCatalogueContent(sectionId) {
-        // Fade out main container
+    showCatalogueContent(section) {
+        console.log('Showing catalogue content for:', section.title);
+        
+        // Hide the main container and background logo
         this.container.style.opacity = '0';
         this.container.style.display = 'none';
+        document.querySelector('.background-overlay').style.display = 'none';
         
-        // Get content from siteStructure
-        const section = siteStructure.catalogue.sections[sectionId];
-        if (!section) return;
-        
-        // Show content container
+        // Reset and prepare content container
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
+        this.contentContainer.className = 'content-container catalogue-view';
         
-        // Prepare content
-        this.contentContainer.innerHTML = `
+        // Clear any existing content
+        this.contentContainer.innerHTML = '';
+        
+        // Create catalogue content template
+        const template = `
             <button class="back-button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
-            <div class="content-page">
-                <div class="content-header">
-                    <a href="${section.websiteUrl}" target="_blank" class="catalogue-logo-link">
+            <div class="catalogue-content">
+                <div class="catalogue-header">
+                    <div class="header-left">
                         <img src="${section.logoPath}" alt="${section.title}" class="catalogue-logo">
-                    </a>
-                    <a href="${section.websiteUrl}" target="_blank" class="catalogue-title-link">
                         <h2>${section.title}</h2>
-                    </a>
-                    <a href="${section.discoSearchUrl}" target="_blank" class="search-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </div>
+                    <a href="${section.discoSearchUrl}" class="search-link" target="_blank">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
                         </svg>
-                        Search DISCO library
+                        Search Catalogue
                     </a>
                 </div>
-                <div class="content-sections">
-                    <div class="content-section">
-                        <p>${section.description}</p>
-                    </div>
-                    <div class="playlists-container">
-                        <div class="disco-playlist">
-                            ${section.discoPlaylistEmbed}
-                        </div>
-                    </div>
+                
+                <div class="catalogue-description">
+                    <p>${section.description}</p>
+                </div>
+                
+                <div class="catalogue-playlist">
+                    ${section.discoPlaylistEmbed}
                 </div>
             </div>
         `;
-
+        
+        this.contentContainer.innerHTML = template;
+        
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('navigationBack'));
-        });
-
-        // Add transition
-        setTimeout(() => {
+        if (backButton) {
+            backButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Show background logo again when going back
+                document.querySelector('.background-overlay').style.display = 'block';
+                window.dispatchEvent(new CustomEvent('navigationBack'));
+            });
+        }
+        
+        // Show with animation
+        requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
-        }, 50);
+        });
     }
 
     handleFTVClick(element) {
@@ -984,7 +1007,7 @@ export class ZoomableSection {
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>`,
             spotify: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
             </svg>`,
             tiktok: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
