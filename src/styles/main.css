@@ -491,14 +491,18 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--primary-color);
-    padding: 8rem 2rem 2rem;  /* Account for header and navigation */
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     overflow-y: auto;
-    z-index: 800;
+    z-index: 1000;
+}
+
+/* Override content container styles for Maestro's page */
+#content-container:has(.maestro-page) {
+    padding: 0;
+    background: #F4A460;
 }
 
 .subsection-content {
@@ -1144,9 +1148,9 @@ body:not(.home-page) .main-header {
 
 .back-button {
     position: fixed;
-    top: 120px;
+    top: 2rem;
     left: 2rem;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
     border: none;
     width: 40px;
     height: 40px;
@@ -1155,14 +1159,32 @@ body:not(.home-page) .main-header {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--secondary-color);
-    transition: all 0.3s ease;
     z-index: 1000;
+    transition: background-color 0.3s ease;
 }
 
 .back-button:hover {
-    background: var(--accent-color);
-    transform: scale(1.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.back-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.back-button svg path {
+    stroke: black;
+}
+
+/* Ensure back button is visible on Maestro's page */
+.maestro-new .back-button,
+.maestro-new ~ .back-button {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.maestro-new .back-button:hover,
+.maestro-new ~ .back-button:hover {
+    background: rgba(0, 0, 0, 0.2);
 }
 
 /* Preview overlay */
@@ -1678,34 +1700,57 @@ body:not(.home-page) .main-header {
 }
 
 .video-modal {
-    position: relative;
-    width: 80%;
-    max-width: 960px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
-.video-wrapper {
+.video-modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.video-container {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
+    overflow: hidden;
 }
 
-.video-wrapper iframe {
+.video-container iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    border: none;
 }
 
-.close-video {
+.close-modal {
     position: absolute;
     top: -40px;
-    right: -40px;
+    right: 0;
     background: none;
     border: none;
     color: white;
-    font-size: 32px;
+    font-size: 2rem;
     cursor: pointer;
+    padding: 0.5rem;
+    line-height: 1;
+    z-index: 2001;
 }
 
 .video-card:hover {
@@ -1862,4 +1907,210 @@ body:not(.home-page) .main-header {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+/* Add new styles for Maestro's page */
+.maestro-new {
+    background-color: #F4A460 !important;
+    min-height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    color: #000000;
+}
+
+.maestro-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem;
+}
+
+.maestro-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.maestro-left h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.maestro-left img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.maestro-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.bio-section p {
+    margin: 0 0 1rem 0;
+    line-height: 1.6;
+}
+
+.composition-section h2,
+.collaborations-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.collab-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.collab-image {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.collab-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links img {
+    width: 24px;
+    height: 24px;
+}
+
+.website-link {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Update video grid styles for Maestro's page */
+.maestro-new .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.maestro-new .video-card {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.maestro-new .video-card:hover {
+    transform: translateY(-5px);
+}
+
+.maestro-new .video-thumbnail {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+}
+
+.maestro-new .video-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.maestro-new .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.maestro-new .video-card h3 {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #000000;
+}
+
+/* Update social links positioning */
+.social-links-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.maestro-new .social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.maestro-new .social-links img {
+    width: 24px;
+    height: 24px;
+}
+
+.maestro-new .website-link {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Remove the old footer styles */
+.maestro-new .footer {
+    display: none;
+}
+
+/* Update social links container styles */
+.social-links-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Add download button styles */
+.download-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #000000;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.download-button img {
+    width: 24px;
+    height: 24px;
 }

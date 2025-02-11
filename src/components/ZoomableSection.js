@@ -1,14 +1,22 @@
 import { siteStructure } from '../data/siteStructure.js';
 
+const DEBUG = true;
+
+function log(...args) {
+    if (DEBUG) {
+        console.log(...args);
+    }
+}
+
 export class ZoomableSection {
     constructor() {
         this.composerImages = {
             composer1: {
-                path: './assets/maestro.png',
+                path: '../assets/maestro.png',
                 title: 'Maestro'
             },
             composer2: {
-                path: './assets/kurisu.png',
+                path: '../assets/kurisu.png',
                 title: 'Kurisu'
             }
         };
@@ -19,7 +27,6 @@ export class ZoomableSection {
         this.previewOverlay = null;
         console.log('siteStructure loaded:', siteStructure);
         this.init();
-        this.initComposerCards();
 
         // Add cleanup method
         this.cleanup = () => {
@@ -73,33 +80,27 @@ export class ZoomableSection {
 
     init() {
         console.log('Initializing ZoomableSection');
-        // Ensure container exists
         if (!this.container) {
             console.error('Zoom container not found');
             return;
         }
 
-        // Add click handler to container for event delegation
+        // Update click handler to match actual HTML structure
         this.container.addEventListener('click', (e) => {
-            console.log('Click event on container:', e.target);
-            const target = e.target;
+            log('Click event:', e);
+            log('Target:', e.target);
             
-            // Find closest clickable element
-            const clickable = target.closest('.composer-card, .list-item[data-composer], .catalogue-card, .catalogue-list-item, .ftv-card, .ftv-list-item');
+            // Look for both composer cards and list items
+            const clickable = e.target.closest('.composer-card[data-section], .list-item[data-composer]');
+            log('Found clickable element:', clickable);
             
             if (clickable) {
                 e.preventDefault();
                 e.stopPropagation();
-                
-                if (clickable.classList.contains('composer-card') || clickable.hasAttribute('data-composer')) {
-                    this.handleSubsectionClick(clickable);
-                } else if (clickable.classList.contains('catalogue-card') || clickable.classList.contains('catalogue-list-item')) {
-                    this.handleCatalogueClick(clickable);
-                } else if (clickable.classList.contains('ftv-card') || clickable.classList.contains('ftv-list-item')) {
-                    this.handleFTVClick(clickable);
-                }
+                log('Handling click for:', clickable.dataset);
+                this.handleSubsectionClick(clickable);
             }
-        }, { once: false });
+        });
 
         // Handle back navigation
         document.addEventListener('keydown', (e) => {
@@ -109,7 +110,7 @@ export class ZoomableSection {
         window.addEventListener('navigationBack', () => this.handleBackNavigation());
 
         // Add home link handler
-        document.querySelector('.home-link').addEventListener('click', (e) => {
+        document.querySelector('.home-link')?.addEventListener('click', (e) => {
             e.preventDefault();
             window.dispatchEvent(new CustomEvent('navigationBack'));
         });
@@ -292,9 +293,33 @@ export class ZoomableSection {
 
     // Content display methods
     showContent(section, template) {
-        this.transition(this.contentContainer, this.container);
-        this.contentContainer.innerHTML = template(section);
-
+        console.log('showContent called for:', section.title);
+        
+        // Hide the main container
+        this.container.style.opacity = '0';
+        this.container.style.display = 'none';
+        
+        // Reset and prepare content container
+        this.contentContainer.style.display = 'block';
+        this.contentContainer.style.opacity = '0';
+        this.contentContainer.className = 'content-container';
+        
+        // Clear any existing content
+        this.contentContainer.innerHTML = '';
+        
+        // Check for Maestro section using ID instead of title
+        if (section.id === 'composer1' || section.title.includes('MAESTRO')) {
+            console.log('Applying Maestro specific styles');
+            document.body.style.backgroundColor = '#F4A460';
+            this.contentContainer.style.padding = '0';
+            this.contentContainer.style.backgroundColor = '#F4A460';
+        }
+        
+        // Add the content
+        const renderedTemplate = template(section);
+        console.log('Rendered template:', renderedTemplate);
+        this.contentContainer.innerHTML = renderedTemplate;
+        
         // Add video click handlers
         const videoCards = this.contentContainer.querySelectorAll('.video-card');
         videoCards.forEach(card => {
@@ -303,17 +328,88 @@ export class ZoomableSection {
                 this.handleVideoClick(videoData);
             });
         });
-
-        // After rendering the template, add the back button handler
+        
+        // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('navigationBack'));
+        if (backButton) {
+            backButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.dispatchEvent(new CustomEvent('navigationBack'));
+            });
+        }
+        
+        // Show the content with animation
+        requestAnimationFrame(() => {
+            this.contentContainer.style.opacity = '1';
         });
     }
 
     // Template methods
     bespokeTemplate(section) {
+        if (section.title === "MAESTRO 'THE BAKER'") {
+            console.log('Using Maestro template');
+            return `
+                <button class="back-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <div class="maestro-new">
+                    <div class="maestro-content">
+                        <div class="maestro-left">
+                            <h1>MAESTRO<br>'THE BAKER'</h1>
+                            <div class="social-links-container">
+                                <div class="social-links">
+                                    <a href="${section.social.instagram}" target="_blank">
+                                        <img src="../assets/instagram-black.svg" alt="Instagram">
+                                    </a>
+                                    <a href="#" target="_blank">
+                                        <img src="../assets/link-black.svg" alt="Link">
+                                    </a>
+                                </div>
+                                <button class="download-button">
+                                    <img src="../assets/download-black.svg" alt="Download">
+                                    Download One-Sheet
+                                </button>
+                                <a href="https://${section.social.website.toLowerCase()}" class="website-link" target="_blank">
+                                    ${section.social.website}
+                                </a>
+                            </div>
+                            <img src="../assets/${section.image}" alt="Maestro TheBaker">
+                        </div>
+                        <div class="maestro-right">
+                            <div class="bio-section">
+                                <p>Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.</p>
+                                <p>His credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.</p>
+                                <p>Other milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.</p>
+                            </div>
+
+                            <div class="composition-section">
+                                <h2>COMPOSITION WORK</h2>
+                                <p>Maestro has built up an extensive collection of composition work for advertisement, tv, film and games.</p>
+                                <p>Recent composition work: Qatar Airways Balmain x Disney Kaufland Fortnite Sky Sports Boxing</p>
+                            </div>
+
+                            <div class="videos-section">
+                                <h2>VIDEOS</h2>
+                                <div class="video-grid">
+                                    ${section.videos.map(video => `
+                                        <div class="video-card" data-video='${JSON.stringify(video)}'>
+                                            <div class="video-thumbnail">
+                                                <img src="${video.thumbnail}" alt="${video.title}">
+                                                <div class="play-button">▶</div>
+                                            </div>
+                                            <h3>${video.title}</h3>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        // Return original template for other composers
         const getImagePosition = (title) => {
             switch(title) {
                 case 'Kurisu':
@@ -334,7 +430,7 @@ export class ZoomableSection {
             <div class="composer-profile">
                 <div class="composer-header">
                     <div class="header-image">
-                        <img src="${section.image}" alt="${section.title}" style="${getImagePosition(section.title)}" />
+                        <img src="../assets/${section.image}" alt="${section.title}" style="${getImagePosition(section.title)}" />
                     </div>
                     <div class="composer-title-wrapper">
                         <div class="title-container">
@@ -357,8 +453,10 @@ export class ZoomableSection {
                             <div class="video-grid">
                                 ${section.videos.map(video => `
                                     <div class="video-card" data-video='${JSON.stringify(video)}'>
-                                        <img src="${video.thumbnail}" alt="${video.title}">
-                                        <div class="play-button">▶</div>
+                                        <div class="video-thumbnail">
+                                            <img src="${video.thumbnail}" alt="${video.title}">
+                                            <div class="play-button">▶</div>
+                                        </div>
                                         <h3>${video.title}</h3>
                                     </div>
                                 `).join('')}
@@ -381,33 +479,39 @@ export class ZoomableSection {
     }
 
     handleSubsectionClick(element) {
-        if (!element) return;
+        console.log('handleSubsectionClick called with element:', element);
+        if (!element) {
+            console.error('No element provided to handleSubsectionClick');
+            return;
+        }
         
+        // Get the section ID from either data-section or data-composer
         const sectionId = element.dataset.section || element.dataset.composer;
-        console.log('Clicked section ID:', sectionId);
+        console.log('Section ID:', sectionId);
         
         if (!sectionId) {
-            console.error('No section ID found for element:', element);
+            console.error('No section ID found on element:', element);
             return;
         }
 
-        const parentSection = element.closest('.section');
-        if (!parentSection) {
-            console.error('No parent section found for element:', element);
+        // Get the section data from siteStructure
+        const section = siteStructure.bespoke.sections[sectionId];
+        console.log('Found section data:', section);
+
+        if (!section) {
+            console.error('No section data found for section ID:', sectionId);
             return;
         }
 
-        const parentTitle = parentSection.querySelector('h2').textContent;
+        // Show the content
+        console.log('Showing content for section:', section.title);
+        this.showContent(section, this.bespokeTemplate.bind(this));
         
-        if (element.classList.contains('catalogue-list-item')) {
-            this.showCatalogueContent(sectionId);
-        } else {
-            const section = this.findSectionData(sectionId);
-            console.log('Found bespoke section data:', section);
-            if (section) {
-                this.showContent(section, this.bespokeTemplate.bind(this));
-                this.updateNavigation(parentTitle, section.title);
-            }
+        // Update navigation
+        const parentSection = element.closest('.section');
+        if (parentSection) {
+            const parentTitle = parentSection.querySelector('h2')?.textContent || 'Bespoke';
+            this.updateNavigation(parentTitle, section.title);
         }
     }
 
@@ -572,9 +676,24 @@ export class ZoomableSection {
 
     findSectionData(sectionId) {
         console.log('Finding section data for:', sectionId);
+        
+        // Check if it's a composer section
         if (sectionId.startsWith('composer')) {
-            return siteStructure.bespoke.sections[sectionId];
+            const section = siteStructure.bespoke.sections[sectionId];
+            console.log('Found composer section:', section);
+            return section;
         }
+        
+        // Check catalogue sections
+        if (siteStructure.catalogue.sections[sectionId]) {
+            return siteStructure.catalogue.sections[sectionId];
+        }
+        
+        // Check FTV sections
+        if (siteStructure.ftv.sections[sectionId]) {
+            return siteStructure.ftv.sections[sectionId];
+        }
+        
         return null;
     }
 
@@ -850,22 +969,6 @@ export class ZoomableSection {
         });
     }
 
-    initComposerCards() {
-        console.log('Initializing composer cards');
-        const composerCards = document.querySelectorAll('.composer-card');
-        
-        composerCards.forEach(card => {
-            const composerId = card.dataset.section;
-            if (composerId && this.composerImages[composerId]) {
-                const imagePath = this.composerImages[composerId].path;
-                console.log('Setting card background for:', composerId, 'with image:', imagePath);
-                card.style.backgroundImage = `url('${imagePath}')`;
-                card.style.backgroundSize = 'cover';
-                card.style.backgroundPosition = 'center';
-            }
-        });
-    }
-
     showErrorMessage() {
         this.contentContainer.innerHTML = `
             <div class="error-message">
@@ -884,7 +987,7 @@ export class ZoomableSection {
                 <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
             </svg>`,
             tiktok: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
             </svg>`
         };
 
@@ -896,33 +999,46 @@ export class ZoomableSection {
     }
 
     // Add this method to handle video playback
-    handleVideoClick(video) {
-        try {
-            const overlay = document.createElement('div');
-            overlay.className = 'video-overlay';
-            overlay.innerHTML = `
-                <div class="video-modal">
-                    <button class="close-video">&times;</button>
-                    <div class="video-wrapper">
-                        ${video.embed || '<p>Video unavailable</p>'}
-                    </div>
+    handleVideoClick(videoData) {
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'video-modal';
+        modal.innerHTML = `
+            <div class="video-modal-content">
+                <button class="close-modal">×</button>
+                <div class="video-container">
+                    ${videoData.embed}
                 </div>
-            `;
-            
-            // Add error handling for iframe load
-            const iframe = overlay.querySelector('iframe');
-            if (iframe) {
-                iframe.onerror = () => {
-                    overlay.querySelector('.video-wrapper').innerHTML = '<p>Failed to load video</p>';
-                };
-            }
+            </div>
+        `;
 
-            document.body.appendChild(overlay);
-        } catch (error) {
-            console.error('Error loading video:', error);
-            // Show user-friendly error message
-            this.showErrorMessage('Failed to load video. Please try again later.');
-        }
+        // Add modal to page
+        document.body.appendChild(modal);
+
+        // Add close handler
+        const closeButton = modal.querySelector('.close-modal');
+        closeButton.addEventListener('click', () => {
+            modal.remove();
+        });
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modal.remove();
+            }
+        }, { once: true });
+
+        // Show modal with animation
+        requestAnimationFrame(() => {
+            modal.style.opacity = '1';
+        });
     }
 
     destroy() {

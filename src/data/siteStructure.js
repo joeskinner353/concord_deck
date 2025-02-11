@@ -49,10 +49,14 @@ export const siteStructure = {
         title: 'Bespoke Roster',
         sections: {
             composer1: {
-                title: 'Maestro',
-                image: './assets/maestro.png',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-16962526" name="disco-playlist-16962526" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/16962526?download=true&territory_ids=%5B2877086%5D&s=C4Ckby0kZAg12leD-24X-stS_II%3AjL3KIN9f&artwork=true&color=%233282C2&theme=dark" width="960" height="395" loading="lazy"></iframe>',
-                bio: "Grammy Award winning London based producer/writer Maestro ('TheBaker') prides himself on his versatile abilities. With accolades spanning genres, in his Grammy award for 'Rihanna's' 'unapologetic' album, which was also awarded billboard number 1, to numerous Uk number one albums with Jhus, and world-wide number one album with Kpop supergroup 'Twice'. Alongside Brit awards, and Mercury prize nominations, maestro has become a well decorated producer.",
+                title: "MAESTRO 'THE BAKER'",
+                image: 'maestro.png',
+                bio: "Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.\n\nHis credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.\n\nOther milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.",
+                compositionWork: {
+                    title: "COMPOSITION WORK",
+                    description: "Maestro has built up an extensive collection of composition work for advertisement, tv, film and games.",
+                    recentWork: "Recent composition work: Qatar Airways Balmain x Disney Kaufland Fortnite Sky Sports Boxing"
+                },
                 videos: [
                     {
                         type: "youtube",
@@ -85,14 +89,13 @@ export const siteStructure = {
                 ],
                 social: {
                     instagram: "https://www.instagram.com/maestrothebaker/",
-                    spotify: "https://open.spotify.com/playlist/6PyP32T4tLCtCSKuhn4xYI?si=21b8d68df89a4476",
-                    tiktok: "https://tiktok.com/@maestro"
+                    website: "WWW.IFELADI.COM"
                 },
-                productions: "Grammy Award winning productions include..."
+                backgroundColor: "#F4A460"
             },
             composer2: {
                 title: 'Kurisu',
-                image: './assets/kurisu.png',
+                image: 'kurisu.png',
                 bio: "Kurisu is one of the most in demand new producer/songwriters in the UK. Based out of his studio in North London, Kurisu's versatility as a multi-instrumentalist and training as a classical musician means he writes cross-genre with ease, covering r'n'b, hip hop, pop and alt-pop. His recent cuts include Cat Burns, Dexter, Charlotte Plank, Zhu, Alessi Rose, Nxdia, Sandy Crow and Emir Taha.",
                 videos: [
                     {
