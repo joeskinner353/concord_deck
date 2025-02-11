@@ -12,14 +12,14 @@
         "compress": "gulp compress-images"
     },
     "dependencies": {
-        "serve-handler": "^6.1.5",
-        "compression": "^1.7.4"
+        "compression": "^1.8.0",
+        "serve-handler": "^6.1.5"
     },
     "devDependencies": {
         "eslint": "^8.0.0",
-        "jest": "^27.0.0",
-        "nodemon": "^2.0.0",
         "gulp": "^4.0.2",
-        "gulp-imagemin": "^7.1.0"
+        "gulp-imagemin": "^7.1.0",
+        "jest": "^27.0.0",
+        "nodemon": "^2.0.0"
     }
-} 
+}
