@@ -1,12 +1,12 @@
 export const siteStructure = {
     catalogue: {
-        title: 'Catalogue Overview',
+        title: 'Search Catalogues',
         sections: {
             pop: {
-                title: 'Pop',
-                description: 'Pop catalogue description will go here...',
+                title: 'Concord Music Publishing',
+                description: "Concord Music Publishing's catalogue includes timeless works from Sammy Cahn, Aretha Franklin, and Pink Floyd, alongside modern icons like Daft Punk, Mark Ronson, and The 1975. Concord represents an array of influential songwriters and composers across jazz, soul, rock, hip-hop and country music.\n\nListen to a selection of our new music below and discover the latest additions to our ever-growing catalogue",
                 logoPath: '../assets/ConcordMusicPublishing-Lockup-White-RGB.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
+                discoPlaylistEmbed: '<iframe id="disco-playlist-20929357" name="disco-playlist-20929357" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/20929357?download=false&territory_ids=%5B2877086%5D&s=I5xSAO_7fN0_KDgbvsBXRgOWwTI%3A7YqgL0qm&artwork=true&color=%2332B57C&theme=dark" width="480" height="395"></iframe>',
                 websiteUrl: '#',
                 discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982'
             },
@@ -14,7 +14,7 @@ export const siteStructure = {
                 title: 'Boosey & Hawkes',
                 logoPath: '../assets/boosey_logo.png',
                 description: 'Boosey & Hawkes is the world\'s leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams. With a rich history dating back to 1930, the company has been at the forefront of contemporary classical music, providing licensing, sheet music, and performance materials to musicians, orchestras, and productions worldwide.',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-12345" name="disco-playlist-12345" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12345?download=true&s=XXXXX" width="100%" height="400"></iframe>',
+                discoPlaylistEmbed: '<iframe id="disco-playlist-20929383" name="disco-playlist-20929383" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/20929383?download=false&territory_ids=%5B2877086%5D&s=sUY2YMtgWYbLHQPHE4DpbylPl2Q%3A6YLGSil7&artwork=true&color=%2332B57C&theme=dark" width="480" height="395"></iframe>',
                 websiteUrl: 'https://www.boosey.com',
                 discoSearchUrl: 'https://concord-music-publishing.disco.ac/search'
             },
@@ -177,14 +177,6 @@ He is currently writing his first Musical and making forward thinking music with
                 description: 'FTV is division of Concord that invests in Film & TV Productions.\n\nConcord then administers the soundtrack, and provides production companies with important revenue streams by collecting their royalties from across the globe.',
                 sections: [],
                 discoPlaylistEmbed: null
-            },
-            examples: {
-                title: 'Examples from Film & TV',
-                content: ''
-            },
-            advertising: {
-                title: 'Advertising Model',
-                content: ''
             }
         }
     }

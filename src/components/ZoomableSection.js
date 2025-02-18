@@ -716,8 +716,10 @@ export class ZoomableSection {
             // First, fade out the content container
             this.contentContainer.style.opacity = '0';
             
-            // Reset background color
-            document.body.style.backgroundColor = '';
+            // Reset ALL background colors
+            document.body.style.backgroundColor = '#1a1a1a'; // Use actual color value instead of CSS variable
+            this.contentContainer.style.backgroundColor = '';
+            this.container.style.backgroundColor = '';
             
             // After fade out, switch displays and fade in the main container
             requestAnimationFrame(() => {
@@ -942,7 +944,8 @@ export class ZoomableSection {
 
     initBackgroundEffects() {
         console.log('Initializing background effects');
-        const items = document.querySelectorAll('.catalogue-list-item, .list-item');
+        // Update selector to include all list items
+        const items = document.querySelectorAll('.catalogue-list-item, .list-item, .ftv-list-item');
         
         // Create background overlay if it doesn't exist
         if (!this.backgroundOverlay) {
@@ -970,12 +973,12 @@ export class ZoomableSection {
                         this.backgroundOverlay.style.opacity = '0.15';
                         this.backgroundOverlay.classList.add('visible');
                     }
-                } else {
-                    section = this.findSectionData(sectionId);
+                } else if (item.classList.contains('list-item')) {
+                    section = siteStructure.bespoke.sections[sectionId];
                     console.log('Found bespoke section:', section);
                     
                     if (section && section.image) {
-                        this.backgroundOverlay.style.backgroundImage = `url(${section.image})`;
+                        this.backgroundOverlay.style.backgroundImage = `url(../assets/${section.image})`;
                         this.backgroundOverlay.style.backgroundSize = 'cover';
                         this.backgroundOverlay.style.backgroundPosition = 'center';
                         this.backgroundOverlay.style.opacity = '0.15';
