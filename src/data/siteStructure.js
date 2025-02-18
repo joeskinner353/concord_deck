@@ -174,22 +174,9 @@ He is currently writing his first Musical and making forward thinking music with
         sections: {
             'ftv-overview': {
                 title: 'Film & TV Overview',
-                description: 'Overview text will go here...',
-                sections: [
-                    {
-                        title: 'Sync Licensing',
-                        content: ''
-                    },
-                    {
-                        title: 'Custom Music',
-                        content: ''
-                    },
-                    {
-                        title: 'Recent Projects',
-                        content: ''
-                    }
-                ],
-                discoPlaylistEmbed: '<iframe id="disco-playlist-12042520" name="disco-playlist-12042520" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12042520?download=true&territory_ids=%5B2877086%5D&s=LIrF2-thS0YhKEcztUTJQ4VeV50%3AJpMG7hPu&artwork=true&color=%233282C2&theme=dark" width="960" height="395"></iframe>'
+                description: 'FTV is division of Concord that invests in Film & TV Productions.\n\nConcord then administers the soundtrack, and provides production companies with important revenue streams by collecting their royalties from across the globe.',
+                sections: [],
+                discoPlaylistEmbed: null
             },
             examples: {
                 title: 'Examples from Film & TV',

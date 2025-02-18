@@ -114,8 +114,7 @@ export class ZoomableSection {
                 '.list-item',
                 '.catalogue-list-item',
                 '.ftv-card',
-                '.ftv-list-item',
-                '.subsection'
+                '.ftv-list-item'
             ].join(','));
 
             if (clickable) {
@@ -143,6 +142,7 @@ export class ZoomableSection {
                         this.updateNavigation('Bespoke', section.title);
                     }
                 } else if (parentSection.id === 'ftv') {
+                    console.log('FTV section clicked:', sectionId);
                     const section = siteStructure.ftv.sections[sectionId];
                     if (section) {
                         this.showFTVContent(section);
@@ -870,21 +870,23 @@ export class ZoomableSection {
         this.updateNavigation(parentTitle, sectionTitle);
 
         // Show FTV content
-        this.showFTVContent(sectionId);
+        this.showFTVContent(section);
     }
 
-    showFTVContent(sectionId) {
-        // Fade out main container
+    showFTVContent(section) {
+        console.log('Showing FTV content for:', section);
+        
+        // Hide the main container
         this.container.style.opacity = '0';
         this.container.style.display = 'none';
         
-        // Get content from siteStructure
-        const section = siteStructure.ftv.sections[sectionId];
-        if (!section) return;
-        
-        // Show content container
+        // Reset and prepare content container
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
+        this.contentContainer.className = 'content-container';
+        
+        // Clear any existing content
+        this.contentContainer.innerHTML = '';
 
         // Generate sections HTML if they exist
         const sectionsHtml = section.sections ? 
@@ -897,6 +899,7 @@ export class ZoomableSection {
                 </div>
             `).join('') : '';
 
+        // Create FTV content template
         this.contentContainer.innerHTML = `
             <button class="back-button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -931,10 +934,10 @@ export class ZoomableSection {
             window.dispatchEvent(new CustomEvent('navigationBack'));
         });
 
-        // Add transition
-        setTimeout(() => {
+        // Show with animation
+        requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
-        }, 50);
+        });
     }
 
     initBackgroundEffects() {
