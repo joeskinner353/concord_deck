@@ -1357,24 +1357,40 @@ body:not(.home-page) .main-header {
 .preview-content {
     position: absolute;
     background: rgba(0, 0, 0, 0.9);
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
-    max-width: 300px;
+    transition: opacity 0.3s ease;
+    width: 300px;
     text-align: left;
-    left: calc(100% + 20px); /* Position to the right with 20px gap */
-    top: 50%; /* Center vertically */
-    transform: translateY(-50%); /* Center vertically */
-    z-index: 9999;
+    left: calc(100% + 10px);
+    top: 0;
+    z-index: 10000;
 }
 
+/* Preview text */
 .preview-content p {
     margin: 0;
     font-size: 1rem;
     line-height: 1.4;
     color: var(--secondary-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Increased to 3 lines to show ~30 words */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+/* List item containers */
+.catalogue-list-item,
+.list-item,
+.ftv-list-item {
+    position: relative !important;
+    cursor: pointer;
+    z-index: 1;
+    padding: 0.5rem 1rem;
 }
 
 /* Show preview on hover */
@@ -1385,28 +1401,12 @@ body:not(.home-page) .main-header {
     visibility: visible;
 }
 
-/* Ensure list items have proper positioning */
-.catalogue-list-item,
-.list-item,
-.ftv-list-item {
-    position: relative !important;
-    cursor: pointer;
-    z-index: 1;
-}
-
-/* Add hover state */
-.catalogue-list-item:hover,
-.list-item:hover,
-.ftv-list-item:hover {
-    z-index: 9999;
-}
-
-/* Ensure sections don't clip previews */
-.section {
-    overflow: visible !important;
-}
-
-/* Container needs to be able to show overflow */
-#zoom-container {
+/* Ensure sections and containers allow overflow */
+.section,
+.section:hover,
+#zoom-container,
+.catalogue-list,
+.subsections-list,
+.ftv-list {
     overflow: visible !important;
 }
