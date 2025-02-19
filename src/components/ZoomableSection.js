@@ -25,36 +25,56 @@ export class ZoomableSection {
         this.currentZoom = null;
         this.contentContainer = this.createContentContainer();
         this.previewOverlay = null;
-        console.log('siteStructure loaded:', siteStructure);
-        this.init();
-
-        // Add cleanup method
-        this.cleanup = () => {
-            if (this.previewOverlay) {
-                this.previewOverlay.remove();
-            }
-        };
-        
-        // Clean up on page unload
-        window.addEventListener('unload', this.cleanup);
 
         // Create and position background overlay
         this.backgroundOverlay = document.createElement('div');
         this.backgroundOverlay.className = 'background-overlay';
         document.body.insertBefore(this.backgroundOverlay, document.body.firstChild);
         
-        this.initBackgroundEffects();
-
-        // Add debouncing for scroll and resize events
-        this.handleScroll = this.debounce(this.handleScroll.bind(this), 100);
-        this.handleResize = this.debounce(this.handleResize.bind(this), 250);
+        console.log('siteStructure loaded:', siteStructure);
         
-        window.addEventListener('scroll', this.handleScroll);
-        window.addEventListener('resize', this.handleResize);
+        // Initialize
+        this.init();
+        this.initBackgroundEffects();
+        this.setupPreviews();
 
-        // Store event listener references
-        this.boundHandleScroll = this.handleScroll.bind(this);
-        this.boundHandleResize = this.handleResize.bind(this);
+        // Add event listeners
+        window.addEventListener('scroll', (e) => this.handleScroll(e));
+        window.addEventListener('resize', (e) => this.handleResize(e));
+        window.addEventListener('unload', () => {
+            if (this.previewOverlay) {
+                this.previewOverlay.remove();
+            }
+        });
+    }
+
+    setupPreviews() {
+        // Use event delegation for previews
+        this.container.addEventListener('mouseover', (e) => {
+            const item = e.target.closest('.list-item, .catalogue-list-item, .ftv-list-item');
+            if (item) {
+                const preview = item.querySelector('.preview-content');
+                if (preview) {
+                    // Position the preview to the right of the item
+                    const rect = item.getBoundingClientRect();
+                    preview.style.left = `${rect.width + 20}px`; // 20px gap
+                    preview.style.top = '0';
+                    
+                    // Show the preview
+                    preview.classList.add('active');
+                }
+            }
+        });
+
+        this.container.addEventListener('mouseout', (e) => {
+            const item = e.target.closest('.list-item, .catalogue-list-item, .ftv-list-item');
+            if (item) {
+                const preview = item.querySelector('.preview-content');
+                if (preview) {
+                    preview.classList.remove('active');
+                }
+            }
+        });
     }
 
     debounce(func, wait) {
@@ -164,85 +184,20 @@ export class ZoomableSection {
             e.preventDefault();
             window.dispatchEvent(new CustomEvent('navigationBack'));
         });
-
-        this.initPreviews();
     }
 
-    initPreviews() {
-        // Create preview overlay once
-        if (!this.previewOverlay) {
-            this.previewOverlay = document.createElement('div');
-            this.previewOverlay.className = 'preview-overlay';
-            this.previewOverlay.innerHTML = '<div class="preview-content"></div>';
-            document.body.appendChild(this.previewOverlay);
+    showPreview(element) {
+        const preview = element.querySelector('.preview-content');
+        if (preview) {
+            preview.style.opacity = '1';
+            preview.style.visibility = 'visible';
         }
+    }
 
-        // Use a single debounced timer
-        let previewTimer = null;
-        let currentPreviewElement = null;
-
-        const showPreview = (element) => {
-            if (previewTimer) {
-                clearTimeout(previewTimer);
-            }
-
-            previewTimer = setTimeout(() => {
-                if (element === currentPreviewElement) {
-                    const preview = this.generatePreviewContent(element);
-                    if (!preview) return;
-
-                    const rect = element.getBoundingClientRect();
-            
-                    // Position preview based on element type
-                    let x, y;
-                    if (element.classList.contains('ftv-list-item')) {
-                        // For FTV items, position to the left with offset
-                        x = rect.left - 420; // Preview width (400px) + 20px offset
-                        y = Math.max(0, rect.top - 100); // Same vertical centering
-                    } else {
-                        // For all other items, position to the right
-                        x = rect.right + 20;
-                        y = Math.max(0, rect.top - 100);
-                    }
-
-                    this.previewOverlay.querySelector('.preview-content').innerHTML = preview;
-                    this.previewOverlay.style.transform = `translate(${x}px, ${y}px)`;
-                    this.previewOverlay.classList.add('visible');
-                }
-            }, 100);
-        };
-
-        const hidePreview = () => {
-            if (previewTimer) {
-                clearTimeout(previewTimer);
-            }
-            this.previewOverlay.classList.remove('visible');
-            currentPreviewElement = null;
-        };
-
-        // Use event delegation with a single listener
-        this.container.addEventListener('mouseover', (e) => {
-            const previewable = e.target.closest('.list-item[data-composer], .catalogue-list-item, .ftv-list-item');
-            if (previewable) {
-                currentPreviewElement = previewable;
-                showPreview(previewable);
-            }
-        });
-
-        this.container.addEventListener('mouseout', (e) => {
-            const previewable = e.target.closest('.list-item[data-composer], .catalogue-list-item, .ftv-list-item');
-            const toElement = e.relatedTarget;
-            
-            if (previewable && !previewable.contains(toElement)) {
-                hidePreview();
-            }
-        });
-
-        // Clean up on unload
-        window.addEventListener('beforeunload', () => {
-            if (previewTimer) {
-                clearTimeout(previewTimer);
-            }
+    hidePreview() {
+        document.querySelectorAll('.preview-content').forEach(preview => {
+            preview.style.opacity = '0';
+            preview.style.visibility = 'hidden';
         });
     }
 
@@ -1065,8 +1020,8 @@ export class ZoomableSection {
 
     destroy() {
         // Remove event listeners
-        window.removeEventListener('scroll', this.boundHandleScroll);
-        window.removeEventListener('resize', this.boundHandleResize);
+        window.removeEventListener('scroll', (e) => this.handleScroll(e));
+        window.removeEventListener('resize', (e) => this.handleResize(e));
         
         // Clean up video overlays
         document.querySelectorAll('.video-overlay').forEach(overlay => overlay.remove());
@@ -1075,6 +1030,39 @@ export class ZoomableSection {
         if (this.previewTimer) {
             clearTimeout(this.previewTimer);
         }
+    }
+
+    createCatalogueList() {
+        return Object.values(siteStructure.catalogue.sections).map(item => `
+            <div class="catalogue-list-item" data-title="${item.title}">
+                <h3>${item.displayTitle || item.title}</h3>
+                <div class="preview-content">
+                    <p>intro text here</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    createBespokeList() {
+        return Object.values(siteStructure.bespoke.sections).map(composer => `
+            <div class="composer-list-item" data-composer="${composer.title}">
+                <h3>${composer.title}</h3>
+                <div class="preview-content">
+                    <p>intro text here</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    createFTVList() {
+        return Object.values(siteStructure.ftv.sections).map(section => `
+            <div class="ftv-list-item" data-section="${section.id}">
+                <h3>${section.title}</h3>
+                <div class="preview-content">
+                    <p>intro text here</p>
+                </div>
+            </div>
+        `).join('');
     }
 }
 
