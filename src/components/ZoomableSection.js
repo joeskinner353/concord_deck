@@ -12,11 +12,11 @@ export class ZoomableSection {
     constructor() {
         this.composerImages = {
             composer1: {
-                path: '../assets/maestro.png',
+                path: '/assets/maestro.png',
                 title: 'Maestro'
             },
             composer2: {
-                path: '../assets/kurisu.png',
+                path: '/assets/kurisu.png',
                 title: 'Kurisu'
             }
         };
