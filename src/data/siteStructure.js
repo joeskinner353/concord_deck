@@ -4,47 +4,34 @@ export const siteStructure = {
         sections: {
             pop: {
                 title: 'Concord Music Publishing',
-                description: "Concord Music Publishing's catalogue includes timeless works from Sammy Cahn, Aretha Franklin, and Pink Floyd, alongside modern icons like Daft Punk, Mark Ronson, and The 1975. Concord represents an array of influential songwriters and composers across jazz, soul, rock, hip-hop and country music.\n\nListen to a selection of our new music below and discover the latest additions to our ever-growing catalogue",
+                description: "Concord Music Publishing's catalogue includes timeless works from Sammy Cahn, Aretha Franklin, and Pink Floyd, alongside modern icons like Daft Punk, Mark Ronson, and The 1975. Concord represents an array of influential songwriters and composers across jazz, soul, rock, hip-hop and country music.",
                 logoPath: '../assets/ConcordMusicPublishing-Lockup-White-RGB.png',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-20929357" name="disco-playlist-20929357" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/20929357?download=false&territory_ids=%5B2877086%5D&s=I5xSAO_7fN0_KDgbvsBXRgOWwTI%3A7YqgL0qm&artwork=true&color=%2332B57C&theme=dark" width="480" height="395"></iframe>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982',
-                social: {
-                    instagram: 'https://www.instagram.com/concordmusicpubsyncuk/'
-                }
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982'
             },
             bh: {
                 title: 'Boosey & Hawkes',
                 logoPath: '../assets/boosey_logo.png',
-                description: 'Boosey & Hawkes is the world\'s leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams. With a rich history dating back to 1930, the company has been at the forefront of contemporary classical music, providing licensing, sheet music, and performance materials to musicians, orchestras, and productions worldwide.',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-20929383" name="disco-playlist-20929383" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/20929383?download=false&territory_ids=%5B2877086%5D&s=sUY2YMtgWYbLHQPHE4DpbylPl2Q%3A6YLGSil7&artwork=true&color=%2332B57C&theme=dark" width="480" height="395"></iframe>',
-                websiteUrl: 'https://www.boosey.com',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/search'
+                description: 'Boosey & Hawkes is the world\'s leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams.',
+                websiteUrl: 'https://represents.boosey.com/'
             },
             rh: {
                 title: 'Rodgers & Hammerstein',
                 displayTitle: 'Rodgers and Hammerstein',
                 description: 'Richard Rodgers and Oscar Hammerstein II revolutionized American musical theatre with Oklahoma, Carousel, South Pacific, The King and I, The Sound of Music and more.',
                 logoPath: '../assets/RnH.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/6233'
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/6233'
             },
             fania: {
                 title: 'Fania',
-                description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz. Home to legends like Celia Cruz, Héctor Lavoe, Willie Colón, Rubén Blades, Johnny Pacheco, Eddie Palmieri, Ray Barretto and more',
+                description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz.',
                 logoPath: '../assets/fania.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/900884433'
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/6257'
             },
             pulse: {
                 title: 'Pulse Music Group',
                 description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
                 logoPath: '../assets/pulse.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/900884433'
+                websiteUrl: '#' // Placeholder for now
             }
         }
     },

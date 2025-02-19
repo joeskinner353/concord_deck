@@ -107,33 +107,9 @@ export class ZoomableSection {
 
         // Add click handler to the container
         this.container.addEventListener('click', (e) => {
-            // First check if it's a main section click
-            const mainSection = e.target.closest('.section');
-            if (mainSection && !e.target.closest('[data-section], [data-composer]')) {
-                const sectionId = mainSection.id;
-                if (sectionId) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Toggle active state
-                    document.querySelectorAll('.section').forEach(section => {
-                        if (section === mainSection) {
-                            section.classList.toggle('active');
-                        } else {
-                            section.classList.remove('active');
-                        }
-                    });
-                    return;
-                }
-            }
-
-            // Then handle subsection clicks
             const clickable = e.target.closest([
-                '.composer-card',
-                '.catalogue-card',
-                '.list-item',
                 '.catalogue-list-item',
-                '.ftv-card',
+                '.list-item',
                 '.ftv-list-item'
             ].join(','));
 
@@ -145,24 +121,26 @@ export class ZoomableSection {
                 const sectionId = clickable.dataset.section || clickable.dataset.composer;
                 if (!sectionId) return;
 
-                // Handle different section types
+                // For catalogue items, redirect to external URL
+                if (clickable.classList.contains('catalogue-list-item')) {
+                    const section = siteStructure.catalogue.sections[sectionId];
+                    if (section && section.websiteUrl && section.websiteUrl !== '#') {
+                        window.open(section.websiteUrl, '_blank');
+                    }
+                    return;
+                }
+
+                // Handle other sections (bespoke, ftv) as before
                 const parentSection = clickable.closest('.section');
                 if (!parentSection) return;
 
-                if (parentSection.id === 'catalogue') {
-                    const section = siteStructure.catalogue.sections[sectionId];
-                    if (section) {
-                        this.showCatalogueContent(section);
-                        this.updateNavigation('Catalogue', section.title);
-                    }
-                } else if (parentSection.id === 'bespoke') {
+                if (parentSection.id === 'bespoke') {
                     const section = siteStructure.bespoke.sections[sectionId];
                     if (section) {
                         this.showContent(section, this.bespokeTemplate.bind(this));
                         this.updateNavigation('Bespoke', section.title);
                     }
                 } else if (parentSection.id === 'ftv') {
-                    console.log('FTV section clicked:', sectionId);
                     const section = siteStructure.ftv.sections[sectionId];
                     if (section) {
                         this.showFTVContent(section);

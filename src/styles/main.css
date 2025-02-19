@@ -125,7 +125,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 
 /* Base section styles */
 .section {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(26, 26, 26, 0.8) !important;
     border-radius: 1rem;
     padding: 1rem;
     cursor: pointer;
@@ -141,49 +141,40 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     opacity: 1;
     visibility: visible;
     text-align: center;
+    box-shadow: none;
 }
 
-/* Add darker overlay for better text contrast */
+/* Remove the overlay */
 .section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);  /* Dark overlay for better text contrast */
-    border-radius: 1rem;
-    z-index: 1;
+    display: none;
 }
 
-/* Ensure text stays above the overlay */
+/* Clean up section titles */
 .section-title {
-    position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.6);  /* Dark background behind text */
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    width: auto;  /* Allow background to fit content */
-}
-
-.section h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    line-height: 1.2;
-    width: 100%;
+    text-align: center;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    text-transform: lowercase;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);  /* Add text shadow for better readability */
+    width: 100%;
+    background: none;
 }
 
-/* Remove any specific section styling that might override the base */
+.section-title h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: lowercase;
+    background: none;
+    padding: 0;
+}
+
+/* Remove any specific section styling */
 .section#catalogue,
 .section#bespoke,
 .section#ftv {
-    background-color: transparent !important;
+    background-color: rgba(26, 26, 26, 0.8) !important;
     box-shadow: none;
 }
 
@@ -229,17 +220,6 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 .section:hover .catalogue-list-item:hover,
 .section:hover .ftv-list-item:hover {
     background-color: var(--accent-color);
-}
-
-/* Clean up section titles */
-.section-title h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    line-height: 1.2;
-    text-transform: lowercase;
-    background: rgba(26, 26, 26, 0.7);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
 }
 
 /* Section title styles */
@@ -305,14 +285,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 }
 
 .subsections {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all var(--transition-duration) ease-in-out;
-    height: calc(100% - 4rem);
-    visibility: hidden;
+    display: none;
 }
 
 .subsections-list,
@@ -365,7 +338,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     position: relative;
-    z-index: 11;
+    z-index: 1;
 }
 
 .list-item:hover,
@@ -1376,21 +1349,32 @@ body:not(.home-page) .main-header {
     line-height: 1.4;
     color: var(--secondary-color);
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Increased to 3 lines to show ~30 words */
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
 }
 
-/* List item containers */
-.catalogue-list-item,
+/* List item containers - revert to original styling */
 .list-item,
+.catalogue-list-item,
 .ftv-list-item {
-    position: relative !important;
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
     cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
     z-index: 1;
-    padding: 0.5rem 1rem;
+}
+
+/* Original hover effect */
+.list-item:hover,
+.catalogue-list-item:hover,
+.ftv-list-item:hover {
+    background-color: var(--accent-color);
+    transform: translateX(10px);
 }
 
 /* Show preview on hover */
@@ -1409,4 +1393,13 @@ body:not(.home-page) .main-header {
 .subsections-list,
 .ftv-list {
     overflow: visible !important;
+}
+
+.catalogue-list-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.catalogue-list-item:hover {
+    color: var(--accent-color);
 }
