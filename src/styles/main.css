@@ -1355,50 +1355,58 @@ body:not(.home-page) .main-header {
 
 /* Preview content styles */
 .preview-content {
-    display: none; /* Start with display none */
     position: absolute;
-    background: #000;
-    padding: 10px;
-    border-radius: 4px;
-    width: 200px;
-    left: 100%;
-    top: 0;
-    margin-left: 10px;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    max-width: 300px;
+    text-align: left;
+    left: calc(100% + 20px); /* Position to the right with 20px gap */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
+    z-index: 9999;
 }
 
-/* List item containers */
-.catalogue-list-item,
-.list-item,
-.ftv-list-item {
-    position: relative;
-    padding: 10px;
+.preview-content p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--secondary-color);
 }
 
 /* Show preview on hover */
 .catalogue-list-item:hover .preview-content,
 .list-item:hover .preview-content,
 .ftv-list-item:hover .preview-content {
-    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
-/* Preview text */
-.preview-content p {
-    color: white;
-    margin: 0;
+/* Ensure list items have proper positioning */
+.catalogue-list-item,
+.list-item,
+.ftv-list-item {
+    position: relative !important;
+    cursor: pointer;
+    z-index: 1;
 }
 
-/* Make sure sections allow overflow */
+/* Add hover state */
+.catalogue-list-item:hover,
+.list-item:hover,
+.ftv-list-item:hover {
+    z-index: 9999;
+}
+
+/* Ensure sections don't clip previews */
 .section {
     overflow: visible !important;
 }
 
-.section:hover {
-    overflow: visible !important;
-}
-
-/* Ensure lists don't clip */
-.catalogue-list,
-.subsections-list,
-.ftv-list {
+/* Container needs to be able to show overflow */
+#zoom-container {
     overflow: visible !important;
 }
