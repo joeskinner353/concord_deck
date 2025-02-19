@@ -8,7 +8,10 @@ export const siteStructure = {
                 logoPath: '../assets/ConcordMusicPublishing-Lockup-White-RGB.png',
                 discoPlaylistEmbed: '<iframe id="disco-playlist-20929357" name="disco-playlist-20929357" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/20929357?download=false&territory_ids=%5B2877086%5D&s=I5xSAO_7fN0_KDgbvsBXRgOWwTI%3A7YqgL0qm&artwork=true&color=%2332B57C&theme=dark" width="480" height="395"></iframe>',
                 websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982'
+                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982',
+                social: {
+                    instagram: 'https://www.instagram.com/concordmusicpubsyncuk/'
+                }
             },
             bh: {
                 title: 'Boosey & Hawkes',
@@ -173,7 +176,7 @@ He is currently writing his first Musical and making forward thinking music with
         title: 'FTV',
         sections: {
             'ftv-overview': {
-                title: 'Film & TV Overview',
+                title: '',
                 description: 'FTV is division of Concord that invests in Film & TV Productions.\n\nConcord then administers the soundtrack, and provides production companies with important revenue streams by collecting their royalties from across the globe.',
                 sections: [],
                 discoPlaylistEmbed: null

@@ -820,7 +820,7 @@ body:not(.home-page) .main-header {
 
 .content-header h2 {
     font-size: 2.5rem;
-    color: var(--accent-color);
+    color: var(--secondary-color);
 }
 
 .content-section.main-description {
@@ -1153,4 +1153,201 @@ body:not(.home-page) .main-header {
     border-radius: 4px; /* Rounded corners */
     font-weight: 700;
     display: inline-block; /* Make background only as wide as text */
+}
+
+.catalogue-header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.catalogue-header .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.catalogue-header .social-link:hover {
+    background: var(--accent-color);
+    transform: translateY(-2px);
+}
+
+.catalogue-header .social-link img {
+    width: 24px;
+    height: 24px;
+}
+
+.catalogue-header .social-link.instagram {
+    background: #f09433; 
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    padding: 8px; /* Add padding to give icon some space */
+}
+
+.catalogue-header .social-link.instagram img {
+    width: 20px; /* Slightly smaller icon */
+    height: 20px;
+    filter: brightness(0) invert(1); /* Keep the white color */
+}
+
+.catalogue-header .social-link.instagram:hover {
+    transform: translateY(-2px);
+    opacity: 0.9; /* Slight fade on hover instead of changing background */
+}
+
+/* Add hover effect to hide other sections */
+#zoom-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10rem;
+    padding: 0 6rem;
+    transition: transform var(--transition-duration) ease-in-out;
+    align-items: center;
+    justify-items: center;
+    padding-top: 0;
+}
+
+/* Add hover effects for sections */
+.section {
+    transition: all 0.3s ease;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Only hide other sections when hovering over a specific section */
+.section:hover ~ .section,
+.section:hover + .section,
+.section:has(~ .section:hover),
+.section:has(+ .section:hover) {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Keep hovered section visible */
+.section:hover {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Reset when not hovering */
+#zoom-container:not(:hover) .section {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Clean background for FTV view */
+.content-container.ftv-view.clean-background {
+    background: var(--primary-color);
+}
+
+.content-container.ftv-view.clean-background #app {
+    background-image: none !important;
+}
+
+.content-container.ftv-view.clean-background::before {
+    display: none;
+}
+
+.content-container.ftv-view.clean-background .content-section.main-description {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 3rem;
+    max-width: 800px;
+    margin: 4rem auto 0;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.content-container.ftv-view.clean-background .content-section.main-description p {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Adjust header and back button positioning for FTV view */
+.content-container.ftv-view .main-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2rem; /* Add space below header */
+}
+
+.content-container.ftv-view .back-button {
+    position: absolute;
+    top: 100px; /* Move down below header */
+    left: 20px;
+    z-index: 2;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Adjust content spacing */
+.content-container.ftv-view .content-section.main-description {
+    margin-top: 6rem; /* Increase top margin to make room for back button */
+}
+
+/* Make all catalogue list items consistently bold */
+.catalogue-list-item h3,
+.catalogue-list-item {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Ensure consistent styling for all items */
+.catalogue-list-item[data-title],
+.catalogue-list-item div {
+    font-weight: 700;
+}
+
+/* Make all section titles consistently bold */
+.catalogue-list-item h3,
+.catalogue-list-item,
+.bespoke-list-item h3,
+.bespoke-list-item,
+.ftv-list-item h3,
+.ftv-list-item {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Ensure consistent styling for all items */
+.catalogue-list-item[data-title],
+.catalogue-list-item div,
+.bespoke-list-item[data-title],
+.bespoke-list-item div,
+.ftv-list-item[data-title],
+.ftv-list-item div {
+    font-weight: 700;
+}
+
+/* Ensure section titles are also bold */
+.section-title {
+    font-weight: 700;
+}
+
+/* Make bespoke roster list items consistently bold */
+.section#bespoke .bespoke-list-item,
+.section#bespoke .list-item,
+#bespoke .composer-list-item {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+/* Target any nested elements within bespoke list items */
+.section#bespoke .bespoke-list-item *,
+.section#bespoke .list-item *,
+#bespoke .composer-list-item * {
+    font-weight: 700;
 }

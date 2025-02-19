@@ -806,13 +806,20 @@ export class ZoomableSection {
                         <img src="${section.logoPath}" alt="${section.title}" class="catalogue-logo">
                         <h2>${section.title}</h2>
                     </div>
-                    <a href="${section.discoSearchUrl}" class="search-link" target="_blank">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"/>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                        </svg>
-                        Search Catalogue
-                    </a>
+                    <div class="header-right">
+                        ${section.social?.instagram ? `
+                            <a href="${section.social.instagram}" class="social-link instagram" target="_blank">
+                                <img src="../assets/instagram-white.svg" alt="Instagram">
+                            </a>
+                        ` : ''}
+                        <a href="${section.discoSearchUrl}" class="search-link" target="_blank">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            Search Catalogue
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="catalogue-description">
@@ -876,67 +883,53 @@ export class ZoomableSection {
     }
 
     showFTVContent(section) {
-        console.log('Showing FTV content for:', section);
-        
-        // Hide the main container
+        // Hide the main container and background
         this.container.style.opacity = '0';
         this.container.style.display = 'none';
+        document.querySelector('.background-overlay').style.display = 'none';
         
         // Reset and prepare content container
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
-        this.contentContainer.className = 'content-container';
+        this.contentContainer.className = 'content-container ftv-view clean-background';
         
-        // Clear any existing content
-        this.contentContainer.innerHTML = '';
-
-        // Generate sections HTML if they exist
-        const sectionsHtml = section.sections ? 
-            section.sections.map(s => `
-                <div class="content-section">
-                    <h3>${s.title}</h3>
-                    <div class="section-content">
-                        <p>${s.content}</p>
-                    </div>
-                </div>
-            `).join('') : '';
-
         // Create FTV content template
-        this.contentContainer.innerHTML = `
+        const template = `
+            <header class="main-header" role="banner">
+                <div class="header-left">
+                    <a href="#" class="home-link" aria-label="Home">
+                        <img src="./assets/concord-C-icon-red.png" alt="Concord Logo" class="header-logo">
+                    </a>
+                </div>
+                <div class="header-center">
+                    <h1>concord <span>music publishing</span></h1>
+                </div>
+            </header>
             <button class="back-button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
-            <div class="content-page">
-                <div class="content-header">
-                    <h2>${section.title}</h2>
-                </div>
-                <div class="content-sections">
-                    <div class="content-section main-description">
-                        <p>${section.description || ''}</p>
-                    </div>
-                    ${sectionsHtml}
-                    ${section.discoPlaylistEmbed ? `
-                        <div class="content-section playlist">
-                            <h3>Featured Music</h3>
-                            <div class="playlist-container">
-                                ${section.discoPlaylistEmbed}
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
+            <div class="content-section main-description">
+                <p>${section.description}</p>
             </div>
         `;
-
+        
+        this.contentContainer.innerHTML = template;
+        
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
         backButton.addEventListener('click', (e) => {
             e.preventDefault();
             window.dispatchEvent(new CustomEvent('navigationBack'));
+            this.hideContent();
+            this.container.style.display = 'grid';
+            requestAnimationFrame(() => {
+                this.container.style.opacity = '1';
+            });
         });
-
-        // Show with animation
+        
+        // Show content with animation
         requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
         });
