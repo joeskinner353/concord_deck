@@ -79,6 +79,7 @@ export const siteStructure = {
                 ],
                 social: {
                     instagram: "https://www.instagram.com/maestrothebaker/",
+                    spotify: "https://open.spotify.com/playlist/6PyP32T4tLCtCSKuhn4xYI?si=eb731a23341347d1",
                     website: "WWW.IFELADI.COM"
                 },
                 backgroundColor: "#F4A460"
