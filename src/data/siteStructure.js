@@ -156,6 +156,18 @@ He is currently writing his first Musical and making forward thinking music with
                     spotify: "#",
                     tiktok: "#"
                 }
+            },
+            composer5: {
+                title: 'New Composer 1',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
             }
         }
     },
