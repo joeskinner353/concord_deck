@@ -1350,6 +1350,7 @@ body:not(.home-page) .main-header {
     color: var(--secondary-color);
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
