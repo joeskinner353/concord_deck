@@ -1,47 +1,37 @@
 export const siteStructure = {
     catalogue: {
-        title: 'Catalogue Overview',
+        title: 'Search Catalogues',
         sections: {
             pop: {
-                title: 'Pop',
-                description: 'Pop catalogue description will go here...',
-                logoPath: './assets/ConcordMusicPublishing-Lockup-White-RGB.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982'
+                title: 'Concord Music Publishing',
+                description: "Concord Music Publishing's catalogue includes timeless works from Sammy Cahn, Aretha Franklin, and Pink Floyd, alongside modern icons like Daft Punk, Mark Ronson, and The 1975. Concord represents an array of influential songwriters and composers across jazz, soul, rock, hip-hop and country music.",
+                logoPath: '../assets/ConcordMusicPublishing-Lockup-White-RGB.png',
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/1505512982'
             },
-            boosey: {
+            bh: {
                 title: 'Boosey & Hawkes',
-                description: "Boosey & Hawkes is the world's leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams. With a rich history dating back to 1930, the company has been at the forefront of contemporary classical music, providing licensing, sheet music, and performance materials to musicians, orchestras, and film/TV productions worldwide.",
-                logoPath: './assets/boosey_logo.png',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-12042520" name="disco-playlist-12042520" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/12042520?download=true&territory_ids=%5B2877086%5D&s=LIrF2-thS0YhKEcztUTJQ4VeV50%3AJpMG7hPu&artwork=true&color=%233282C2&theme=dark" width="960" height="395"></iframe>',
-                websiteUrl: 'https://www.boosey.com/',
-                discoSearchUrl: 'https://represents.boosey.com/'
+                logoPath: '../assets/boosey_logo.png',
+                description: 'Boosey & Hawkes is the world\'s leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams.',
+                websiteUrl: 'https://represents.boosey.com/'
             },
             rh: {
                 title: 'Rodgers & Hammerstein',
                 displayTitle: 'Rodgers and Hammerstein',
                 description: 'Richard Rodgers and Oscar Hammerstein II revolutionized American musical theatre with Oklahoma, Carousel, South Pacific, The King and I, The Sound of Music and more.',
-                logoPath: './assets/RnH.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/6233'
+                logoPath: '../assets/RnH.png',
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/6233'
             },
             fania: {
                 title: 'Fania',
-                description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz. Home to legends like Celia Cruz, Héctor Lavoe, Willie Colón, Rubén Blades, Johnny Pacheco, Eddie Palmieri, Ray Barretto and more',
-                logoPath: './assets/fania.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/900884433'
+                description: 'Fania Music shaped Latin music, defining the golden era of salsa, boogaloo, and Latin jazz.',
+                logoPath: '../assets/fania.png',
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/6257'
             },
             pulse: {
                 title: 'Pulse Music Group',
                 description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
-                logoPath: './assets/pulse.png',
-                discoPlaylistEmbed: '<div class="playlist-placeholder">Playlist coming soon...</div>',
-                websiteUrl: '#',
-                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/900884433'
+                logoPath: '../assets/pulse.png',
+                websiteUrl: '#' // Placeholder for now
             }
         }
     },
@@ -49,10 +39,14 @@ export const siteStructure = {
         title: 'Bespoke Roster',
         sections: {
             composer1: {
-                title: 'Maestro',
-                image: './assets/maestro.png',
-                discoPlaylistEmbed: '<iframe id="disco-playlist-16962526" name="disco-playlist-16962526" allowfullscreen frameborder="0" class="disco-embed" src="https://concord-music-publishing.disco.ac/e/p/16962526?download=true&territory_ids=%5B2877086%5D&s=C4Ckby0kZAg12leD-24X-stS_II%3AjL3KIN9f&artwork=true&color=%233282C2&theme=dark" width="960" height="395" loading="lazy"></iframe>',
-                bio: "Grammy Award winning London based producer/writer Maestro ('TheBaker') prides himself on his versatile abilities. With accolades spanning genres, in his Grammy award for 'Rihanna's' 'unapologetic' album, which was also awarded billboard number 1, to numerous Uk number one albums with Jhus, and world-wide number one album with Kpop supergroup 'Twice'. Alongside Brit awards, and Mercury prize nominations, maestro has become a well decorated producer.",
+                title: "MAESTRO 'THE BAKER'",
+                image: 'maestro.png',
+                bio: "Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.\n\nHis credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.\n\nOther milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.",
+                compositionWork: {
+                    title: "COMPOSITION WORK",
+                    description: "Maestro has built up an extensive collection of composition work for advertisement, tv, film and games.",
+                    recentWork: "Recent composition work: Qatar Airways Balmain x Disney Kaufland Fortnite Sky Sports Boxing"
+                },
                 videos: [
                     {
                         type: "youtube",
@@ -85,14 +79,13 @@ export const siteStructure = {
                 ],
                 social: {
                     instagram: "https://www.instagram.com/maestrothebaker/",
-                    spotify: "https://open.spotify.com/playlist/6PyP32T4tLCtCSKuhn4xYI?si=21b8d68df89a4476",
-                    tiktok: "https://tiktok.com/@maestro"
+                    website: "WWW.IFELADI.COM"
                 },
-                productions: "Grammy Award winning productions include..."
+                backgroundColor: "#F4A460"
             },
             composer2: {
                 title: 'Kurisu',
-                image: './assets/kurisu.png',
+                image: 'kurisu.png',
                 bio: "Kurisu is one of the most in demand new producer/songwriters in the UK. Based out of his studio in North London, Kurisu's versatility as a multi-instrumentalist and training as a classical musician means he writes cross-genre with ease, covering r'n'b, hip hop, pop and alt-pop. His recent cuts include Cat Burns, Dexter, Charlotte Plank, Zhu, Alessi Rose, Nxdia, Sandy Crow and Emir Taha.",
                 videos: [
                     {
@@ -134,7 +127,7 @@ export const siteStructure = {
             },
             composer3: {
                 title: 'James Greenwood',
-                image: './assets/james_greenwood.png',
+                image: 'james_greenwood.png',
                 bio: `James Greenwood is a talented producer / songwriter / Mixer / Engineer with his own artist project, Ghost Culture.
 
 Ghost Culture' debut album through Phantasy was made Rough Trade's 'Record of the Month' upon release in Jan 2015. Also celebrated as Critic's Choice in The Guardian Guide, it earned similar plaudits from outlets including The Observer, The Times, Mixmag and The Quietus, who hailed it as "one of the best and most confident debuts in years."
@@ -150,7 +143,7 @@ James continues to have a wide impact on the culture of UK electronic music, owi
             },
             composer4: {
                 title: 'Ben Garrett',
-                image: './assets/fryars.png',
+                image: 'fryars.png',
                 bio: `Ben has written and produced songs for Lily Allen, Pharrell Williams, Hot Chip, Mika, Giggs, Rae Morris, Mark Ronson and Depeche Mode…. amongst others.
 
 Outside of songwriting, Fryars scored all 10 episodes of the TNT series 'WILL' and wrote Miles Kane's Oscar long listed title track for the film Mortdecai (Johnny Depp). Ben has scored the last two series of acclaimed Channel 4 series 'Big Boys'
@@ -169,18 +162,11 @@ He is currently writing his first Musical and making forward thinking music with
     ftv: {
         title: 'FTV',
         sections: {
-            overview: {
-                title: 'FTV Overview',
-                content: 'Overview of our Film & TV services...'
-            },
-            examples: {
-                title: 'Examples from Film & TV',
-                video: '/assets/ftv-showreel.mp4',
-                content: 'Showcase of our work...'
-            },
-            advertising: {
-                title: 'Advertising Model',
-                content: 'Our advertising services and model...'
+            'ftv-overview': {
+                title: '',
+                description: 'FTV is division of Concord that invests in Film & TV Productions.\n\nConcord then administers the soundtrack, and provides production companies with important revenue streams by collecting their royalties from across the globe.',
+                sections: [],
+                discoPlaylistEmbed: null
             }
         }
     }

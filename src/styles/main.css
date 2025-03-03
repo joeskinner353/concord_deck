@@ -28,7 +28,7 @@ body {
     height: 100vh;
     overflow: hidden;
     position: relative;
-    background: var(--primary-color) url('../assets/concord-C-icon-red.png') no-repeat center center;
+    background: var(--primary-color) url('/assets/concord-C-icon-red.png') no-repeat center center;
     background-size: 100vh;
     z-index: 1;
     transition: opacity 0.3s ease;  /* Add transition for smooth fade */
@@ -43,7 +43,7 @@ body {
     right: 0;
     bottom: 0;
     background: var(--primary-color);
-    opacity: 0.85;
+    opacity: 0.2; /* Reduced from 0.5 to 0.2 to make the logo much brighter */
     z-index: 1;
 }
 
@@ -85,6 +85,7 @@ body {
     align-items: center;
     justify-items: center;
     padding-top: 0;
+    overflow: visible;
 }
 
 .preview-overlay {
@@ -103,7 +104,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('../assets/concord-C-icon-red.png') no-repeat center center;
+    background: url('/assets/concord-C-icon-red.png') no-repeat center center;
     background-size: 100vh;
     opacity: 0.15;
     z-index: -1;
@@ -124,7 +125,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 
 /* Base section styles */
 .section {
-    background-color: rgba(255, 255, 255, 0.05) !important;
+    background-color: rgba(26, 26, 26, 0.8) !important;
     border-radius: 1rem;
     padding: 1rem;
     cursor: pointer;
@@ -132,7 +133,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: visible !important;
     height: 200px;
     width: 200px;
     align-items: center;
@@ -140,49 +141,40 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     opacity: 1;
     visibility: visible;
     text-align: center;
+    box-shadow: none;
 }
 
-/* Add darker overlay for better text contrast */
+/* Remove the overlay */
 .section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.4);  /* Dark overlay for better text contrast */
-    border-radius: 1rem;
-    z-index: 1;
+    display: none;
 }
 
-/* Ensure text stays above the overlay */
+/* Clean up section titles */
 .section-title {
-    position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.6);  /* Dark background behind text */
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    width: auto;  /* Allow background to fit content */
-}
-
-.section h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    line-height: 1.2;
-    width: 100%;
+    text-align: center;
+    padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    text-transform: lowercase;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);  /* Add text shadow for better readability */
+    width: 100%;
+    background: none;
 }
 
-/* Remove any specific section styling that might override the base */
+.section-title h2 {
+    font-size: 1.5rem;
+    margin: 0;
+    line-height: 1.2;
+    text-transform: lowercase;
+    background: none;
+    padding: 0;
+}
+
+/* Remove any specific section styling */
 .section#catalogue,
 .section#bespoke,
 .section#ftv {
-    background-color: transparent !important;
+    background-color: rgba(26, 26, 26, 0.8) !important;
     box-shadow: none;
 }
 
@@ -228,17 +220,6 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 .section:hover .catalogue-list-item:hover,
 .section:hover .ftv-list-item:hover {
     background-color: var(--accent-color);
-}
-
-/* Clean up section titles */
-.section-title h2 {
-    font-size: 1.5rem;
-    margin: 0;
-    line-height: 1.2;
-    text-transform: lowercase;
-    background: rgba(26, 26, 26, 0.7);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
 }
 
 /* Section title styles */
@@ -304,14 +285,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 }
 
 .subsections {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all var(--transition-duration) ease-in-out;
-    height: calc(100% - 4rem);
-    visibility: hidden;
+    display: none;
 }
 
 .subsections-list,
@@ -364,7 +338,7 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     position: relative;
-    z-index: 11;
+    z-index: 1;
 }
 
 .list-item:hover,
@@ -491,14 +465,18 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--primary-color);
-    padding: 8rem 2rem 2rem;  /* Account for header and navigation */
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
     overflow-y: auto;
-    z-index: 800;
+    z-index: 1000;
+}
+
+/* Override content container styles for Maestro's page */
+#content-container:has(.maestro-page) {
+    padding: 0;
+    background: #F4A460;
 }
 
 .subsection-content {
@@ -574,9 +552,11 @@ body:not(.home-page) .main-header {
 }
 
 .header-center h1 {
+    font-family: var(--font-family);
+    font-size: 2.4rem;  /* Increased from 1.8rem */
+    font-weight: 700;
+    text-transform: lowercase;
     margin: 0;
-    font-size: 1.8rem;
-    font-weight: 400;
 }
 
 .header-logo {
@@ -586,7 +566,7 @@ body:not(.home-page) .main-header {
 }
 
 .header-center h1 span {
-    opacity: 0.7;
+    font-weight: 700;
 }
 
 .content h2 {
@@ -802,775 +782,319 @@ body:not(.home-page) .main-header {
 
 /* Common content page styles */
 .content-page {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1200px;
+    max-width: 800px;  /* Reduced from 1200px for better text width */
     margin: 0 auto;
-    min-height: calc(100vh - 10rem);
+    padding: 2rem;
 }
 
 .content-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 3rem;  /* Increased from 2rem to 3rem for better spacing */
-    margin-bottom: 3rem;  /* Increased from 2rem to 3rem */
-    padding: 1rem;  /* Added padding for better spacing */
+    margin-bottom: 3rem;
+    text-align: center;
 }
 
 .content-header h2 {
     font-size: 2.5rem;
     color: var(--secondary-color);
+}
+
+.content-section.main-description {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 3rem;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    text-align: left;
+    white-space: pre-line;  /* This will respect the line break in the text */
+}
+
+.content-section.main-description p {
     margin: 0;
-}
-
-.header-left {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;
-}
-
-.header-text {
-    padding-top: 0.5rem;
-}
-
-.social-links {
-    display: flex;
-    gap: 1rem;
-}
-
-.social-link {
-    color: var(--secondary-color);
-    opacity: 0.7;
-    transition: opacity 0.2s;
-}
-
-.social-link:hover {
-    opacity: 1;
-}
-
-.download-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--secondary-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: 2rem;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    margin-left: auto;
-}
-
-.download-btn:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-}
-
-.catalogue-logo {
-    height: 180px;  /* Increased from 60px to 180px */
-    width: auto;
-    object-fit: contain;
-}
-
-.disco-search-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--secondary-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: 2rem;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.disco-search-btn:hover {
-    background: var(--accent-color);
-    transform: translateY(-2px);
-}
-
-.content-sections {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-}
-
-.content-section {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem;
-    border-radius: 1rem;
-}
-
-.content-section h3 {
-    color: var(--accent-color);
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
-
-.content-section p {
-    line-height: 1.6;
     color: var(--secondary-color);
 }
 
-.playlist-placeholder {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 2rem;
-    border-radius: 0.5rem;
-    text-align: center;
-    color: var(--accent-color);
-}
-
-.content-section video {
-    width: 100%;
-    border-radius: 0.5rem;
-    margin-top: 1rem;
-}
-
-/* Common card styles */
-[class$="-card"] {
-    background-color: var(--card-background);
-    border-radius: 1rem;
-    padding: 2rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    height: var(--card-height);
-    min-height: var(--card-height);
-}
-
-[class$="-card"]:hover {
-    background-color: var(--card-hover-background);
-    transform: var(--hover-transform);
-}
-
-/* Common list styles */
-[class$="-list-item"] {
-    padding: 1rem;
-    background-color: var(--card-background);
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-[class$="-list-item"]:hover {
-    background-color: var(--card-hover-background);
-    transform: translateX(10px);
+.content-section.playlist {
+    margin-top: 3rem;
 }
 
 .playlist-container {
     width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+/* Ensure consistent spacing */
+.content-sections {
     display: flex;
-    justify-content: center;
-    margin-top: 2rem;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-/* Remove the composer-section class from the playlist container */
-.composer-section .playlist-container {
-    padding: 0;
-    background: none;
-    border-radius: 0;
+/* Add new styles for Maestro's page */
+.maestro-new {
+    background-color: #F4A460 !important;
+    min-height: 100vh;
+    width: 100%;
+    padding: 2rem;
+    color: #000000;
 }
 
-.disco-embed {
-    max-width: 100%;
+.maestro-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 4rem;
 }
 
-@font-face {
-    font-family: 'CircularXX';
-    src: url('../assets/CircularXXSub-Black.woff') format('woff');
-    font-weight: 900;
-    font-style: normal;
-    font-display: swap;
-}
-
-/* Hide other sections when one is hovered */
-.section:hover ~ .section,
-.section:hover + .section,
-.section:has(~ .section:hover),
-.section:has(+ .section:hover) {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-}
-
-/* Keep composer names in proper case */
-.list-item[data-composer] {
-    text-transform: none;
-}
-
-.video-carousel {
+.maestro-left {
     display: flex;
-    margin-top: 1rem;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    padding: 0 4rem;
-    min-height: 600px;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-.video-preview {
-    cursor: pointer;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    opacity: 0;
-    pointer-events: none;
-    display: none;
-    width: 100%;
-    max-width: 800px;
-    position: relative;
-    height: 100%;
-}
-
-.video-preview.active {
-    opacity: 1;
-    pointer-events: auto;
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.video-preview:hover {
-    transform: translateY(-5px);
-}
-
-.video-thumbnail {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    transition: transform 0.3s ease;
-    background: var(--primary-color);
-}
-
-.thumbnail-container {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    background: transparent;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.video-preview:hover .video-thumbnail {
-    transform: scale(1.05);
-}
-
-.thumbnail-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-.play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
-    transition: background-color 0.3s ease;
-}
-
-.video-preview:hover .play-button {
-    background: var(--accent-color);
-}
-
-.video-preview h4 {
-    margin-top: 1rem;
-    font-size: 1.1rem;
-    color: var(--secondary-color);
-}
-
-.carousel-button {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    border: none;
-    padding: 1rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    z-index: 2;
-    opacity: 0.7;
-}
-
-.carousel-button:hover {
-    opacity: 1;
-    transform: scale(1.1);
-}
-
-.carousel-button.prev {
-    left: 0;
-}
-
-.carousel-button.next {
-    right: 0;
-}
-
-.carousel-dots {
-    position: absolute;
-    bottom: -2rem;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.dot.active {
-    background: var(--accent-color);
-}
-
-.back-button {
-    position: fixed;
-    top: 120px;
-    left: 2rem;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--secondary-color);
-    transition: all 0.3s ease;
-    z-index: 1000;
-}
-
-.back-button:hover {
-    background: var(--accent-color);
-    transform: scale(1.1);
-}
-
-/* Preview overlay */
-.preview-overlay {
-    position: fixed;
-    width: 400px;
-    background: var(--primary-color);
-    border-radius: 1rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);  /* Subtle border instead of debug red */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    z-index: 9999;
-    pointer-events: none;
-    display: block;
-    transform-origin: top left;
-    left: 0;
-    top: 0;
-}
-
-.preview-overlay.visible {
-    opacity: 1 !important;
-    visibility: visible !important;
-    pointer-events: auto;
-    display: block !important;
-}
-
-.preview-content {
-    padding: 1.5rem;
-    opacity: 1;
-    background: var(--primary-color);
-    width: 100%;
-    height: 100%;
-    display: block;
-}
-
-.preview-content-inner {
-    color: var(--secondary-color);
-    opacity: 1;
-    display: block;
-    width: 100%;
-}
-
-/* Ensure preview info is visible */
-.preview-info {
-    flex: 1;
-    padding: 0;
-    opacity: 1;
-    color: var(--secondary-color);
-}
-
-.preview-info h2 {
-    margin-bottom: 1rem;
-    opacity: 1;
-    color: var(--secondary-color);
-}
-
-.preview-info p {
-    opacity: 0.8;
-    line-height: 1.5;
-    color: var(--secondary-color);
-}
-
-/* Ensure images in previews are visible */
-.composer-thumbnail img {
-    width: 100%;
-    height: auto;
-    border-radius: 0.5rem;
-    margin-bottom: 1rem;
-    opacity: 1;
-}
-
-/* Ensure preview items are clickable */
-.composer-card,
-.list-item[data-composer],
-.catalogue-card,
-.catalogue-list-item,
-.ftv-card,
-.ftv-list-item {
-    position: relative;
-    z-index: 1;
-    cursor: pointer;
-}
-
-.catalogue-logo-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 180px;  /* Match logo height */
-}
-
-.catalogue-title-link h2 {
+.maestro-left h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.1;
     margin: 0;
-    padding-top: 0.5rem;  /* Added padding to align with logo center */
 }
 
-.section-logo {
-    max-width: 200px;
+.maestro-left img {
+    width: 100%;
     height: auto;
+    border-radius: 8px;
+}
+
+.maestro-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.bio-section p {
+    margin: 0 0 1rem 0;
+    line-height: 1.6;
+}
+
+.composition-section h2,
+.collaborations-section h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
     margin-bottom: 1rem;
 }
 
-.composer-preview {
-    display: flex;
+.collab-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
 }
 
-.composer-thumbnail {
-    width: 80px;
-    height: 80px;
-    flex-shrink: 0;
-    border-radius: 0.5rem;
+.collab-image {
+    aspect-ratio: 1;
+    border-radius: 8px;
     overflow: hidden;
 }
 
-.composer-thumbnail img {
+.collab-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.preview-info {
-    flex: 1;
-    padding: 0;  /* Remove padding since we're using flex layout */
-}
-
-.table-container {
-    width: 100%;
-    overflow-x: auto;
-    margin: 1rem 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    padding: 1rem;
-}
-
-.royalty-table {
-    width: 100%;
-    border-collapse: collapse;
-    color: var(--secondary-color);
-}
-
-.royalty-table th,
-.royalty-table td {
-    padding: 1rem;
-    text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.royalty-table th {
-    font-weight: 600;
-    color: var(--accent-color);
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-}
-
-.royalty-table tr:last-child td {
-    border-bottom: none;
-}
-
-.royalty-table tbody tr:hover {
-    background: rgba(255, 255, 255, 0.05);
+.footer {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 }
 
 .social-links {
     display: flex;
     gap: 1rem;
-    align-items: center;
 }
 
-.social-link {
-    color: var(--secondary-color);
-    opacity: 0.7;
-    transition: all 0.3s ease;
+.social-links img {
+    width: 24px;
+    height: 24px;
 }
 
-.social-link:hover {
-    opacity: 1;
-    transform: scale(1.1);
+.website-link {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
-.social-link.instagram:hover {
-    color: #E1306C;
+/* Update video grid styles for Maestro's page */
+.maestro-new .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
 }
 
-.social-link.spotify:hover {
-    color: #1DB954;
-}
-
-.social-link.tiktok:hover {
-    color: #ff0050;
-}
-
-.social-link.one-sheet {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--accent-color);
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    opacity: 1;
-}
-
-.social-link.one-sheet:hover {
-    background: var(--accent-color);
-    opacity: 0.8;
-}
-
-.social-link.one-sheet span {
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.composer-title-wrapper {
+.maestro-new .video-card {
     position: relative;
-    z-index: 1;
-    padding: 2rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.maestro-new .video-card:hover {
+    transform: translateY(-5px);
+}
+
+.maestro-new .video-thumbnail {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+}
+
+.maestro-new .video-thumbnail img {
     width: 100%;
-    color: white;
+    height: 100%;
+    object-fit: cover;
+}
+
+.maestro-new .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.maestro-new .video-card h3 {
+    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #000000;
+}
+
+/* Update social links positioning */
+.social-links-container {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.maestro-new .social-links {
+    display: flex;
     gap: 1rem;
 }
 
-.composer-title-wrapper h2 {
-    margin: 0;
+.maestro-new .social-links img {
+    width: 24px;
+    height: 24px;
 }
 
-.catalogue-preview {
-    padding: 1.5rem;
+.maestro-new .website-link {
+    color: #000000;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
 }
 
-.preview-logo {
-    margin-bottom: 1rem;
+/* Remove the old footer styles */
+.maestro-new .footer {
+    display: none;
+}
+
+/* Update social links container styles */
+.social-links-container {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Add download button styles */
+.download-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: #000000;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0;
+}
+
+.download-button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Catalogue content styles */
+.catalogue-view {
+    background-color: var(--primary-color);
+    padding-top: 80px; /* Add space for header */
+}
+
+.catalogue-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.catalogue-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
     padding: 1rem;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
+    border-radius: 8px;
 }
 
-.catalogue-preview-logo {
-    max-height: 60px;
-    width: auto;
-    object-fit: contain;
-}
-
-/* Add hover effects */
-.catalogue-card:hover,
-.composer-card:hover {
-    background-color: var(--accent-color);
-}
-
-/* Make text more readable over background images */
-.catalogue-card h3,
-.composer-card h3 {
-    background: rgba(26, 26, 26, 0.7);
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    margin-top: auto;  /* Push text to bottom */
-}
-
-/* Update card layout to accommodate background images */
-[class$="-card"] {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    text-align: center;
-    height: var(--card-height);
-    min-height: var(--card-height);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Update main section backgrounds */
-.section#catalogue {
-    background-color: rgba(26, 26, 26, 0.9);
-}
-
-.section#bespoke {
-    background-color: rgba(26, 26, 26, 0.9);
-}
-
-/* Adjust section styles to accommodate backgrounds */
-.section {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 1rem;
-    padding: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    overflow: hidden;
-    height: 200px;
-    width: 200px;
-    align-items: center;
-    justify-content: center;
-    opacity: 1;
-    visibility: visible;
-    text-align: center;
-}
-
-/* Make section titles more readable over backgrounds */
-.section-title h2 {
-    background: rgba(26, 26, 26, 0.7);
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    margin: 0;
-}
-
-/* Add new background hover states */
-.catalogue-list-item[data-section="boosey"]:hover ~ * {
-    background-image: none;
-}
-
-.catalogue-list-item[data-section="rh"]:hover ~ * {
-    background-image: none;
-}
-
-.list-item[data-composer="composer1"]:hover ~ * {
-    background-image: none;
-}
-
-/* Add a pseudo-element for the background overlay */
-#app::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: inherit;
-    opacity: 0.1;
-    pointer-events: none;
-    z-index: -1;
-    transition: background 0.3s ease;
-}
-
-/* Add logo styling */
-.catalogue-list-item .catalogue-logo {
-    width: 100%;
-    max-width: 200px;
-    height: auto;
-    object-fit: contain;
-}
-
-/* Update catalogue list item to center logo */
-.catalogue-list-item {
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    position: relative;
-    z-index: 11;
+.catalogue-header .header-left {
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-/* Remove the h3 from Pop section since we're using logo */
-.catalogue-list-item[data-section="pop"] h3 {
-    display: none;
-}
-
-/* Style the Pop section with background logo */
-.catalogue-list-item[data-section="pop"] {
-    background-image: none;  /* Remove the background image */
-    background-color: rgba(255, 255, 255, 0.05);  /* Keep the background color */
-}
-
-/* Keep the text visible and styled like other items */
-.catalogue-list-item[data-section="pop"] h3 {
-    display: block;  /* Make sure the text is visible */
-    position: relative;
-    z-index: 2;
-}
-
-/* Remove any before elements that might be showing the logo */
-.catalogue-list-item[data-section="pop"]::before {
-    display: none;
-}
-
-/* Add styles for the playlists container */
-.playlists-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;  /* Two equal columns */
     gap: 2rem;
-    margin-top: 2rem;
 }
 
-.disco-playlist,
-.spotify-playlist {
+.catalogue-logo {
+    height: 60px;
+    width: auto;
+}
+
+.catalogue-header h2 {
+    color: var(--secondary-color);
+    margin: 0;
+    font-size: 2rem;
+}
+
+.catalogue-description {
+    text-align: center;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    padding: 0 2rem;
+}
+
+.catalogue-playlist {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+.catalogue-playlist iframe {
     width: 100%;
+    height: 400px;
+    border: none;
 }
 
-/* Adjust iframe sizes */
-.disco-playlist iframe,
-.spotify-playlist iframe {
-    width: 100%;
-    height: 352px;  /* Match heights */
-}
-
-/* Add search link styles */
 .search-link {
     display: flex;
     align-items: center;
@@ -1580,7 +1104,6 @@ body:not(.home-page) .main-header {
     padding: 0.5rem 1rem;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 0.5rem;
-    margin-left: auto;  /* Push to right */
     transition: all 0.3s ease;
 }
 
@@ -1594,213 +1117,405 @@ body:not(.home-page) .main-header {
     height: 20px;
 }
 
-/* Add styles for clickable logo and title */
-.catalogue-logo-link,
-.catalogue-title-link {
-    color: var(--secondary-color);
-    text-decoration: none;
+/* Style for bespoke roster text */
+.section#bespoke h2, 
+#bespoke h2 {
+    color: #ffffff;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.7); /* Dark gray semi-transparent background */
+    padding: 8px 16px; /* Add padding around text */
+    border-radius: 4px; /* Rounded corners */
+    font-weight: 700;
+    display: inline-block; /* Make background only as wide as text */
+}
+
+.catalogue-header .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.catalogue-header .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
     transition: all 0.3s ease;
 }
 
-.catalogue-logo-link:hover,
-.catalogue-title-link:hover {
-    opacity: 0.8;
+.catalogue-header .social-link:hover {
+    background: var(--accent-color);
     transform: translateY(-2px);
 }
 
-.catalogue-title-link h2 {
-    margin: 0;
+.catalogue-header .social-link img {
+    width: 24px;
+    height: 24px;
 }
 
-/* Video grid layout */
-.video-grid {
+.catalogue-header .social-link.instagram {
+    background: #f09433; 
+    background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+    background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+    padding: 8px; /* Add padding to give icon some space */
+}
+
+.catalogue-header .social-link.instagram img {
+    width: 20px; /* Slightly smaller icon */
+    height: 20px;
+    filter: brightness(0) invert(1); /* Keep the white color */
+}
+
+.catalogue-header .social-link.instagram:hover {
+    transform: translateY(-2px);
+    opacity: 0.9; /* Slight fade on hover instead of changing background */
+}
+
+/* Add hover effect to hide other sections */
+#zoom-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-top: 1rem;
-    width: 100%;
-}
-
-.video-card {
-    cursor: pointer;
-    transition: transform 0.2s;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.video-thumbnail {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
-}
-
-.video-thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.video-card h3 {
-    margin: 1rem;
-    font-size: 1rem;
-    color: var(--secondary-color);
-}
-
-.play-button {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60px;
-    height: 60px;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 50%;
-    display: flex;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10rem;
+    padding: 0 6rem;
+    transition: transform var(--transition-duration) ease-in-out;
     align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 24px;
+    justify-items: center;
+    padding-top: 0;
 }
 
-.video-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
+/* Add hover effects for sections */
+.section {
+    transition: all 0.3s ease;
+    opacity: 1;
+    visibility: visible;
 }
 
-.video-modal {
-    position: relative;
-    width: 80%;
-    max-width: 960px;
-}
-
-.video-wrapper {
-    position: relative;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    height: 0;
-}
-
-.video-wrapper iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.close-video {
-    position: absolute;
-    top: -40px;
-    right: -40px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 32px;
-    cursor: pointer;
-}
-
-.video-card:hover {
-    transform: scale(1.05);
-}
-
-/* Update composer image size */
-.composer-image {
-    width: 240px;  /* Increased from 80px to 240px */
-    height: 240px;  /* Increased from 80px to 240px */
-    object-fit: cover;
-    border-radius: 8px;  /* Added border radius for better aesthetics */
-}
-
-.content-header {
-    display: flex;
-    align-items: flex-start;  /* Changed from center to flex-start to better align with larger image */
-    gap: 3rem;  /* Increased from 2rem to 3rem for better spacing */
-    margin-bottom: 3rem;  /* Increased from 2rem to 3rem */
-    padding: 1rem;  /* Added padding for better spacing */
-}
-
-.header-left {
-    display: flex;
-    gap: 2rem;
-    align-items: flex-start;  /* Changed from center to flex-start */
-}
-
-.header-text {
-    padding-top: 0.5rem;  /* Added padding to align text with image */
-}
-
-.preview-container {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-    max-width: 400px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 1.5rem;
-    border-radius: 0.5rem;
+/* Only hide other sections when hovering over a specific section */
+.section:hover ~ .section,
+.section:hover + .section,
+.section:has(~ .section:hover),
+.section:has(+ .section:hover) {
+    visibility: hidden;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: 100;
     pointer-events: none;
 }
 
-.preview-container h3 {
-    color: var(--accent-color);
-    margin-bottom: 0.5rem;
+/* Keep hovered section visible */
+.section:hover {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Reset when not hovering */
+#zoom-container:not(:hover) .section {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Clean background for FTV view */
+.content-container.ftv-view.clean-background {
+    background: var(--primary-color);
+}
+
+.content-container.ftv-view.clean-background #app {
+    background-image: none !important;
+}
+
+.content-container.ftv-view.clean-background::before {
+    display: none;
+}
+
+.content-container.ftv-view.clean-background .content-section.main-description {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 1rem;
+    padding: 3rem;
+    max-width: 800px;
+    margin: 4rem auto 0;
+    font-size: 1.2rem;
+    line-height: 1.8;
+}
+
+.content-container.ftv-view.clean-background .content-section.main-description p {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Adjust header and back button positioning for FTV view */
+.content-container.ftv-view .main-header {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 2rem; /* Add space below header */
+}
+
+.content-container.ftv-view .back-button {
+    position: absolute;
+    top: 100px; /* Move down below header */
+    left: 20px;
+    z-index: 2;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Adjust content spacing */
+.content-container.ftv-view .content-section.main-description {
+    margin-top: 6rem; /* Increase top margin to make room for back button */
+}
+
+/* Make all catalogue list items consistently bold */
+.catalogue-list-item h3,
+.catalogue-list-item {
+    font-weight: 700;
     font-size: 1.2rem;
 }
 
-.preview-container p {
-    color: var(--secondary-color);
-    font-size: 0.9rem;
-    line-height: 1.4;
-    margin: 0;
+/* Ensure consistent styling for all items */
+.catalogue-list-item[data-title],
+.catalogue-list-item div {
+    font-weight: 700;
 }
 
+/* Make all section titles consistently bold */
+.catalogue-list-item h3,
+.catalogue-list-item,
+.bespoke-list-item h3,
+.bespoke-list-item,
+.ftv-list-item h3,
+.ftv-list-item {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Ensure consistent styling for all items */
+.catalogue-list-item[data-title],
+.catalogue-list-item div,
+.bespoke-list-item[data-title],
+.bespoke-list-item div,
+.ftv-list-item[data-title],
+.ftv-list-item div {
+    font-weight: 700;
+}
+
+/* Ensure section titles are also bold */
+.section-title {
+    font-weight: 700;
+}
+
+/* Make bespoke roster list items consistently bold */
+.section#bespoke .bespoke-list-item,
+.section#bespoke .list-item,
+#bespoke .composer-list-item {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+}
+
+/* Target any nested elements within bespoke list items */
+.section#bespoke .bespoke-list-item *,
+.section#bespoke .list-item *,
+#bespoke .composer-list-item * {
+    font-weight: 700;
+}
+
+/* Preview content styles */
 .preview-content {
-    opacity: 1;
-}
-
-/* Add styles for the productions section */
-.productions-section {
-    background: var(--card-background);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-    margin-top: 1rem;
-    transition: background-color var(--transition-duration);
-    max-width: 600px;
-    z-index: 2;  /* Add z-index to ensure it's above the header image */
-}
-
-.productions-section h2 {
-    font-size: 1.2rem;  /* Reduced from 1.5rem */
-    font-weight: 500;
-    margin: 0 0 0.5rem 0;  /* Reduced margin */
-    color: var(--secondary-color);
-}
-
-.productions-section p {
-    font-size: 0.9rem;  /* Added smaller font size */
-    margin: 0;
-    line-height: 1.6;
-    color: var(--secondary-color);
-    opacity: 0.8;
-}
-
-/* Ensure header image doesn't overlap */
-.header-image {
     position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
+    width: 300px;
+    text-align: left;
+    left: calc(100% + 10px);
+    top: 0;
+    z-index: 10000;
+}
+
+/* Preview text */
+.preview-content p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--secondary-color);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+/* List item containers - revert to original styling */
+.list-item,
+.catalogue-list-item,
+.ftv-list-item {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    z-index: 1;
+}
+
+/* Original hover effect */
+.list-item:hover,
+.catalogue-list-item:hover,
+.ftv-list-item:hover {
+    background-color: var(--accent-color);
+    transform: translateX(10px);
+}
+
+/* Show preview on hover */
+.catalogue-list-item:hover .preview-content,
+.list-item:hover .preview-content,
+.ftv-list-item:hover .preview-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ensure sections and containers allow overflow */
+.section,
+.section:hover,
+#zoom-container,
+.catalogue-list,
+.subsections-list,
+.ftv-list {
+    overflow: visible !important;
+}
+
+.catalogue-list-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.catalogue-list-item:hover {
+    color: var(--accent-color);
+}
+
+/* Mobile breakpoints */
+@media screen and (max-width: 768px) {
+  /* Tablet and below */
+}
+
+@media screen and (max-width: 480px) {
+  /* Reset and simplify for mobile */
+  body, #app {
+    overflow-y: auto;
+    height: 100%;
+    min-height: 100vh;
+    background: var(--primary-color);
+  }
+
+  /* Simplify header */
+  .main-header {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    z-index: 0;
+    padding: 0.75rem;
+    background: var(--primary-color);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .header-center h1 {
+    font-size: 1.2rem;
+  }
+
+  .header-logo {
+    height: 24px;
+  }
+
+  /* Simplify main container */
+  #zoom-container {
+    display: block;
+    padding: 1rem;
+    margin-top: 60px;
+    gap: 0;
+  }
+
+  /* Simplify sections */
+  .section {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: none !important;
+  }
+
+  /* Section titles */
+  .section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    text-transform: none;
+  }
+
+  /* Lists */
+  .subsections-list,
+  .catalogue-list,
+  .ftv-list {
+    display: block !important;
+    padding: 0;
+  }
+
+  /* List items */
+  .list-item,
+  .catalogue-list-item,
+  .ftv-list-item {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0.5rem;
+    width: 100%;
+  }
+
+  /* Remove all hover effects */
+  .section:hover {
+    height: auto;
+    width: 100%;
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    padding: 1rem;
+    background: none !important;
+  }
+
+  .list-item:hover,
+  .catalogue-list-item:hover,
+  .ftv-list-item:hover {
+    background: var(--accent-color);
+    transform: none;
+  }
+
+  /* Hide all preview content */
+  .preview-content {
+    display: none !important;
+  }
+
+  /* Hide background effects */
+  .background-overlay,
+  .background-image {
+    display: none !important;
+  }
+
+  /* Remove any transforms or animations */
+  * {
+    transform: none !important;
+    transition: background-color 0.3s ease !important;
+  }
 }

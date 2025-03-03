@@ -1,14 +1,22 @@
 import { siteStructure } from '../data/siteStructure.js';
 
+const DEBUG = true;
+
+function log(...args) {
+    if (DEBUG) {
+        console.log(...args);
+    }
+}
+
 export class ZoomableSection {
     constructor() {
         this.composerImages = {
             composer1: {
-                path: './assets/maestro.png',
+                path: '/assets/maestro.png',
                 title: 'Maestro'
             },
             composer2: {
-                path: './assets/kurisu.png',
+                path: '/assets/kurisu.png',
                 title: 'Kurisu'
             }
         };
@@ -17,26 +25,78 @@ export class ZoomableSection {
         this.currentZoom = null;
         this.contentContainer = this.createContentContainer();
         this.previewOverlay = null;
-        console.log('siteStructure loaded:', siteStructure);
-        this.init();
-        this.initComposerCards();
-
-        // Add cleanup method
-        this.cleanup = () => {
-            if (this.previewOverlay) {
-                this.previewOverlay.remove();
-            }
-        };
-        
-        // Clean up on page unload
-        window.addEventListener('unload', this.cleanup);
 
         // Create and position background overlay
         this.backgroundOverlay = document.createElement('div');
         this.backgroundOverlay.className = 'background-overlay';
         document.body.insertBefore(this.backgroundOverlay, document.body.firstChild);
         
+        console.log('siteStructure loaded:', siteStructure);
+        
+        // Bind all methods first
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+        this.handleTouchEnd = this.handleTouchEnd.bind(this);
+        
+        // Initialize
+        this.init();
         this.initBackgroundEffects();
+        this.setupPreviews();
+
+        // Add all event listeners
+        window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('resize', this.handleResize);
+        window.addEventListener('unload', () => {
+            if (this.previewOverlay) {
+                this.previewOverlay.remove();
+            }
+        });
+        
+        // Add touch events
+        this.container.addEventListener('touchstart', this.handleTouchStart);
+        this.container.addEventListener('touchend', this.handleTouchEnd);
+    }
+
+    setupPreviews() {
+        // Use event delegation for previews
+        this.container.addEventListener('mouseover', (e) => {
+            const item = e.target.closest('.list-item, .catalogue-list-item, .ftv-list-item');
+            if (item) {
+                const preview = item.querySelector('.preview-content');
+                if (preview) {
+                    // Position the preview to the right of the item
+                    const rect = item.getBoundingClientRect();
+                    preview.style.left = `${rect.width + 20}px`; // 20px gap
+                    preview.style.top = '0';
+                    
+                    // Show the preview
+                    preview.classList.add('active');
+                }
+            }
+        });
+
+        this.container.addEventListener('mouseout', (e) => {
+            const item = e.target.closest('.list-item, .catalogue-list-item, .ftv-list-item');
+            if (item) {
+                const preview = item.querySelector('.preview-content');
+                if (preview) {
+                    preview.classList.remove('active');
+                }
+            }
+        });
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
     }
 
     createContentContainer() {
@@ -50,33 +110,55 @@ export class ZoomableSection {
 
     init() {
         console.log('Initializing ZoomableSection');
-        // Ensure container exists
         if (!this.container) {
             console.error('Zoom container not found');
             return;
         }
 
-        // Add click handler to container for event delegation
+        // Add click handler to the container
         this.container.addEventListener('click', (e) => {
-            console.log('Click event on container:', e.target);
-            const target = e.target;
-            
-            // Find closest clickable element
-            const clickable = target.closest('.composer-card, .list-item[data-composer], .catalogue-card, .catalogue-list-item, .ftv-card, .ftv-list-item');
-            
+            const clickable = e.target.closest([
+                '.catalogue-list-item',
+                '.list-item',
+                '.ftv-list-item'
+            ].join(','));
+
             if (clickable) {
                 e.preventDefault();
                 e.stopPropagation();
                 
-                if (clickable.classList.contains('composer-card') || clickable.hasAttribute('data-composer')) {
-                    this.handleSubsectionClick(clickable);
-                } else if (clickable.classList.contains('catalogue-card') || clickable.classList.contains('catalogue-list-item')) {
-                    this.handleCatalogueClick(clickable);
-                } else if (clickable.classList.contains('ftv-card') || clickable.classList.contains('ftv-list-item')) {
-                    this.handleFTVClick(clickable);
+                // Get section ID from data attributes
+                const sectionId = clickable.dataset.section || clickable.dataset.composer;
+                if (!sectionId) return;
+
+                // For catalogue items, redirect to external URL
+                if (clickable.classList.contains('catalogue-list-item')) {
+                    const section = siteStructure.catalogue.sections[sectionId];
+                    if (section && section.websiteUrl && section.websiteUrl !== '#') {
+                        window.open(section.websiteUrl, '_blank');
+                    }
+                    return;
+                }
+
+                // Handle other sections (bespoke, ftv) as before
+                const parentSection = clickable.closest('.section');
+                if (!parentSection) return;
+
+                if (parentSection.id === 'bespoke') {
+                    const section = siteStructure.bespoke.sections[sectionId];
+                    if (section) {
+                        this.showContent(section, this.bespokeTemplate.bind(this));
+                        this.updateNavigation('Bespoke', section.title);
+                    }
+                } else if (parentSection.id === 'ftv') {
+                    const section = siteStructure.ftv.sections[sectionId];
+                    if (section) {
+                        this.showFTVContent(section);
+                        this.updateNavigation('FTV', section.title);
+                    }
                 }
             }
-        }, { once: false });
+        });
 
         // Handle back navigation
         document.addEventListener('keydown', (e) => {
@@ -86,89 +168,24 @@ export class ZoomableSection {
         window.addEventListener('navigationBack', () => this.handleBackNavigation());
 
         // Add home link handler
-        document.querySelector('.home-link').addEventListener('click', (e) => {
+        document.querySelector('.home-link')?.addEventListener('click', (e) => {
             e.preventDefault();
             window.dispatchEvent(new CustomEvent('navigationBack'));
         });
-
-        this.initPreviews();
     }
 
-    initPreviews() {
-        // Create preview overlay once
-        if (!this.previewOverlay) {
-            this.previewOverlay = document.createElement('div');
-            this.previewOverlay.className = 'preview-overlay';
-            this.previewOverlay.innerHTML = '<div class="preview-content"></div>';
-            document.body.appendChild(this.previewOverlay);
+    showPreview(element) {
+        const preview = element.querySelector('.preview-content');
+        if (preview) {
+            preview.style.opacity = '1';
+            preview.style.visibility = 'visible';
         }
+    }
 
-        // Use a single debounced timer
-        let previewTimer = null;
-        let currentPreviewElement = null;
-
-        const showPreview = (element) => {
-            if (previewTimer) {
-                clearTimeout(previewTimer);
-            }
-
-            previewTimer = setTimeout(() => {
-                if (element === currentPreviewElement) {
-                    const preview = this.generatePreviewContent(element);
-                    if (!preview) return;
-
-                    const rect = element.getBoundingClientRect();
-            
-                    // Position preview based on element type
-                    let x, y;
-                    if (element.classList.contains('ftv-list-item')) {
-                        // For FTV items, position to the left with offset
-                        x = rect.left - 420; // Preview width (400px) + 20px offset
-                        y = Math.max(0, rect.top - 100); // Same vertical centering
-                    } else {
-                        // For all other items, position to the right
-                        x = rect.right + 20;
-                        y = Math.max(0, rect.top - 100);
-                    }
-
-                    this.previewOverlay.querySelector('.preview-content').innerHTML = preview;
-                    this.previewOverlay.style.transform = `translate(${x}px, ${y}px)`;
-                    this.previewOverlay.classList.add('visible');
-                }
-            }, 100);
-        };
-
-        const hidePreview = () => {
-            if (previewTimer) {
-                clearTimeout(previewTimer);
-            }
-            this.previewOverlay.classList.remove('visible');
-            currentPreviewElement = null;
-        };
-
-        // Use event delegation with a single listener
-        this.container.addEventListener('mouseover', (e) => {
-            const previewable = e.target.closest('.list-item[data-composer], .catalogue-list-item, .ftv-list-item');
-            if (previewable) {
-                currentPreviewElement = previewable;
-                showPreview(previewable);
-            }
-        });
-
-        this.container.addEventListener('mouseout', (e) => {
-            const previewable = e.target.closest('.list-item[data-composer], .catalogue-list-item, .ftv-list-item');
-            const toElement = e.relatedTarget;
-            
-            if (previewable && !previewable.contains(toElement)) {
-                hidePreview();
-            }
-        });
-
-        // Clean up on unload
-        window.addEventListener('beforeunload', () => {
-            if (previewTimer) {
-                clearTimeout(previewTimer);
-            }
+    hidePreview() {
+        document.querySelectorAll('.preview-content').forEach(preview => {
+            preview.style.opacity = '0';
+            preview.style.visibility = 'hidden';
         });
     }
 
@@ -269,9 +286,31 @@ export class ZoomableSection {
 
     // Content display methods
     showContent(section, template) {
-        this.transition(this.contentContainer, this.container);
-        this.contentContainer.innerHTML = template(section);
-
+        console.log('showContent called for:', section.title);
+        
+        // Hide the main container
+        this.container.style.opacity = '0';
+        this.container.style.display = 'none';
+        
+        // Reset and prepare content container
+        this.contentContainer.style.display = 'block';
+        this.contentContainer.style.opacity = '0';
+        this.contentContainer.className = 'content-container';
+        
+        // Clear any existing content
+        this.contentContainer.innerHTML = '';
+        
+        // Set background color only for composer pages
+        if (section.title.includes('MAESTRO') || section.title === 'Kurisu' || section.title === 'James Greenwood' || section.title === 'Ben Garrett') {
+            document.body.style.backgroundColor = '#F4A460';
+            this.contentContainer.style.padding = '0';
+            this.contentContainer.style.backgroundColor = '#F4A460';
+        }
+        
+        // Add the content
+        const renderedTemplate = template(section);
+        this.contentContainer.innerHTML = renderedTemplate;
+        
         // Add video click handlers
         const videoCards = this.contentContainer.querySelectorAll('.video-card');
         videoCards.forEach(card => {
@@ -280,68 +319,97 @@ export class ZoomableSection {
                 this.handleVideoClick(videoData);
             });
         });
-
-        // After rendering the template, add the back button handler
+        
+        // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('navigationBack'));
+        if (backButton) {
+            backButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Reset background color when going back
+                document.body.style.backgroundColor = '';
+                window.dispatchEvent(new CustomEvent('navigationBack'));
+            });
+        }
+        
+        // Show the content with animation
+        requestAnimationFrame(() => {
+            this.contentContainer.style.opacity = '1';
         });
     }
 
     // Template methods
     bespokeTemplate(section) {
-        const getImagePosition = (title) => {
-            switch(title) {
-                case 'Kurisu':
-                    return 'object-position: center 10%;';
-                case 'James Greenwood':
-                    return 'object-position: center 15%;';
-                default:
-                    return '';
-            }
-        };
-
+        // Use the same template for all composers
         return `
             <button class="back-button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
-            <div class="composer-profile">
-                <div class="composer-header">
-                    <div class="header-image">
-                        <img src="${section.image}" alt="${section.title}" style="${getImagePosition(section.title)}" />
-                    </div>
-                    <div class="composer-title-wrapper">
-                        <div class="title-container">
-                            <h2>${section.title}</h2>
-                        </div>
-                        ${this.generateSocialLinks(section)}
-                        <div class="productions-section">
-                            <h2>Productions & Co-writes</h2>
-                            <p>${section.productions || ''}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="composer-sections">
-                    <div class="bio-section">
-                        <p>${section.bio}</p>
-                    </div>
-                    ${section.videos && section.videos.length > 0 ? `
-                        <div class="videos-section">
-                            <h2>Videos</h2>
-                            <div class="video-grid">
-                                ${section.videos.map(video => `
-                                    <div class="video-card" data-video='${JSON.stringify(video)}'>
-                                        <img src="${video.thumbnail}" alt="${video.title}">
-                                        <div class="play-button">▶</div>
-                                        <h3>${video.title}</h3>
-                                    </div>
-                                `).join('')}
+            <div class="maestro-new">
+                <div class="maestro-content">
+                    <div class="maestro-left">
+                        <h1>${section.title}</h1>
+                        <div class="social-links-container">
+                            <div class="social-links">
+                                ${section.social.instagram ? `
+                                    <a href="${section.social.instagram}" target="_blank">
+                                        <img src="../assets/instagram-black.svg" alt="Instagram">
+                                    </a>
+                                ` : ''}
+                                ${section.social.spotify ? `
+                                    <a href="${section.social.spotify}" target="_blank">
+                                        <img src="../assets/spotify-black.svg" alt="Spotify">
+                                    </a>
+                                ` : ''}
+                                ${section.social.tiktok ? `
+                                    <a href="${section.social.tiktok}" target="_blank">
+                                        <img src="../assets/tiktok-black.svg" alt="TikTok">
+                                    </a>
+                                ` : ''}
                             </div>
+                            <button class="download-button">
+                                <img src="../assets/download-black.svg" alt="Download">
+                                Download One-Sheet
+                            </button>
+                            ${section.social.website ? `
+                                <a href="https://${section.social.website.toLowerCase()}" class="website-link" target="_blank">
+                                    ${section.social.website}
+                                </a>
+                            ` : ''}
                         </div>
-                    ` : ''}
+                        <img src="../assets/${section.image}" alt="${section.title}">
+                    </div>
+                    <div class="maestro-right">
+                        <div class="bio-section">
+                            ${section.bio.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
+                        </div>
+
+                        ${section.compositionWork ? `
+                            <div class="composition-section">
+                                <h2>${section.compositionWork.title}</h2>
+                                <p>${section.compositionWork.description}</p>
+                                ${section.compositionWork.recentWork ? `<p>${section.compositionWork.recentWork}</p>` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${section.videos && section.videos.length > 0 ? `
+                            <div class="videos-section">
+                                <h2>VIDEOS</h2>
+                                <div class="video-grid">
+                                    ${section.videos.map(video => `
+                                        <div class="video-card" data-video='${JSON.stringify(video)}'>
+                                            <div class="video-thumbnail">
+                                                <img src="${video.thumbnail}" alt="${video.title}">
+                                                <div class="play-button">▶</div>
+                                            </div>
+                                            <h3>${video.title}</h3>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
                 </div>
             </div>
         `;
@@ -358,34 +426,50 @@ export class ZoomableSection {
     }
 
     handleSubsectionClick(element) {
-        if (!element) return;
+        console.log('handleSubsectionClick called with element:', element);
+        if (!element) {
+            console.error('No element provided to handleSubsectionClick');
+            return;
+        }
         
+        // Get the section ID from either data-section or data-composer
         const sectionId = element.dataset.section || element.dataset.composer;
-        console.log('Clicked section ID:', sectionId);
+        console.log('Section ID:', sectionId);
         
         if (!sectionId) {
-            console.error('No section ID found for element:', element);
+            console.error('No section ID found on element:', element);
             return;
         }
 
+        // Get the parent section and title
         const parentSection = element.closest('.section');
-        if (!parentSection) {
-            console.error('No parent section found for element:', element);
+        const parentTitle = parentSection?.querySelector('h2')?.textContent || '';
+
+        // Handle different section types
+        if (parentSection.id === 'catalogue' || element.classList.contains('catalogue-card') || element.classList.contains('catalogue-list-item')) {
+            const section = siteStructure.catalogue.sections[sectionId];
+            if (section) {
+                this.showCatalogueContent(section);
+                this.updateNavigation('Catalogue', section.title);
+            }
             return;
         }
 
-        const parentTitle = parentSection.querySelector('h2').textContent;
-        
-        if (element.classList.contains('catalogue-list-item')) {
-            this.showCatalogueContent(sectionId);
-        } else {
-            const section = this.findSectionData(sectionId);
-            console.log('Found bespoke section data:', section);
-            if (section) {
-                this.showContent(section, this.bespokeTemplate.bind(this));
-                this.updateNavigation(parentTitle, section.title);
-            }
+        // Handle composer sections
+        const section = siteStructure.bespoke.sections[sectionId];
+        console.log('Found section data:', section);
+
+        if (!section) {
+            console.error('No section data found for section ID:', sectionId);
+            return;
         }
+
+        // Show the content
+        console.log('Showing content for section:', section.title);
+        this.showContent(section, this.bespokeTemplate.bind(this));
+        
+        // Update navigation
+        this.updateNavigation(parentTitle || 'Bespoke', section.title);
     }
 
     showSubsectionContent(sectionId) {
@@ -549,9 +633,24 @@ export class ZoomableSection {
 
     findSectionData(sectionId) {
         console.log('Finding section data for:', sectionId);
+        
+        // Check if it's a composer section
         if (sectionId.startsWith('composer')) {
-            return siteStructure.bespoke.sections[sectionId];
+            const section = siteStructure.bespoke.sections[sectionId];
+            console.log('Found composer section:', section);
+            return section;
         }
+        
+        // Check catalogue sections
+        if (siteStructure.catalogue.sections[sectionId]) {
+            return siteStructure.catalogue.sections[sectionId];
+        }
+        
+        // Check FTV sections
+        if (siteStructure.ftv.sections[sectionId]) {
+            return siteStructure.ftv.sections[sectionId];
+        }
+        
         return null;
     }
 
@@ -559,6 +658,11 @@ export class ZoomableSection {
         if (this.contentContainer.style.display === 'block') {
             // First, fade out the content container
             this.contentContainer.style.opacity = '0';
+            
+            // Reset ALL background colors
+            document.body.style.backgroundColor = '#1a1a1a'; // Use actual color value instead of CSS variable
+            this.contentContainer.style.backgroundColor = '';
+            this.container.style.backgroundColor = '';
             
             // After fade out, switch displays and fade in the main container
             requestAnimationFrame(() => {
@@ -613,68 +717,81 @@ export class ZoomableSection {
         this.updateNavigation(parentTitle, sectionTitle);
 
         // Show catalogue content
-        this.showCatalogueContent(sectionId);
+        this.showCatalogueContent(section);
     }
 
-    showCatalogueContent(sectionId) {
-        // Fade out main container
+    showCatalogueContent(section) {
+        console.log('Showing catalogue content for:', section.title);
+        
+        // Hide the main container and background logo
         this.container.style.opacity = '0';
         this.container.style.display = 'none';
+        document.querySelector('.background-overlay').style.display = 'none';
         
-        // Get content from siteStructure
-        const section = siteStructure.catalogue.sections[sectionId];
-        if (!section) return;
-        
-        // Show content container
+        // Reset and prepare content container
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
+        this.contentContainer.className = 'content-container catalogue-view';
         
-        // Prepare content
-        this.contentContainer.innerHTML = `
+        // Clear any existing content
+        this.contentContainer.innerHTML = '';
+        
+        // Create catalogue content template
+        const template = `
             <button class="back-button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
-            <div class="content-page">
-                <div class="content-header">
-                    <a href="${section.websiteUrl}" target="_blank" class="catalogue-logo-link">
+            <div class="catalogue-content">
+                <div class="catalogue-header">
+                    <div class="header-left">
                         <img src="${section.logoPath}" alt="${section.title}" class="catalogue-logo">
-                    </a>
-                    <a href="${section.websiteUrl}" target="_blank" class="catalogue-title-link">
                         <h2>${section.title}</h2>
-                    </a>
-                    <a href="${section.discoSearchUrl}" target="_blank" class="search-link">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        Search DISCO library
-                    </a>
+                    </div>
+                    <div class="header-right">
+                        ${section.social?.instagram ? `
+                            <a href="${section.social.instagram}" class="social-link instagram" target="_blank">
+                                <img src="../assets/instagram-white.svg" alt="Instagram">
+                            </a>
+                        ` : ''}
+                        <a href="${section.discoSearchUrl}" class="search-link" target="_blank">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="8"/>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                            </svg>
+                            Search Catalogue
+                        </a>
+                    </div>
                 </div>
-                <div class="content-sections">
-                    <div class="content-section">
-                        <p>${section.description}</p>
-                    </div>
-                    <div class="playlists-container">
-                        <div class="disco-playlist">
-                            ${section.discoPlaylistEmbed}
-                        </div>
-                    </div>
+                
+                <div class="catalogue-description">
+                    <p>${section.description}</p>
+                </div>
+                
+                <div class="catalogue-playlist">
+                    ${section.discoPlaylistEmbed}
                 </div>
             </div>
         `;
-
+        
+        this.contentContainer.innerHTML = template;
+        
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.dispatchEvent(new CustomEvent('navigationBack'));
-        });
-
-        // Add transition
-        setTimeout(() => {
+        if (backButton) {
+            backButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Show background logo again when going back
+                document.querySelector('.background-overlay').style.display = 'block';
+                window.dispatchEvent(new CustomEvent('navigationBack'));
+            });
+        }
+        
+        // Show with animation
+        requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
-        }, 50);
+        });
     }
 
     handleFTVClick(element) {
@@ -705,92 +822,66 @@ export class ZoomableSection {
         this.updateNavigation(parentTitle, sectionTitle);
 
         // Show FTV content
-        this.showFTVContent(sectionId);
+        this.showFTVContent(section);
     }
 
-    showFTVContent(sectionId) {
-        // Fade out main container
+    showFTVContent(section) {
+        // Hide the main container and background
         this.container.style.opacity = '0';
         this.container.style.display = 'none';
+        document.querySelector('.background-overlay').style.display = 'none';
         
-        // Get content from siteStructure
-        const section = siteStructure.ftv.sections[sectionId];
-        if (!section) return;
-        
-        // Show content container
+        // Reset and prepare content container
         this.contentContainer.style.display = 'block';
         this.contentContainer.style.opacity = '0';
+        this.contentContainer.className = 'content-container ftv-view clean-background';
         
-        // Prepare content with conditional playlist and table
-        const contentSections = sectionId === 'ftv-overview' 
-            ? `<div class="content-section">
-                <h3>Overview</h3>
-                <p>${section.description}</p>
-               </div>
-               <div class="content-section">
-                <h3>DISCO Playlist</h3>
-                <div class="playlist-container">
-                    ${section.discoPlaylistEmbed || '<div class="playlist-placeholder">Playlist coming soon...</div>'}
+        // Create FTV content template
+        const template = `
+            <header class="main-header" role="banner">
+                <div class="header-left">
+                    <a href="#" class="home-link" aria-label="Home">
+                        <img src="./assets/concord-C-icon-red.png" alt="Concord Logo" class="header-logo">
+                    </a>
                 </div>
-               </div>`
-            : `<div class="content-section">
-                <h3>Overview</h3>
-                <p>${section.description}</p>
-               </div>
-               <div class="content-section">
-                <h3>Royalty Information</h3>
-                <div class="table-container">
-                    <table class="royalty-table">
-                        <thead>
-                            <tr>
-                                <th>Usage Type</th>
-                                <th>Rate</th>
-                                <th>Terms</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                                <td>TBD</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="header-center">
+                    <h1>concord <span>music publishing</span></h1>
                 </div>
-               </div>`;
-
-        this.contentContainer.innerHTML = `
+            </header>
             <button class="back-button">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
             </button>
-            <div class="content-page">
-                <div class="content-header">
-                    <h2>${section.title}</h2>
-                </div>
-                <div class="content-sections">
-                    ${contentSections}
-                </div>
+            <div class="content-section main-description">
+                <p>${section.description}</p>
             </div>
         `;
-
+        
+        this.contentContainer.innerHTML = template;
+        
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
         backButton.addEventListener('click', (e) => {
             e.preventDefault();
             window.dispatchEvent(new CustomEvent('navigationBack'));
+            this.hideContent();
+            this.container.style.display = 'grid';
+            requestAnimationFrame(() => {
+                this.container.style.opacity = '1';
+            });
         });
-
-        // Add transition
-        setTimeout(() => {
+        
+        // Show content with animation
+        requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
-        }, 50);
+        });
     }
 
     initBackgroundEffects() {
         console.log('Initializing background effects');
-        const items = document.querySelectorAll('.catalogue-list-item, .list-item');
+        // Update selector to include all list items
+        const items = document.querySelectorAll('.catalogue-list-item, .list-item, .ftv-list-item');
         
         // Create background overlay if it doesn't exist
         if (!this.backgroundOverlay) {
@@ -818,12 +909,12 @@ export class ZoomableSection {
                         this.backgroundOverlay.style.opacity = '0.15';
                         this.backgroundOverlay.classList.add('visible');
                     }
-                } else {
-                    section = this.findSectionData(sectionId);
+                } else if (item.classList.contains('list-item')) {
+                    section = siteStructure.bespoke.sections[sectionId];
                     console.log('Found bespoke section:', section);
                     
                     if (section && section.image) {
-                        this.backgroundOverlay.style.backgroundImage = `url(${section.image})`;
+                        this.backgroundOverlay.style.backgroundImage = `url(../assets/${section.image})`;
                         this.backgroundOverlay.style.backgroundSize = 'cover';
                         this.backgroundOverlay.style.backgroundPosition = 'center';
                         this.backgroundOverlay.style.opacity = '0.15';
@@ -843,22 +934,6 @@ export class ZoomableSection {
         });
     }
 
-    initComposerCards() {
-        console.log('Initializing composer cards');
-        const composerCards = document.querySelectorAll('.composer-card');
-        
-        composerCards.forEach(card => {
-            const composerId = card.dataset.section;
-            if (composerId && this.composerImages[composerId]) {
-                const imagePath = this.composerImages[composerId].path;
-                console.log('Setting card background for:', composerId, 'with image:', imagePath);
-                card.style.backgroundImage = `url('${imagePath}')`;
-                card.style.backgroundSize = 'cover';
-                card.style.backgroundPosition = 'center';
-            }
-        });
-    }
-
     showErrorMessage() {
         this.contentContainer.innerHTML = `
             <div class="error-message">
@@ -874,10 +949,10 @@ export class ZoomableSection {
                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
             </svg>`,
             spotify: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+                <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
             </svg>`,
             tiktok: `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
             </svg>`
         };
 
@@ -889,25 +964,140 @@ export class ZoomableSection {
     }
 
     // Add this method to handle video playback
-    handleVideoClick(video) {
-        const overlay = document.createElement('div');
-        overlay.className = 'video-overlay';
-        overlay.innerHTML = `
-            <div class="video-modal">
-                <button class="close-video">&times;</button>
-                <div class="video-wrapper">
-                    ${video.embed}
+    handleVideoClick(videoData) {
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'video-modal';
+        modal.innerHTML = `
+            <div class="video-modal-content">
+                <button class="close-modal">×</button>
+                <div class="video-container">
+                    ${videoData.embed}
                 </div>
             </div>
         `;
 
-        document.body.appendChild(overlay);
+        // Add modal to page
+        document.body.appendChild(modal);
 
         // Add close handler
-        const closeButton = overlay.querySelector('.close-video');
+        const closeButton = modal.querySelector('.close-modal');
         closeButton.addEventListener('click', () => {
-            overlay.remove();
+            modal.remove();
         });
+
+        // Close on background click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+            }
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modal.remove();
+            }
+        }, { once: true });
+
+        // Show modal with animation
+        requestAnimationFrame(() => {
+            modal.style.opacity = '1';
+        });
+    }
+
+    destroy() {
+        // Remove event listeners
+        window.removeEventListener('scroll', (e) => this.handleScroll(e));
+        window.removeEventListener('resize', (e) => this.handleResize(e));
+        
+        // Clean up video overlays
+        document.querySelectorAll('.video-overlay').forEach(overlay => overlay.remove());
+        
+        // Clear any running timers
+        if (this.previewTimer) {
+            clearTimeout(this.previewTimer);
+        }
+    }
+
+    createCatalogueList() {
+        return Object.values(siteStructure.catalogue.sections).map(item => `
+            <div class="catalogue-list-item" data-title="${item.title}">
+                <h3>${item.displayTitle || item.title}</h3>
+                <div class="preview-content">
+                    <p>intro text here</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    createBespokeList() {
+        return Object.values(siteStructure.bespoke.sections).map(composer => `
+            <div class="composer-list-item" data-composer="${composer.title}">
+                <h3>${composer.title}</h3>
+                <div class="preview-content">
+                    <p>intro text here</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    createFTVList() {
+        return Object.values(siteStructure.ftv.sections).map(section => `
+            <div class="ftv-list-item" data-section="${section.id}">
+                <h3>${section.title}</h3>
+                <div class="preview-content">
+                    <p>intro text here</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+    }
+
+    handleTouchEnd(e) {
+        if (!this.touchStartX || !this.touchStartY) return;
+
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        
+        const deltaX = touchEndX - this.touchStartX;
+        const deltaY = touchEndY - this.touchStartY;
+
+        // If it's more of a tap than a swipe
+        if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+            const touchedElement = document.elementFromPoint(touchEndX, touchEndY);
+            const clickable = touchedElement.closest('.catalogue-list-item, .list-item, .ftv-list-item');
+            if (clickable) {
+                clickable.click();
+            }
+        }
+
+        // Reset touch coordinates
+        this.touchStartX = null;
+        this.touchStartY = null;
+    }
+
+    handleScroll(e) {
+        // Debounce scroll handling
+        this.debounce(() => {
+            // Add any scroll-specific handling here
+            // For now, we can leave it empty
+        }, 100)();
+    }
+
+    handleResize(e) {
+        // Debounce resize handling
+        this.debounce(() => {
+            // Recalculate any necessary dimensions
+            if (this.currentZoom) {
+                // Update zoomed section positioning if needed
+            }
+            // Add any other resize-specific handling here
+        }, 250)();
     }
 }
 

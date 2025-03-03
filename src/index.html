@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Concord Music</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,37 +13,67 @@
       type="image/png"
       href="assets/images/boosey__hawkes_logo.png"
     />
+    <meta name="description" content="Concord Music Publishing - Explore our catalogue of music, composers, and film/TV offerings">
+    <meta name="keywords" content="music publishing, composers, film music, tv music, Concord Music">
+    <meta property="og:title" content="Concord Music Publishing">
+    <meta property="og:description" content="Explore Concord Music's catalogue of music, composers, and film/TV offerings">
+    <meta property="og:image" content="./assets/concord-C-icon-red.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://your-domain.com" />
 </head>
 <body>
     <div id="app">
-        <header class="main-header">
+        <header class="main-header" role="banner">
             <div class="header-left">
-                <a href="#" class="home-link">
-                    <img src="./assets/concord-C-icon-red.png" alt="Concord" class="header-logo">
+                <a href="#" class="home-link" aria-label="Home">
+                    <img src="./assets/concord-C-icon-red.png" alt="Concord Logo" class="header-logo">
                 </a>
             </div>
             <div class="header-center">
                 <h1>concord <span>music publishing</span></h1>
             </div>
         </header>
-        <nav id="navigation"></nav>
+        <nav id="navigation" role="navigation" aria-label="Main navigation"></nav>
         <div id="zoom-container">
             <div class="section" id="catalogue">
-                <h2 class="section-title">catalogue</h2>
+                <h2 class="section-title">search catalogues</h2>
                 <div class="catalogue-list">
-                    <div class="catalogue-list-item" data-section="pop">
-                        <h3>Pop</h3>
+                    <div class="catalogue-list-item" data-section="pop" tabindex="0" role="link">
+                        <h3>Concord Music Publishing</h3>
+                        <div class="preview-content">
+                            <p>Tyla, Flowdan, The 1975, Amaarae, Jacob Alon</p>
+                        </div>
                     </div>
-                    <div class="catalogue-list-item" data-section="boosey" data-title="Boosey & Hawkes">Boosey & Hawkes</div>
-                    <div class="catalogue-list-item" data-section="pulse" data-title="Pulse Music Group">Pulse Music Group</div>
-                    <div class="catalogue-list-item" data-section="rh" data-title="Rodgers and Hammerstein">Rodgers and Hammerstein</div>
-                    <div class="catalogue-list-item" data-section="fania" data-title="Fania">Fania</div>
+                    <div class="catalogue-list-item" data-section="bh" data-title="Boosey & Hawkes">
+                        <h3>Boosey & Hawkes</h3>
+                        <div class="preview-content">
+                            <p>Leonard Bernstein, Meredith Monk, Aaron Copland, Benjamin Britten, Anna Clyne</p>
+                        </div>
+                    </div>
+                    <div class="catalogue-list-item" data-section="pulse" data-title="Pulse Music Group">
+                        <h3>Pulse Music Group</h3>
+                        <div class="preview-content">
+                            <p>James Blake, Flo Milli, Kojey Radical, Ty Dolla $ign, Muna</p>
+                        </div>
+                    </div>
+                    <div class="catalogue-list-item" data-section="rh" data-title="Rodgers and Hammerstein">
+                        <h3>Rodgers and Hammerstein</h3>
+                        <div class="preview-content">
+                            <p>The Sound of Music, Oklahoma, Carousel</p>
+                        </div>
+                    </div>
+                    <div class="catalogue-list-item" data-section="fania" data-title="Fania">
+                        <h3>Fania</h3>
+                        <div class="preview-content">
+                            <p>Ray Barretto, Celia Cruz Joe Bataan, Johnny Pacheco</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="subsections">
                     <div class="catalogue-card" data-section="pop">
-                        <h3>Pop</h3>
+                        <h3>Concord Music Publishing</h3>
                     </div>
-                    <div class="catalogue-card" data-section="boosey">
+                    <div class="catalogue-card" data-section="bh">
                         <h3>Boosey & Hawkes</h3>
                     </div>
                     <div class="catalogue-card" data-section="pulse">
@@ -58,27 +88,47 @@
                 </div>
             </div>
             
-            <div class="section" id="bespoke">
-                <h2 class="section-title">bespoke roster</h2>
+            <div class="section" id="bespoke" class="section">
+                <h2>Bespoke Roster</h2>
                 <div class="subsections">
                     <div class="composer-card" data-section="composer1">
-                        <img src="./assets/maestro.png" alt="Maestro">
+                        <img src="../assets/maestro.png" alt="Maestro">
                         <h3>Maestro</h3>
                     </div>
                     <div class="composer-card" data-section="composer2">
-                        <img src="./assets/kurisu.png" alt="Kurisu">
+                        <img src="../assets/kurisu.png" alt="Kurisu">
                         <h3>Kurisu</h3>
                     </div>
                     <div class="composer-card" data-section="composer4">
-                        <img src="./assets/fryars.png" alt="Ben Garrett">
+                        <img src="../assets/fryars.png" alt="Ben Garrett">
                         <h3>Ben Garrett</h3>
                     </div>
                 </div>
                 <div class="subsections-list" id="bespoke-list">
-                    <div class="list-item" data-composer="composer1">Maestro</div>
-                    <div class="list-item" data-composer="composer2">Kurisu</div>
-                    <div class="list-item" data-composer="composer3">James Greenwood</div>
-                    <div class="list-item" data-composer="composer4">Ben Garrett</div>
+                    <div class="list-item" data-composer="composer1">
+                        <h3>Maestro</h3>
+                        <div class="preview-content">
+                            <p>Rihanna, J Hus, Tion Wayne, Poppy Ajudha</p>
+                        </div>
+                    </div>
+                    <div class="list-item" data-composer="composer2">
+                        <h3>Kurisu</h3>
+                        <div class="preview-content">
+                            <p>Cat Burns, Dexter, Charloote Plank, Zhu</p>
+                        </div>
+                    </div>
+                    <div class="list-item" data-composer="composer3">
+                        <h3>James Greenwood</h3>
+                        <div class="preview-content">
+                            <p>Daniel Avery, Confidence Man, Alisson Goldfrapp, Ghost Culture</p>
+                        </div>
+                    </div>
+                    <div class="list-item" data-composer="composer4">
+                        <h3>Ben Garrett</h3>
+                        <div class="preview-content">
+                            <p>Fryars, Rae Morris, Lily Allen, Joseph Lawrence</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -86,18 +136,10 @@
                 <h2 class="section-title">ftv</h2>
                 <div class="ftv-list">
                     <div class="ftv-list-item" data-section="ftv-overview" data-title="FTV Overview">FTV Overview</div>
-                    <div class="ftv-list-item" data-section="examples" data-title="Film & TV Examples">Film & TV Examples</div>
-                    <div class="ftv-list-item" data-section="advertising" data-title="Advertising Model">Advertising Model</div>
                 </div>
                 <div class="subsections">
                     <div class="ftv-card" data-section="ftv-overview">
                         <h3>FTV Overview</h3>
-                    </div>
-                    <div class="ftv-card" data-section="examples">
-                        <h3>Film & TV Examples</h3>
-                    </div>
-                    <div class="ftv-card" data-section="advertising">
-                        <h3>Advertising Model</h3>
                     </div>
                 </div>
             </div>
@@ -160,4 +202,4 @@
         });
     </script>
 </body>
-</html> 
+</html>
