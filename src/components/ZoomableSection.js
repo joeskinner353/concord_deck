@@ -33,19 +33,29 @@ export class ZoomableSection {
         
         console.log('siteStructure loaded:', siteStructure);
         
+        // Bind all methods first
+        this.handleScroll = this.handleScroll.bind(this);
+        this.handleResize = this.handleResize.bind(this);
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+        this.handleTouchEnd = this.handleTouchEnd.bind(this);
+        
         // Initialize
         this.init();
         this.initBackgroundEffects();
         this.setupPreviews();
 
-        // Add event listeners
-        window.addEventListener('scroll', (e) => this.handleScroll(e));
-        window.addEventListener('resize', (e) => this.handleResize(e));
+        // Add all event listeners
+        window.addEventListener('scroll', this.handleScroll);
+        window.addEventListener('resize', this.handleResize);
         window.addEventListener('unload', () => {
             if (this.previewOverlay) {
                 this.previewOverlay.remove();
             }
         });
+        
+        // Add touch events
+        this.container.addEventListener('touchstart', this.handleTouchStart);
+        this.container.addEventListener('touchend', this.handleTouchEnd);
     }
 
     setupPreviews() {
@@ -1041,6 +1051,53 @@ export class ZoomableSection {
                 </div>
             </div>
         `).join('');
+    }
+
+    handleTouchStart(e) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+    }
+
+    handleTouchEnd(e) {
+        if (!this.touchStartX || !this.touchStartY) return;
+
+        const touchEndX = e.changedTouches[0].clientX;
+        const touchEndY = e.changedTouches[0].clientY;
+        
+        const deltaX = touchEndX - this.touchStartX;
+        const deltaY = touchEndY - this.touchStartY;
+
+        // If it's more of a tap than a swipe
+        if (Math.abs(deltaX) < 10 && Math.abs(deltaY) < 10) {
+            const touchedElement = document.elementFromPoint(touchEndX, touchEndY);
+            const clickable = touchedElement.closest('.catalogue-list-item, .list-item, .ftv-list-item');
+            if (clickable) {
+                clickable.click();
+            }
+        }
+
+        // Reset touch coordinates
+        this.touchStartX = null;
+        this.touchStartY = null;
+    }
+
+    handleScroll(e) {
+        // Debounce scroll handling
+        this.debounce(() => {
+            // Add any scroll-specific handling here
+            // For now, we can leave it empty
+        }, 100)();
+    }
+
+    handleResize(e) {
+        // Debounce resize handling
+        this.debounce(() => {
+            // Recalculate any necessary dimensions
+            if (this.currentZoom) {
+                // Update zoomed section positioning if needed
+            }
+            // Add any other resize-specific handling here
+        }, 250)();
     }
 }
 
