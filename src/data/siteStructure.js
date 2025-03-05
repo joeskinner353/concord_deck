@@ -53,14 +53,14 @@ export const siteStructure = {
                         id: "6p8GnWgK5Cs",
                         title: "Qatar Airways",
                         thumbnail: "https://img.youtube.com/vi/6p8GnWgK5Cs/maxresdefault.jpg",
-                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/6p8GnWgK5Cs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/6p8GnWgK5Cs?autoplay=1&enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",
                         id: "969887901",
                         title: "DISNEY X BALMAIN",
                         thumbnail: "https://vumbnail.com/969887901.jpg",
-                        embed: '<iframe src="https://player.vimeo.com/video/969887901" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
+                        embed: '<iframe src="https://player.vimeo.com/video/969887901?autoplay=1&api=1" width="560" height="315" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>'
                     },
                     {
                         type: "vimeo",

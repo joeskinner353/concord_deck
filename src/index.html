@@ -195,10 +195,15 @@
                     <div class="videos-section">
                         <h2>Videos</h2>
                         <div class="video-grid">
-                            ${composer.videos.map(video => `
-                                <div class="video-card" data-video='${JSON.stringify(video)}'>
-                                    <img src="${video.thumbnail}" alt="${video.title}">
-                                    <div class="play-button">▶</div>
+                            ${composer.videos.map((video, index) => `
+                                <div class="video-card" 
+                                    data-video-id="${video.id}"
+                                    data-video-type="${video.type}"
+                                    data-video-title="${video.title}">
+                                    <div class="video-thumbnail">
+                                        <img src="${video.thumbnail}" alt="${video.title}">
+                                        <div class="play-button">▶</div>
+                                    </div>
                                     <h3>${video.title}</h3>
                                 </div>
                             `).join('')}
