@@ -53,13 +53,13 @@
                     <div class="catalogue-list-item" data-section="pulse" data-title="Pulse Music Group">
                         <h3>Pulse Music Group</h3>
                         <div class="preview-content">
-                            <p>James Blake, Flo Milli, Kojey Radical, Ty Dolla $ign, Muna</p>
+                            <p>James Blake, Flo Milli, Kojey Radical, Ty Dolla $ign, MUNA</p>
                         </div>
                     </div>
                     <div class="catalogue-list-item" data-section="rh" data-title="Rodgers and Hammerstein">
                         <h3>Rodgers and Hammerstein</h3>
                         <div class="preview-content">
-                            <p>The Sound of Music, Oklahoma, Carousel</p>
+                            <p>The Sound of Music, Oklahoma!, South Pacific, The King and I, Carousel</p>
                         </div>
                     </div>
                     <div class="catalogue-list-item" data-section="fania" data-title="Fania">
@@ -103,6 +103,10 @@
                         <img src="../assets/fryars.png" alt="Ben Garrett">
                         <h3>Ben Garrett</h3>
                     </div>
+                    <div class="composer-card" data-section="composer5">
+                        <img src="../assets/placeholder.png" alt="New Composer 1">
+                        <h3>New Composer 1</h3>
+                    </div>
                 </div>
                 <div class="subsections-list" id="bespoke-list">
                     <div class="list-item" data-composer="composer1">
@@ -114,7 +118,7 @@
                     <div class="list-item" data-composer="composer2">
                         <h3>Kurisu</h3>
                         <div class="preview-content">
-                            <p>Cat Burns, Dexter, Charloote Plank, Zhu</p>
+                            <p>Cat Burns, Dexter, Charlotte Plank, Zhu</p>
                         </div>
                     </div>
                     <div class="list-item" data-composer="composer3">
@@ -129,17 +133,32 @@
                             <p>Fryars, Rae Morris, Lily Allen, Joseph Lawrence</p>
                         </div>
                     </div>
+                    <div class="list-item" data-composer="composer5">
+                        <h3>New Composer 1</h3>
+                        <div class="preview-content">
+                            <p></p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="section" id="ftv">
                 <h2 class="section-title">ftv</h2>
                 <div class="ftv-list">
-                    <div class="ftv-list-item" data-section="ftv-overview" data-title="FTV Overview">FTV Overview</div>
+                    <div class="ftv-list-item" data-section="ftv-overview" data-title="FTV Overview">FTV</div>
                 </div>
                 <div class="subsections">
                     <div class="ftv-card" data-section="ftv-overview">
                         <h3>FTV Overview</h3>
+                        <div class="overview-text">
+                            <p>Video producers can make money from their music content.</p>
+
+                            <p>Producer acquires exclusive rights from composer as a condition of commision.</p>
+
+                            <p>Producer sells rights to Concord / producer appoints Concord to admin the publishing rights.</p>
+
+                            <p>Concord tracks royalties worldwide via cue sheets and international sales info.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -155,14 +174,17 @@
                     <div class="composer-title-wrapper">
                         <h2>${composer.title}</h2>
                         <div class="social-links">
-                            <a href="${composer.social.instagram}" class="social-link instagram" target="_blank">
-                                <img src="./assets/instagram.svg" alt="Instagram">
+                            <a href="${composer.social.instagram}" class="social-link" target="_blank">
+                                <img src="../assets/instagram-black.svg" alt="Instagram">
                             </a>
-                            <a href="${composer.social.spotify}" class="social-link spotify" target="_blank">
-                                <img src="./assets/spotify.svg" alt="Spotify">
+                            <a href="${composer.social.spotify}" class="social-link" target="_blank">
+                                <img src="../assets/Spotify-Icon-Black-Logo.wine.svg" alt="Spotify">
                             </a>
-                            <a href="${composer.social.tiktok}" class="social-link tiktok" target="_blank">
-                                <img src="./assets/tiktok.svg" alt="TikTok">
+                            <a href="${composer.social.tiktok}" class="social-link" target="_blank">
+                                <img src="../assets/tiktok.svg" alt="TikTok">
+                            </a>
+                            <a href="${composer.social.website}" class="website-link" target="_blank">
+                                ${composer.social.website}
                             </a>
                         </div>
                         <div class="productions-section">
@@ -178,10 +200,15 @@
                     <div class="videos-section">
                         <h2>Videos</h2>
                         <div class="video-grid">
-                            ${composer.videos.map(video => `
-                                <div class="video-card" data-video='${JSON.stringify(video)}'>
-                                    <img src="${video.thumbnail}" alt="${video.title}">
-                                    <div class="play-button">▶</div>
+                            ${composer.videos.map((video, index) => `
+                                <div class="video-card" 
+                                    data-video-id="${video.id}"
+                                    data-video-type="${video.type}"
+                                    data-video-title="${video.title}">
+                                    <div class="video-thumbnail">
+                                        <img src="${video.thumbnail}" alt="${video.title}">
+                                        <div class="play-button">▶</div>
+                                    </div>
                                     <h3>${video.title}</h3>
                                 </div>
                             `).join('')}
