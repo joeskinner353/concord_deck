@@ -970,40 +970,65 @@ export class ZoomableSection {
         modal.className = 'video-modal';
         modal.innerHTML = `
             <div class="video-modal-content">
-                <button class="close-modal">×</button>
+                <button class="close-modal" aria-label="Close video">×</button>
                 <div class="video-container">
                     ${videoData.embed}
                 </div>
             </div>
         `;
 
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+
         // Add modal to page
         document.body.appendChild(modal);
 
-        // Add close handler
-        const closeButton = modal.querySelector('.close-modal');
-        closeButton.addEventListener('click', () => {
-            modal.remove();
+        // Get iframe for later cleanup
+        const iframe = modal.querySelector('iframe');
+
+        // Show modal with animation
+        requestAnimationFrame(() => {
+            modal.classList.add('active');
         });
+
+        // Close handlers
+        const closeModal = () => {
+            modal.classList.remove('active');
+            // Wait for fade out animation
+            setTimeout(() => {
+                // Stop video by removing src
+                if (iframe) {
+                    const src = iframe.src;
+                    iframe.src = '';
+                    iframe.src = src.replace('autoplay=1', 'autoplay=0');
+                }
+                modal.remove();
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        // Close on button click
+        const closeButton = modal.querySelector('.close-modal');
+        closeButton.addEventListener('click', closeModal);
 
         // Close on background click
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.remove();
+                closeModal();
             }
         });
 
         // Close on escape key
-        document.addEventListener('keydown', (e) => {
+        const handleEscape = (e) => {
             if (e.key === 'Escape') {
-                modal.remove();
+                closeModal();
+                document.removeEventListener('keydown', handleEscape);
             }
-        }, { once: true });
+        };
+        document.addEventListener('keydown', handleEscape);
 
-        // Show modal with animation
-        requestAnimationFrame(() => {
-            modal.style.opacity = '1';
-        });
+        // Focus management
+        closeButton.focus();
     }
 
     destroy() {
