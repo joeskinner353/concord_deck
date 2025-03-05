@@ -1855,12 +1855,21 @@ body:not(.home-page) .main-header {
 }
 
 .ftv-contact a {
-    color: var(--secondary-color);
-    text-decoration: none;
+    color: #4a90e2;
+    text-decoration: underline;
     font-size: 1.2rem;
     font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
 
 .ftv-contact a:hover {
+    color: #357abd;
     text-decoration: underline;
+    background-color: rgba(74, 144, 226, 0.1);
+}
+
+.ftv-contact a::before {
+    content: "✉️ ";
 }

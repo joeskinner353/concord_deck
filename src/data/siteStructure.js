@@ -41,12 +41,7 @@ export const siteStructure = {
             composer1: {
                 title: "MAESTRO 'THE BAKER'",
                 image: 'maestro.png',
-                bio: "Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.\n\nHis credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.\n\nOther milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.",
-                compositionWork: {
-                    title: "COMPOSITION WORK",
-                    description: "Maestro has built up an extensive collection of composition work for advertisement, tv, film and games.",
-                    recentWork: "Recent composition work: Qatar Airways Balmain x Disney Kaufland Fortnite Sky Sports Boxing"
-                },
+                bio: "Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.\n\nHis credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.\n\nOther milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.\n\nSee below for examples of Maestro's recent composition work",
                 videos: [
                     {
                         type: "youtube",
@@ -120,7 +115,7 @@ export const siteStructure = {
                 ],
                 discoPlaylistEmbed: '',
                 social: {
-                    instagram: "#",
+                    instagram: "https://www.instagram.com/chris_aka_kurisu/?hl=en",
                     spotify: "#",
                     tiktok: "#"
                 },
@@ -134,7 +129,36 @@ export const siteStructure = {
 Ghost Culture' debut album through Phantasy was made Rough Trade's 'Record of the Month' upon release in Jan 2015. Also celebrated as Critic's Choice in The Guardian Guide, it earned similar plaudits from outlets including The Observer, The Times, Mixmag and The Quietus, who hailed it as "one of the best and most confident debuts in years."
 
 James continues to have a wide impact on the culture of UK electronic music, owing to his ongoing collaborations with artists such as Daniel Avery and Kelly Lee Owens for whom he co-wrote and co-produced their summer 2020 albums 'Love + Light' and 'Inner Song'.`,
-                videos: [],
+                videos: [
+                    {
+                        type: "youtube",
+                        id: "apDsvT9uP7g",
+                        title: "Ghost Culture - Mouth",
+                        thumbnail: "https://img.youtube.com/vi/apDsvT9uP7g/maxresdefault.jpg",
+                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/apDsvT9uP7g?si=qngiKIEF29NSNCmB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+                    },
+                    {
+                        type: "youtube",
+                        id: "jYuCk37DSYE",
+                        title: "Ghost Culture - Arms",
+                        thumbnail: "https://img.youtube.com/vi/jYuCk37DSYE/maxresdefault.jpg",
+                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/jYuCk37DSYE?si=AGeyVProbE7mooHw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+                    },
+                    {
+                        type: "youtube",
+                        id: "eS0CO-yPmO4",
+                        title: "Ghost Culture - How",
+                        thumbnail: "https://img.youtube.com/vi/eS0CO-yPmO4/maxresdefault.jpg",
+                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/eS0CO-yPmO4?si=fRIbvUjFKnCwB7W-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+                    },
+                    {
+                        type: "youtube",
+                        id: "pN6RJKp2knA",
+                        title: "Ghost Culture - Glass",
+                        thumbnail: "https://img.youtube.com/vi/pN6RJKp2knA/maxresdefault.jpg",
+                        embed: '<iframe width="560" height="315" src="https://www.youtube.com/embed/pN6RJKp2knA?si=fTnyXlahtn_0iX2u" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'
+                    }
+                ],
                 discoPlaylistEmbed: '',
                 social: {
                     instagram: "#",
