@@ -177,7 +177,7 @@ He is currently writing his first Musical and making forward thinking music with
         sections: {
             'ftv-overview': {
                 title: '',
-                description: 'FTV is division of Concord that invests in Film & TV Productions.\n\nConcord then administers the soundtrack, and provides production companies with important revenue streams by collecting their royalties from across the globe.',
+                description: 'FTV site under construction, more info coming soon!',
                 sections: [],
                 discoPlaylistEmbed: null
             }
