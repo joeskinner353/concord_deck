@@ -178,7 +178,6 @@ He is currently writing his first Musical and making forward thinking music with
         sections: {
             'ftv-overview': {
                 title: "FTV Overview",
-                displayTitle: "FTV Overview",
                 description: `<h2 class="ftv-title">Film & TV Producers can make money from their music content</h2>
                 <div class="ftv-process">
                     <div class="process-step">
@@ -196,6 +195,9 @@ He is currently writing his first Musical and making forward thinking music with
                 <h2 class="ftv-subtitle">Recent FTV projects:</h2>
                 <div class="ftv-image">
                     <img src="../assets/ftv.png" alt="FTV Content">
+                </div>
+                <div class="ftv-contact">
+                    <a href="mailto:londonbriefs@concord.com">Contact us for more info</a>
                 </div>`,
                 sections: [],
                 discoPlaylistEmbed: null
@@ -219,6 +221,9 @@ He is currently writing his first Musical and making forward thinking music with
                 <h2 class="ftv-subtitle">Recent FTV projects:</h2>
                 <div class="ftv-image">
                     <img src="../assets/ftv.png" alt="FTV Content">
+                </div>
+                <div class="ftv-contact">
+                    <a href="mailto:londonbriefs@concord.com">Contact us for more info</a>
                 </div>`
             }
         }
