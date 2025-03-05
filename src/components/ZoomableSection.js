@@ -122,7 +122,7 @@ export class ZoomableSection {
                 '.list-item',
                 '.ftv-list-item'
             ].join(','));
-
+            
             if (clickable) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -310,7 +310,7 @@ export class ZoomableSection {
         // Add the content
         const renderedTemplate = template(section);
         this.contentContainer.innerHTML = renderedTemplate;
-        
+
         // Add video click handlers
         const videoCards = this.contentContainer.querySelectorAll('.video-card');
         videoCards.forEach(card => {
@@ -319,18 +319,18 @@ export class ZoomableSection {
                 this.handleVideoClick(videoData);
             });
         });
-        
+
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
         if (backButton) {
-            backButton.addEventListener('click', (e) => {
-                e.preventDefault();
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault();
                 // Reset background color when going back
                 document.body.style.backgroundColor = '';
-                window.dispatchEvent(new CustomEvent('navigationBack'));
-            });
-        }
-        
+            window.dispatchEvent(new CustomEvent('navigationBack'));
+        });
+    }
+
         // Show the content with animation
         requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
@@ -366,7 +366,7 @@ export class ZoomableSection {
                                         <img src="../assets/tiktok.svg" alt="TikTok">
                                     </a>
                                 ` : ''}
-                            </div>
+                    </div>
                             <button class="download-button">
                                 <img src="../assets/download-black.svg" alt="Download">
                                 Download One-Sheet
@@ -378,11 +378,11 @@ export class ZoomableSection {
                             ` : ''}
                         </div>
                         <img src="../assets/${section.image}" alt="${section.title}">
-                    </div>
-                    <div class="maestro-right">
-                        <div class="bio-section">
-                            ${section.bio.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
                         </div>
+                    <div class="maestro-right">
+                    <div class="bio-section">
+                            ${section.bio.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
+                    </div>
 
                         ${section.compositionWork ? `
                             <div class="composition-section">
@@ -392,22 +392,22 @@ export class ZoomableSection {
                             </div>
                         ` : ''}
 
-                        ${section.videos && section.videos.length > 0 ? `
-                            <div class="videos-section">
+                    ${section.videos && section.videos.length > 0 ? `
+                        <div class="videos-section">
                                 <h2>VIDEOS</h2>
-                                <div class="video-grid">
-                                    ${section.videos.map(video => `
-                                        <div class="video-card" data-video='${JSON.stringify(video)}'>
+                            <div class="video-grid">
+                                ${section.videos.map(video => `
+                                    <div class="video-card" data-video='${JSON.stringify(video)}'>
                                             <div class="video-thumbnail">
-                                                <img src="${video.thumbnail}" alt="${video.title}">
-                                                <div class="play-button">▶</div>
+                                        <img src="${video.thumbnail}" alt="${video.title}">
+                                        <div class="play-button">▶</div>
                                             </div>
-                                            <h3>${video.title}</h3>
-                                        </div>
-                                    `).join('')}
-                                </div>
+                                        <h3>${video.title}</h3>
+                                    </div>
+                                `).join('')}
                             </div>
-                        ` : ''}
+                        </div>
+                    ` : ''}
                     </div>
                 </div>
             </div>
@@ -465,7 +465,7 @@ export class ZoomableSection {
 
         // Show the content
         console.log('Showing content for section:', section.title);
-        this.showContent(section, this.bespokeTemplate.bind(this));
+                this.showContent(section, this.bespokeTemplate.bind(this));
         
         // Update navigation
         this.updateNavigation(parentTitle || 'Bespoke', section.title);
@@ -751,35 +751,35 @@ export class ZoomableSection {
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="11" cy="11" r="8"/>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            </svg>
+                        </svg>
                             Search Catalogue
-                        </a>
-                    </div>
+                    </a>
+                </div>
                 </div>
                 
                 <div class="catalogue-description">
-                    <p>${section.description}</p>
-                </div>
+                        <p>${section.description}</p>
+                    </div>
                 
                 <div class="catalogue-playlist">
-                    ${section.discoPlaylistEmbed}
+                            ${section.discoPlaylistEmbed}
                 </div>
             </div>
         `;
         
         this.contentContainer.innerHTML = template;
-        
+
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
         if (backButton) {
-            backButton.addEventListener('click', (e) => {
-                e.preventDefault();
+        backButton.addEventListener('click', (e) => {
+            e.preventDefault();
                 // Show background logo again when going back
                 document.querySelector('.background-overlay').style.display = 'block';
-                window.dispatchEvent(new CustomEvent('navigationBack'));
-            });
+            window.dispatchEvent(new CustomEvent('navigationBack'));
+        });
         }
-        
+
         // Show with animation
         requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
@@ -835,7 +835,7 @@ export class ZoomableSection {
                     <a href="#" class="home-link" aria-label="Home">
                         <img src="./assets/concord-C-icon-red.png" alt="Concord Logo" class="header-logo">
                     </a>
-                </div>
+               </div>
                 <div class="header-center">
                     <h1>concord <span>music publishing</span></h1>
                 </div>
@@ -851,7 +851,7 @@ export class ZoomableSection {
         `;
         
         this.contentContainer.innerHTML = template;
-        
+
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
         backButton.addEventListener('click', (e) => {
@@ -863,7 +863,7 @@ export class ZoomableSection {
                 this.container.style.opacity = '1';
             });
         });
-        
+
         // Show content with animation
         requestAnimationFrame(() => {
             this.contentContainer.style.opacity = '1';
@@ -1095,6 +1095,21 @@ export class ZoomableSection {
             }
             // Add any other resize-specific handling here
         }, 250)();
+    }
+
+    renderFTVSection(section) {
+        const ftvData = this.siteStructure.ftv.sections[section];
+        if (section === 'ftv-overview') {
+            return `
+                <div class="ftv-card" data-section="${section}">
+                    <h3>FTV Overview</h3>
+                    <div class="overview-text">
+                        ${this.siteStructure.ftv.sections.overview.content}
+                    </div>
+                </div>
+            `;
+        }
+        // ... existing code ...
     }
 }
 

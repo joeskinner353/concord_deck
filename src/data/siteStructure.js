@@ -173,13 +173,53 @@ He is currently writing his first Musical and making forward thinking music with
         }
     },
     ftv: {
-        title: 'FTV',
+        title: "FTV",
+        displayTitle: "FTV",
         sections: {
             'ftv-overview': {
-                title: '',
-                description: 'FTV site under construction, more info coming soon!',
+                title: "FTV Overview",
+                displayTitle: "FTV Overview",
+                description: `<h2 class="ftv-title">Film & TV Producers can make money from their music content</h2>
+                <div class="ftv-process">
+                    <div class="process-step">
+                        Producer acquires exclusive rights from writer as a condition of commission.
+                    </div>
+                    <div class="process-arrow">➡️</div>
+                    <div class="process-step">
+                        Producer sells rights to Concord / producer appoints Concord to admin.
+                    </div>
+                    <div class="process-arrow">➡️</div>
+                    <div class="process-step">
+                        Concord tracks royalties worldwide via cue sheets and International Sales info.
+                    </div>
+                </div>
+                <h2 class="ftv-subtitle">Recent FTV projects:</h2>
+                <div class="ftv-image">
+                    <img src="../assets/ftv.png" alt="FTV Content">
+                </div>`,
                 sections: [],
                 discoPlaylistEmbed: null
+            },
+            'overview': {
+                title: "FTV Overview",
+                content: `<h2 class="ftv-title">Film & TV Producers can make money from their music content</h2>
+                <div class="ftv-process">
+                    <div class="process-step">
+                        Producer acquires exclusive rights from writer as a condition of commission.
+                    </div>
+                    <div class="process-arrow">➡️</div>
+                    <div class="process-step">
+                        Producer sells rights to Concord / producer appoints Concord to admin.
+                    </div>
+                    <div class="process-arrow">➡️</div>
+                    <div class="process-step">
+                        Concord tracks royalties worldwide via cue sheets and International Sales info.
+                    </div>
+                </div>
+                <h2 class="ftv-subtitle">Recent FTV projects:</h2>
+                <div class="ftv-image">
+                    <img src="../assets/ftv.png" alt="FTV Content">
+                </div>`
             }
         }
     }
