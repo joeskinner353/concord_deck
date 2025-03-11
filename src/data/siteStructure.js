@@ -123,9 +123,7 @@ export const siteStructure = {
                 ],
                 discoPlaylistEmbed: '',
                 social: {
-                    instagram: "https://www.instagram.com/chris_aka_kurisu/?hl=en",
-                    spotify: "#",
-                    tiktok: "#"
+                    instagram: "https://www.instagram.com/chris_aka_kurisu/?hl=en"
                 },
                 productions: "Recent productions include collaborations with Cat Burns..."
             },
@@ -169,9 +167,8 @@ James continues to have a wide impact on the culture of UK electronic music, owi
                 ],
                 discoPlaylistEmbed: '',
                 social: {
-                    instagram: "#",
-                    spotify: "#",
-                    tiktok: "#"
+                    instagram: "https://www.instagram.com/ghostculture/?hl=en-gb",
+                    spotify: "https://open.spotify.com/artist/4M6Kt4GVjpLYpygyNOHwdt?si=dP51BK26RmC5nUoMZHedYQ"
                 }
             },
             composer4: {
