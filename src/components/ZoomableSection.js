@@ -900,41 +900,74 @@ export class ZoomableSection {
                     console.log('Found catalogue section:', section);
                     
                     if (section) {
-                        // Extract filename and use consistent path format
-                        const filename = section.logoPath.split('/').pop();
-                        // Use server-relative path for all images to match server.js configuration
-                        const imagePath = `/assets/${filename}`;
+                        // Use the logoPath directly from the section
+                        const imagePath = section.logoPath;
                         console.log('Setting logo background with path:', imagePath);
+                        console.log('Current background image:', this.backgroundOverlay.style.backgroundImage);
                         
                         // Create a temporary image to check loading
                         const tempImg = new Image();
                         tempImg.onload = () => {
                             console.log('Image loaded successfully:', imagePath);
-                            this.backgroundOverlay.style.backgroundImage = `url(${imagePath})`;
+                            console.log('Image natural dimensions:', tempImg.naturalWidth, 'x', tempImg.naturalHeight);
+                            
+                            // Ensure the path starts with /assets/
+                            const normalizedPath = imagePath.startsWith('/') ? imagePath : `/assets/${imagePath.split('/').pop()}`;
+                            const bgImage = `url("${normalizedPath}")`;
+                            console.log('Setting background image to:', bgImage);
+                            
+                            this.backgroundOverlay.style.backgroundImage = bgImage;
                             // Use different sizing for Pusher vs other sections
-                            if (filename === 'pusher.png') {
+                            if (normalizedPath.includes('pusher.png')) {
+                                console.log('Applying Pusher-specific styles');
                                 this.backgroundOverlay.style.backgroundSize = '300px auto';
-                                this.backgroundOverlay.style.opacity = '0.15';
-                                this.backgroundOverlay.style.filter = 'brightness(1.2)'; // Slightly brighten the dark logo
+                                this.backgroundOverlay.style.opacity = '0.3';
+                                this.backgroundOverlay.style.filter = 'brightness(2.5) contrast(1.4)';
+                                this.backgroundOverlay.style.mixBlendMode = 'screen';
+                                this.backgroundOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
                             } else {
                                 this.backgroundOverlay.style.backgroundSize = 'contain';
                                 this.backgroundOverlay.style.opacity = '0.15';
                                 this.backgroundOverlay.style.filter = 'none';
+                                this.backgroundOverlay.style.mixBlendMode = 'normal';
+                                this.backgroundOverlay.style.backgroundColor = 'transparent';
                             }
                             this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
                             this.backgroundOverlay.style.backgroundPosition = 'center';
                             this.backgroundOverlay.classList.add('visible');
+                            
+                            // Force a reflow to ensure styles are applied
+                            void this.backgroundOverlay.offsetHeight;
+                            
+                            // Verify the styles were applied
+                            console.log('Applied styles:', {
+                                backgroundImage: this.backgroundOverlay.style.backgroundImage,
+                                backgroundSize: this.backgroundOverlay.style.backgroundSize,
+                                opacity: this.backgroundOverlay.style.opacity,
+                                filter: this.backgroundOverlay.style.filter,
+                                mixBlendMode: this.backgroundOverlay.style.mixBlendMode,
+                                backgroundColor: this.backgroundOverlay.style.backgroundColor,
+                                visibility: this.backgroundOverlay.classList.contains('visible'),
+                                computedBackgroundImage: window.getComputedStyle(this.backgroundOverlay).backgroundImage,
+                                computedOpacity: window.getComputedStyle(this.backgroundOverlay).opacity,
+                                computedBackgroundColor: window.getComputedStyle(this.backgroundOverlay).backgroundColor
+                            });
                         };
                         tempImg.onerror = (err) => {
                             console.error('Error loading image:', imagePath, err);
                             console.log('Image load error details:', {
-                                filename,
                                 imagePath,
                                 error: err,
-                                section
+                                section,
+                                currentBackgroundImage: this.backgroundOverlay.style.backgroundImage,
+                                computedBackgroundImage: window.getComputedStyle(this.backgroundOverlay).backgroundImage
                             });
                         };
-                        tempImg.src = imagePath;
+                        
+                        // Ensure the path starts with /assets/ for the test load
+                        const testPath = imagePath.startsWith('/') ? imagePath : `/assets/${imagePath.split('/').pop()}`;
+                        tempImg.src = testPath;
+                        console.log('Started loading image:', tempImg.src);
                     }
                 } else if (item.classList.contains('list-item')) {
                     section = siteStructure.bespoke.sections[sectionId];
