@@ -985,6 +985,13 @@ export class ZoomableSection {
 
             item.addEventListener('mouseleave', () => {
                 this.backgroundOverlay.classList.remove('visible');
+                // Reset all styles immediately
+                this.backgroundOverlay.style.backgroundSize = 'contain';
+                this.backgroundOverlay.style.opacity = '0.15';
+                this.backgroundOverlay.style.filter = 'none';
+                this.backgroundOverlay.style.mixBlendMode = 'normal';
+                this.backgroundOverlay.style.backgroundColor = 'transparent';
+                
                 setTimeout(() => {
                     if (!this.backgroundOverlay.classList.contains('visible')) {
                         this.backgroundOverlay.style.backgroundImage = '';
@@ -1087,10 +1094,13 @@ export class ZoomableSection {
 
     createCatalogueList() {
         return Object.values(siteStructure.catalogue.sections).map(item => `
-            <div class="catalogue-list-item" data-title="${item.title}">
+            <div class="catalogue-list-item" data-section="${item.title.toLowerCase()}" data-title="${item.title}">
                 <h3>${item.displayTitle || item.title}</h3>
                 <div class="preview-content">
-                    <p>intro text here</p>
+                    ${this.generatePreviewContent({
+                        classList: { contains: () => true },
+                        dataset: { section: item.title.toLowerCase() }
+                    })}
                 </div>
             </div>
         `).join('');

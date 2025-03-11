@@ -35,7 +35,7 @@ export const siteStructure = {
             },
             pusher: {
                 title: "Pusher Music",
-                description: "Sync focused music library",
+                description: "A new collaboration between Concord & Pusher Music",
                 logoPath: '/assets/pusher.png',
                 websiteUrl: 'https://concord-music-publishing.disco.ac/cat/663144527',
                 discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/663144527',
