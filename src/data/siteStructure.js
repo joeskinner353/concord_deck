@@ -2,7 +2,7 @@ export const siteStructure = {
     catalogue: {
         title: 'Search Catalogues',
         sections: {
-            pop: {
+            concord: {
                 title: 'Concord Music Publishing',
                 description: "Concord Music Publishing's catalogue includes timeless works from Sammy Cahn, Aretha Franklin, and Pink Floyd, alongside modern icons like Daft Punk, Mark Ronson, and The 1975. Concord represents an array of influential songwriters and composers across jazz, soul, rock, hip-hop and country music.",
                 logoPath: '../assets/ConcordMusicPublishing-Lockup-White-RGB.png',
@@ -13,6 +13,12 @@ export const siteStructure = {
                 logoPath: '../assets/boosey_logo.png',
                 description: 'Boosey & Hawkes is the world\'s leading classical music publisher, representing an iconic catalog of composers, including Stravinsky, Britten, Bernstein, and Adams.',
                 websiteUrl: 'https://represents.boosey.com/'
+            },
+            pulse: {
+                title: 'Pulse Music Group',
+                description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
+                logoPath: '../assets/pulse.png',
+                websiteUrl: 'https://pulsesync.disco.ac/cat/1168791475'
             },
             rh: {
                 title: 'Rodgers & Hammerstein',
@@ -27,11 +33,13 @@ export const siteStructure = {
                 logoPath: '../assets/fania.png',
                 websiteUrl: 'https://concord-music-publishing.disco.ac/cat/6257'
             },
-            pulse: {
-                title: 'Pulse Music Group',
-                description: "PULSE's roster of hitmakers includes Starrah, Ty Dolla $ign, OZ, Tyler Johnson, YEBBA, Rich The Kid, James Blake, YBN Cordae, El-P, Bonnie McKee and more.",
-                logoPath: '../assets/pulse.png',
-                websiteUrl: '#' // Placeholder for now
+            pusher: {
+                title: "Pusher Music",
+                description: "Sync focused music library",
+                logoPath: '../assets/pusher.png',
+                websiteUrl: 'https://concord-music-publishing.disco.ac/cat/663144527',
+                discoSearchUrl: 'https://concord-music-publishing.disco.ac/cat/663144527',
+                discoPlaylistEmbed: ""
             }
         }
     },

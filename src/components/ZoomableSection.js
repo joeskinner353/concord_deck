@@ -10,6 +10,11 @@ function log(...args) {
 
 export class ZoomableSection {
     constructor() {
+        // Add detailed debug logging for siteStructure
+        console.log('siteStructure object:', siteStructure);
+        console.log('catalogue sections:', siteStructure?.catalogue?.sections);
+        console.log('pusher section:', siteStructure?.catalogue?.sections?.pusher);
+
         this.composerImages = {
             composer1: {
                 path: '/assets/maestro.png',
@@ -886,27 +891,57 @@ export class ZoomableSection {
             item.addEventListener('mouseenter', (e) => {
                 console.log('Mouse enter:', item.dataset);
                 const sectionId = item.dataset.section || item.dataset.composer;
+                console.log('Looking for section:', sectionId);
+                console.log('Available sections:', Object.keys(siteStructure.catalogue.sections));
                 let section;
                 
                 if (item.classList.contains('catalogue-list-item')) {
                     section = siteStructure.catalogue.sections[sectionId];
                     console.log('Found catalogue section:', section);
                     
-                    if (section && section.logoPath) {
-                        console.log('Setting logo background:', section.logoPath);
-                        this.backgroundOverlay.style.backgroundImage = `url(${section.logoPath})`;
-                        this.backgroundOverlay.style.backgroundSize = 'contain';
-                        this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
-                        this.backgroundOverlay.style.backgroundPosition = 'center';
-                        this.backgroundOverlay.style.opacity = '0.15';
-                        this.backgroundOverlay.classList.add('visible');
+                    if (section) {
+                        // Extract filename and use consistent path format
+                        const filename = section.logoPath.split('/').pop();
+                        // Use server-relative path for all images to match server.js configuration
+                        const imagePath = `/assets/${filename}`;
+                        console.log('Setting logo background with path:', imagePath);
+                        
+                        // Create a temporary image to check loading
+                        const tempImg = new Image();
+                        tempImg.onload = () => {
+                            console.log('Image loaded successfully:', imagePath);
+                            this.backgroundOverlay.style.backgroundImage = `url(${imagePath})`;
+                            // Use different sizing for Pusher vs other sections
+                            if (filename === 'pusher.png') {
+                                this.backgroundOverlay.style.backgroundSize = '300px auto';
+                                this.backgroundOverlay.style.opacity = '0.15';
+                                this.backgroundOverlay.style.filter = 'brightness(1.2)'; // Slightly brighten the dark logo
+                            } else {
+                                this.backgroundOverlay.style.backgroundSize = 'contain';
+                                this.backgroundOverlay.style.opacity = '0.15';
+                                this.backgroundOverlay.style.filter = 'none';
+                            }
+                            this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
+                            this.backgroundOverlay.style.backgroundPosition = 'center';
+                            this.backgroundOverlay.classList.add('visible');
+                        };
+                        tempImg.onerror = (err) => {
+                            console.error('Error loading image:', imagePath, err);
+                            console.log('Image load error details:', {
+                                filename,
+                                imagePath,
+                                error: err,
+                                section
+                            });
+                        };
+                        tempImg.src = imagePath;
                     }
                 } else if (item.classList.contains('list-item')) {
                     section = siteStructure.bespoke.sections[sectionId];
                     console.log('Found bespoke section:', section);
                     
                     if (section && section.image) {
-                        this.backgroundOverlay.style.backgroundImage = `url(../assets/${section.image})`;
+                        this.backgroundOverlay.style.backgroundImage = `url(/assets/${section.image})`;
                         this.backgroundOverlay.style.backgroundSize = 'cover';
                         this.backgroundOverlay.style.backgroundPosition = 'center';
                         this.backgroundOverlay.style.opacity = '0.15';
