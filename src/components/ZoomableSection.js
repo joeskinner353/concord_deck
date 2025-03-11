@@ -325,16 +325,24 @@ export class ZoomableSection {
             });
         });
 
+        // Add PDF download handler
+        const maestroContent = this.contentContainer.querySelector('.maestro-content');
+        if (maestroContent) {
+            maestroContent.addEventListener('downloadPDF', () => {
+                this.generatePDF(section);
+            });
+        }
+
         // Add back button handler
         const backButton = this.contentContainer.querySelector('.back-button');
         if (backButton) {
-        backButton.addEventListener('click', (e) => {
-            e.preventDefault();
+            backButton.addEventListener('click', (e) => {
+                e.preventDefault();
                 // Reset background color when going back
                 document.body.style.backgroundColor = '';
-            window.dispatchEvent(new CustomEvent('navigationBack'));
-        });
-    }
+                window.dispatchEvent(new CustomEvent('navigationBack'));
+            });
+        }
 
         // Show the content with animation
         requestAnimationFrame(() => {
@@ -371,8 +379,8 @@ export class ZoomableSection {
                                         <img src="../assets/tiktok.svg" alt="TikTok">
                                     </a>
                                 ` : ''}
-                    </div>
-                            <button class="download-button">
+                            </div>
+                            <button class="download-button" onclick="this.closest('.maestro-new').querySelector('.maestro-content').dispatchEvent(new CustomEvent('downloadPDF'))">
                                 <img src="../assets/download-black.svg" alt="Download">
                                 Download One-Sheet
                             </button>
@@ -383,7 +391,7 @@ export class ZoomableSection {
                             ` : ''}
                         </div>
                         <img src="../assets/${section.image}" alt="${section.title}">
-                        </div>
+                    </div>
                     <div class="maestro-right">
                     <div class="bio-section">
                             ${section.bio.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('')}
@@ -926,15 +934,15 @@ export class ZoomableSection {
                                 this.backgroundOverlay.style.mixBlendMode = 'screen';
                                 this.backgroundOverlay.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
                             } else {
-                                this.backgroundOverlay.style.backgroundSize = 'contain';
+                        this.backgroundOverlay.style.backgroundSize = 'contain';
                                 this.backgroundOverlay.style.opacity = '0.15';
                                 this.backgroundOverlay.style.filter = 'none';
                                 this.backgroundOverlay.style.mixBlendMode = 'normal';
                                 this.backgroundOverlay.style.backgroundColor = 'transparent';
                             }
-                            this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
-                            this.backgroundOverlay.style.backgroundPosition = 'center';
-                            this.backgroundOverlay.classList.add('visible');
+                        this.backgroundOverlay.style.backgroundRepeat = 'no-repeat';
+                        this.backgroundOverlay.style.backgroundPosition = 'center';
+                        this.backgroundOverlay.classList.add('visible');
                             
                             // Force a reflow to ensure styles are applied
                             void this.backgroundOverlay.offsetHeight;
@@ -1188,6 +1196,99 @@ export class ZoomableSection {
             `;
         }
         // ... existing code ...
+    }
+
+    generatePDF(section) {
+        // Create a clean version of the content for PDF
+        const content = `
+            <div class="pdf-content" style="padding: 40px; font-family: Inter, sans-serif; background-color: #F4A460; color: white;">
+                <div style="display: flex; align-items: center; margin-bottom: 30px;">
+                    <img src="../assets/concord-C-icon-red.png" alt="Concord Logo" style="width: 50px; height: 50px; margin-right: 20px;">
+                    <h1 style="margin: 0; font-size: 24px; color: white;">Concord Music Publishing</h1>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h2 style="font-size: 32px; margin-bottom: 20px; color: white;">${section.title}</h2>
+                    
+                    <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                        ${section.social.instagram ? `
+                            <a href="${section.social.instagram}" style="color: white; text-decoration: underline;">Instagram</a>
+                        ` : ''}
+                        ${section.social.spotify ? `
+                            <a href="${section.social.spotify}" style="color: white; text-decoration: underline;">Spotify</a>
+                        ` : ''}
+                        ${section.social.tiktok ? `
+                            <a href="${section.social.tiktok}" style="color: white; text-decoration: underline;">TikTok</a>
+                        ` : ''}
+                        ${section.social.website ? `
+                            <a href="https://${section.social.website.toLowerCase()}" style="color: white; text-decoration: underline;">${section.social.website}</a>
+                        ` : ''}
+                    </div>
+
+                    ${section.image ? `
+                        <div style="text-align: center; margin-bottom: 30px;">
+                            <img src="../assets/${section.image}" alt="${section.title}" style="max-width: 300px; border-radius: 4px;">
+                        </div>
+                    ` : ''}
+                    
+                    <div style="margin-bottom: 30px;">
+                        ${section.bio.split('\n\n').map(paragraph => `
+                            <p style="margin-bottom: 15px; line-height: 1.6; color: white;">${paragraph}</p>
+                        `).join('')}
+                    </div>
+
+                    ${section.compositionWork ? `
+                        <div style="margin-bottom: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                            <h3 style="font-size: 24px; margin-bottom: 15px; color: white;">${section.compositionWork.title}</h3>
+                            <p style="margin-bottom: 15px; line-height: 1.6; color: white;">${section.compositionWork.description}</p>
+                            ${section.compositionWork.recentWork ? `
+                                <p style="line-height: 1.6; color: white;">${section.compositionWork.recentWork}</p>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+
+                    ${section.productions ? `
+                        <div style="margin-bottom: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.2);">
+                            <h3 style="font-size: 24px; margin-bottom: 15px; color: white;">Productions & Co-writes</h3>
+                            <p style="line-height: 1.6; color: white;">${section.productions}</p>
+                        </div>
+                    ` : ''}
+                </div>
+
+                <div style="padding: 20px 0;">
+                    <p style="font-size: 14px; color: white; text-align: center;">
+                        Generated by Concord Music Publishing © ${new Date().getFullYear()}
+                    </p>
+                </div>
+            </div>
+        `;
+
+        // PDF options
+        const opt = {
+            margin: [10, 10],
+            filename: `${section.title.toLowerCase().replace(/\s+/g, '-')}-one-sheet.pdf`,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#F4A460'
+            },
+            jsPDF: { 
+                unit: 'mm', 
+                format: 'a4', 
+                orientation: 'portrait',
+                compress: true
+            }
+        };
+
+        // Generate PDF
+        const element = document.createElement('div');
+        element.innerHTML = content;
+        document.body.appendChild(element);
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.body.removeChild(element);
+        });
     }
 }
 
