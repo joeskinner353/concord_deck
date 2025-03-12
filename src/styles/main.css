@@ -180,13 +180,16 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 
 /* Base section hover styles */
 .section:hover {
-    height: 450px;
+    height: 80vh; /* Increase height to show more content */
     width: 100%;
-    padding: 3rem;
-    background-color: rgba(0, 0, 0, 0.9) !important;  /* Darker background on hover */
+    padding: 2rem;
+    background-color: rgba(0, 0, 0, 0.9) !important;
     backdrop-filter: blur(10px);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     z-index: 10;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Ensure consistent hover styles for all sections */
@@ -275,8 +278,8 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 .section:hover .section-title {
     padding: 0;
     height: auto;
-    margin-bottom: 2rem;
-    background: transparent;  /* Remove background on hover since parent is dark enough */
+    margin-bottom: 1rem;
+    flex-shrink: 0; /* Prevent title from shrinking */
 }
 
 .section:hover h2 {
@@ -295,32 +298,37 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
     flex-direction: column;
     gap: 0.5rem;
     padding: 0 1rem;
-    padding-bottom: 100px;  /* Keep bottom padding */
-    opacity: 0;
-    margin-top: 2rem;
-    max-height: 600px;  /* Increased from 300px to 600px */
-    overflow-y: auto;
+    margin-top: 1rem;
+    height: calc(100% - 4rem); /* Account for padding and header */
+    overflow-y: scroll !important; /* Force scrollbar to show */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.1);
+    padding-right: 1rem;
+    padding-bottom: 2rem;
+    position: relative;
 }
 
-/* Add scrollbar styling for all subsection lists */
+/* Scrollbar styling for WebKit browsers */
 .subsections-list::-webkit-scrollbar,
 .catalogue-list::-webkit-scrollbar,
 .ftv-list::-webkit-scrollbar {
-    width: 6px;
+    width: 8px;
+    height: 8px;
 }
 
 .subsections-list::-webkit-scrollbar-track,
 .catalogue-list::-webkit-scrollbar-track,
 .ftv-list::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 3px;
+    border-radius: 4px;
 }
 
 .subsections-list::-webkit-scrollbar-thumb,
 .catalogue-list::-webkit-scrollbar-thumb,
 .ftv-list::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    min-height: 40px;
 }
 
 .subsections-list::-webkit-scrollbar-thumb:hover,
@@ -354,6 +362,8 @@ h1, h2, h3, p, .section-title, .list-item, .catalogue-list-item, .ftv-list-item 
 #ftv:hover .ftv-list {
     display: flex;
     opacity: 1;
+    height: calc(100% - 4rem);
+    overflow-y: scroll !important;
 }
 
 #bespoke:hover .subsections,
@@ -1329,7 +1339,7 @@ body:not(.home-page) .main-header {
 /* Preview content styles */
 .preview-content {
     position: absolute;
-    left: 100%;
+    left: calc(100% + 20px);
     top: 0;
     background: rgba(26, 26, 26, 0.95);
     padding: 1.5rem;
@@ -1338,7 +1348,7 @@ body:not(.home-page) .main-header {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
-    z-index: 100;
+    z-index: 1000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 

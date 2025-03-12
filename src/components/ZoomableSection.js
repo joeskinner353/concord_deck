@@ -115,6 +115,16 @@ export class ZoomableSection {
 
     init() {
         console.log('Initializing ZoomableSection');
+        
+        // Populate the bespoke list
+        const bespokeList = document.getElementById('bespoke-list');
+        if (bespokeList) {
+            console.log('Populating bespoke list');
+            bespokeList.innerHTML = this.createBespokeList();
+        } else {
+            console.error('Bespoke list container not found');
+        }
+
         if (!this.container) {
             console.error('Zoom container not found');
             return;
@@ -1115,14 +1125,23 @@ export class ZoomableSection {
     }
 
     createBespokeList() {
-        return Object.values(siteStructure.bespoke.sections).map(composer => `
-            <div class="composer-list-item" data-composer="${composer.title}">
-                <h3>${composer.title}</h3>
-                <div class="preview-content">
-                    <p>intro text here</p>
+        console.log('Creating bespoke list with sections:', siteStructure.bespoke.sections);
+        const composerList = Object.entries(siteStructure.bespoke.sections).map(([id, composer]) => {
+            console.log('Processing composer:', id, composer);
+            return `
+                <div class="list-item" data-composer="${id}">
+                    <h3>${composer.title}</h3>
+                    <div class="preview-content">
+                        ${this.generatePreviewContent({
+                            classList: { contains: () => true },
+                            dataset: { composer: id }
+                        })}
+                    </div>
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
+        console.log('Generated composer list HTML:', composerList);
+        return composerList;
     }
 
     createFTVList() {

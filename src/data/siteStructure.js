@@ -198,6 +198,114 @@ He is currently writing his first Musical and making forward thinking music with
                     spotify: "#",
                     tiktok: "#"
                 }
+            },
+            composer6: {
+                title: 'New Composer 2',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer7: {
+                title: 'New Composer 3',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer8: {
+                title: 'New Composer 4',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer9: {
+                title: 'New Composer 5',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer10: {
+                title: 'New Composer 6',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer11: {
+                title: 'New Composer 7',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer12: {
+                title: 'New Composer 8',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer13: {
+                title: 'New Composer 9',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
+            },
+            composer14: {
+                title: 'New Composer 10',
+                image: 'placeholder.png',
+                bio: '',
+                videos: [],
+                discoPlaylistEmbed: '',
+                social: {
+                    instagram: "#",
+                    spotify: "#",
+                    tiktok: "#"
+                }
             }
         }
     },
