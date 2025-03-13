@@ -1115,14 +1115,23 @@ export class ZoomableSection {
     }
 
     createBespokeList() {
-        return Object.values(siteStructure.bespoke.sections).map(composer => `
-            <div class="composer-list-item" data-composer="${composer.title}">
-                <h3>${composer.title}</h3>
-                <div class="preview-content">
-                    <p>intro text here</p>
-                </div>
-            </div>
-        `).join('');
+        console.log('Creating bespoke list with sections:', siteStructure.bespoke.sections);
+        return Object.entries(siteStructure.bespoke.sections)
+            .filter(([_, composer]) => !composer.hidden) // Filter out hidden composers
+            .map(([id, composer]) => {
+                console.log('Processing composer:', id, composer);
+                return `
+                    <div class="list-item" data-composer="${id}">
+                        <h3>${composer.title}</h3>
+                        <div class="preview-content">
+                            ${this.generatePreviewContent({
+                                classList: { contains: () => true },
+                                dataset: { composer: id }
+                            })}
+                        </div>
+                    </div>
+                `;
+            }).join('');
     }
 
     createFTVList() {

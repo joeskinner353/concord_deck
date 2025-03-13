@@ -188,7 +188,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer5: {
-                title: 'New Composer 1',
+                title: 'Alice Ivy',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -197,7 +197,8 @@ He is currently writing his first Musical and making forward thinking music with
                     instagram: "#",
                     spotify: "#",
                     tiktok: "#"
-                }
+                },
+                hidden: true
             }
         }
     },
