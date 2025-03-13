@@ -47,7 +47,7 @@ export const siteStructure = {
         title: 'Bespoke Roster',
         sections: {
             composer1: {
-                title: "MAESTRO 'THE BAKER'",
+                title: "Maestro 'The Baker'",
                 image: 'maestro.png',
                 bio: "Ife Ladi AKA Maestro 'The Baker', is a Grammy award-winning songwriter, producer and composer.\n\nHis credits include producing and songwriting for Rihanna, J Hus and Wretch 32 & Headie One.\n\nOther milestones include being a Brit Award nominee, 3 UK Number #1 albums, a US Billboard Number #1 album & a Mercury Prize nominee.\n\nSee below for examples of Maestro's recent composition work",
                 videos: [
@@ -188,7 +188,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer5: {
-                title: 'New Composer 1',
+                title: 'Alice Ivy',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -200,7 +200,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer6: {
-                title: 'New Composer 2',
+                title: 'Zach Nahome',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -212,7 +212,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer7: {
-                title: 'New Composer 3',
+                title: 'Anna Clyne',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -224,7 +224,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer8: {
-                title: 'New Composer 4',
+                title: 'Tre-Jean Marie',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -236,7 +236,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer9: {
-                title: 'New Composer 5',
+                title: 'Ruelle',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -248,7 +248,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer10: {
-                title: 'New Composer 6',
+                title: 'Show N Prove',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -260,7 +260,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer11: {
-                title: 'New Composer 7',
+                title: 'TSB',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -272,7 +272,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer12: {
-                title: 'New Composer 8',
+                title: 'Darryl Reid',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -284,7 +284,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer13: {
-                title: 'New Composer 9',
+                title: 'NOISY',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
@@ -296,7 +296,7 @@ He is currently writing his first Musical and making forward thinking music with
                 }
             },
             composer14: {
-                title: 'New Composer 10',
+                title: 'Baz Kaye',
                 image: 'placeholder.png',
                 bio: '',
                 videos: [],
